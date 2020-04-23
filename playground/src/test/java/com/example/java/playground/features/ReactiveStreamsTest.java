@@ -1,9 +1,8 @@
-package com.example.java.playground.reactive;
+package com.example.java.playground.features;
 
+import com.example.java.playground.AbstractTest;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.concurrent.Flow;
@@ -11,8 +10,7 @@ import java.util.concurrent.SubmissionPublisher;
 import java.util.stream.IntStream;
 
 @SpringBootTest
-public class ReactiveStreamsTest {
-    private Logger log = LoggerFactory.getLogger(getClass());
+public class ReactiveStreamsTest extends AbstractTest {
 
     @lombok.Data
     @AllArgsConstructor
