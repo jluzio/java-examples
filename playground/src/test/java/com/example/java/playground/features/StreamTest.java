@@ -1,10 +1,8 @@
 package com.example.java.playground.features;
 
 import com.example.java.playground.AbstractTest;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.val;
+import com.google.common.collect.Range;
+import lombok.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -60,34 +55,27 @@ public class StreamTest extends AbstractTest {
         log.info("randoms: {}", random.ints().limit(3).boxed().collect(Collectors.toList()));
     }
 
-    @Data
-    @AllArgsConstructor
-    class IterateExampleData {
-        @NonNull private List<Integer> values;
-        private int index;
-    }
-
     @Test
     void test_iterate() {
-        var values = IntStream.range(0, 10).boxed().collect(Collectors.toList());
-        var iterateData = new IterateExampleData(values, 0);
+        //Stream.iterate(initial value, next value)
+        Stream.iterate(0, n -> n + 1)
+                .limit(10)
+                .forEach(x -> log.info("iterate[1]: {}", x));
 
-        for (val value : List.of(1, 2, 3)) {
+        // odd
+        Stream.iterate(0, n -> n + 1)
+                .filter(x -> x % 2 != 0) //odd
+                .limit(10)
+                .forEach(x -> log.info("iterate[1]: {}", x));
 
-        }
+        // Fibonacci
+        Stream.iterate(new int[]{0, 1}, n -> new int[]{n[1], n[0] + n[1]})
+                .limit(20)
+                .map(n -> n[0])
+                .forEach(x -> log.info("iterate[1]: {}", x));
 
-        Predicate<Integer> hasNext = value -> iterateData.getIndex() + 1 < iterateData.getValues().size();
-
-        UnaryOperator<Integer> getNext = value -> {
-            if (hasNext.test(value)) {
-                iterateData.setIndex(iterateData.getIndex() + 1);
-                return iterateData.getValues().get(iterateData.getIndex());
-            }
-            return null;
-        };
-
-        Stream.iterate(values.get(0), getNext).limit(12).forEach(v -> log.info("Stream.iterate[limit=12]: {}", v));
-        Stream.iterate(values.get(0), hasNext, getNext).forEach(v -> log.info("Stream.iterate[hasNext]: {}", v));
+        Stream.iterate(1, n -> n < 5 , n -> n + 1)
+                .forEach(x -> log.info("iterate[1]: {}", x));
     }
 
     @Test
