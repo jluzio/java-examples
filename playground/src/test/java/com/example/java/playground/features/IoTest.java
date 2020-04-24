@@ -17,13 +17,19 @@ public class IoTest extends AbstractTest {
     void test_write_file() throws IOException {
         var userDir = System.getProperty("user.dir");
         var file = new File(userDir, "src/test/resources/features/text.txt");
-        try (var writer = new BufferedWriter(new FileWriter(file))) {
-            for (var l : IntStream.rangeClosed(1, 20).toArray()) {
-                writer.write("line %s".formatted(l));
-                writer.newLine();
-            }
-            writer.flush();
-        }
+
+        var text = IntStream.rangeClosed(1, 20)
+                .mapToObj(i -> "line %s".formatted(i))
+                .collect(Collectors.joining(System.lineSeparator()));
+        Files.writeString(file.toPath(), text);
+
+//        try (var writer = new BufferedWriter(new FileWriter(file))) {
+//            for (var l : IntStream.rangeClosed(1, 20).toArray()) {
+//                writer.write("line %s".formatted(l));
+//                writer.newLine();
+//            }
+//            writer.flush();
+//        }
     }
 
     @Test
