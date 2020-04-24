@@ -4,6 +4,8 @@ import com.example.java.playground.AbstractTest;
 import com.example.java.playground.utils.Texts;
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.Collectors;
+
 public class StringFunctionsTest extends AbstractTest {
     @Test
     public void test_text_block() {
@@ -21,7 +23,13 @@ public class StringFunctionsTest extends AbstractTest {
     }
 
     @Test
-    public void test_() {
+    public void test_lines() {
+        var text = """
+                line 1
+                  line 2   
+                    line 3
+                """;
+        log.info("lines 2: {}", text.lines().limit(2).collect(Collectors.toList()));
 
     }
 }

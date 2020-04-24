@@ -33,18 +33,6 @@ public class StreamTest extends AbstractTest {
     }
 
     @Test
-    void test_optional() {
-        Optional<String> optionalNull = Optional.ofNullable(null);
-        Assertions.assertEquals(Optional.empty(), optionalNull);
-        log.info("optionalNull :: filter: {}", optionalNull.filter(s -> s.length() > 2));
-        log.info("optionalNull :: map: {}", optionalNull.map(s -> "value is '%s'".formatted(s)));
-
-        var optionalNonNull = Optional.of("test");
-        log.info("optionalNonNull :: filter: {}", optionalNonNull.filter(s -> s.length() > 2));
-        log.info("optionalNonNull :: map: {}", optionalNonNull.map(s -> "value is '%s'".formatted(s)));
-    }
-
-    @Test
     void test_create_stream() {
         IntStream as1 = Arrays.stream(new int[]{1, 2, 3});
         DoubleStream as2 = Arrays.stream(new double[]{1, 2, 3});

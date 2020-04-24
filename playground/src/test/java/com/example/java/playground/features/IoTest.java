@@ -55,6 +55,20 @@ public class IoTest extends AbstractTest {
                 (path, basicFileAttributes) -> path.endsWith("text.txt"))
         .limit(3)
         .forEach(valueLog("matching file: {}"));
+    }
+
+    @Test
+    void test_try_close() {
+        var data = new StringReader("123") {
+            @Override
+            public void close() {
+                super.close();
+                log.info("close");
+            }
+        };
+        try (data) {
+//            data.read();
+        }
 
     }
 }
