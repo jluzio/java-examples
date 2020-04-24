@@ -75,6 +75,26 @@ public class IoTest extends AbstractTest {
         try (data) {
 //            data.read();
         }
+    }
+
+    @Test
+    void test_file_mismatch() throws IOException {
+        Path filePath1 = Files.createTempFile("file1", ".txt");
+        Path filePath2 = Files.createTempFile("file2", ".txt");
+
+        Files.writeString(filePath1,"JournalDev Test String");
+        Files.writeString(filePath2,"JournalDev Test String");
+        long mismatch = Files.mismatch(filePath1, filePath2);
+        log.info("mismatch: {}", mismatch);
+
+        Files.writeString(filePath1,"JournalDev Test String");
+        Files.writeString(filePath2,"JournalDev Test Stringzz");
+        long mismatch2 = Files.mismatch(filePath1, filePath2);
+        log.info("mismatch: {}", mismatch2);
+
+        filePath1.toFile().deleteOnExit();
+        filePath2.toFile().deleteOnExit();
 
     }
+
 }

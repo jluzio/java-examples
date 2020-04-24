@@ -46,6 +46,15 @@ public class StringFunctionsTest extends AbstractTest {
         log.info(Texts.quoteLines(text.stripIndent()));
         log.info(Texts.quoteLines(text.stripLeading()));
         log.info(Texts.quoteLines(text.stripTrailing()));
+    }
 
+    @Test
+    void test_is_empty() {
+        log.info("e: {}", "  ".isBlank());
+    }
+
+    @Test
+    void test_repeat() {
+        log.info("v: {}", "pete".repeat(3));
     }
 }

@@ -168,4 +168,15 @@ public class StreamTest extends AbstractTest {
                 .collect(Collectors.groupingBy(User::getDepartment));
         log.info("usersByDepartment: {}", usersByDepartment);
     }
+
+    @Test
+    void test_teeing_collectors() {
+        double mean = Stream.of(1, 2, 3, 4, 5)
+                .collect(Collectors.teeing(
+                        Collectors.summingDouble(i -> i),
+                        Collectors.counting(),
+                        (sum, n) -> sum / n));
+
+        log.info("mean: {}", mean);
+    }
 }
