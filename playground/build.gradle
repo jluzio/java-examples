@@ -14,9 +14,11 @@ tasks.withType(JavaCompile) {
 }
 tasks.withType(Test) {
 	jvmArgs += "--enable-preview"
+	jvmArgs += "-XX:+ShowCodeDetailsInExceptionMessages"
 }
 tasks.withType(JavaExec) {
 	jvmArgs += "--enable-preview"
+	jvmArgs += "-XX:+ShowCodeDetailsInExceptionMessages"
 }
 // </EnablePreview>
 
