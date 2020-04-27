@@ -22,10 +22,10 @@ public class ModelTest extends AbstractTest {
                 .references(List.of("ref-1", "ref-2"))
                 .build();
 
-        var mapper = new ObjectMapper()
+        var objectMapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        var dataAsString = mapper.writeValueAsString(dataItem);
+        var dataAsString = objectMapper.writeValueAsString(dataItem);
 
         log.info("data{}{}", System.lineSeparator(), dataAsString);
     }
