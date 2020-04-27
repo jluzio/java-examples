@@ -1,13 +1,11 @@
 package com.example.java.playground.json.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,12 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@XmlAccessorType(XmlAccessType.FIELD)
 public class DataItem {
     private String id;
     private String description;
     private int numberValue;
     private LocalDateTime localDateTime;
-    @XmlElement(name = "reference")
+    @JsonProperty("ref")
     private List<String> references;
 }

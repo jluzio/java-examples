@@ -1,7 +1,6 @@
 package com.example.java.playground.json.model;
 
 import com.example.java.playground.AbstractTest;
-import com.example.java.playground.xml.model.DataItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
