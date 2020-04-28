@@ -1,13 +1,18 @@
 package com.example.java.playground.features;
 
 import com.example.java.playground.AbstractTest;
-import com.google.common.collect.Range;
-import lombok.*;
-import org.junit.jupiter.api.Assertions;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;

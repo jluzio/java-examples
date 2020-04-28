@@ -2,7 +2,6 @@ package com.example.java.playground.features;
 
 import com.example.java.playground.AbstractTest;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

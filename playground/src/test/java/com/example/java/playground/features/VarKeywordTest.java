@@ -4,7 +4,6 @@ import com.example.java.playground.AbstractTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class VarKeywordTest extends AbstractTest {
     @Test

@@ -1,7 +1,6 @@
 package com.example.java.playground.features;
 
 import com.example.java.playground.AbstractTest;
-import org.checkerframework.common.value.qual.IntRange;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static java.util.Map.*;
+import static java.util.Map.entry;
 
 public class ImmutableCollectionTest extends AbstractTest {
     @Test
