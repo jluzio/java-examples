@@ -1,7 +1,7 @@
 package com.example.java.playground.features;
 
 import com.example.java.playground.AbstractTest;
-import com.example.java.playground.utils.Texts;
+import com.example.java.playground.utils.Strings;
 import org.junit.jupiter.api.Test;
 
 public class TextBlockTest extends AbstractTest {
@@ -21,14 +21,14 @@ public class TextBlockTest extends AbstractTest {
                 """;
         // indent is stripped (and is equal to first character in the block of any line)
         // trailing spaces are trimmed
-        log.info("Block:\r\n{}", Texts.quoteLines(block2));
+        log.info("Block:\r\n{}", Strings.toTextBlock(block2.lines(), Strings::quote));
 
         var block3 = """
                   line 1
                 line              2
                 line 3
                 """;
-        log.info("Block:\r\n{}", Texts.quoteLines(block3));
+        log.info("Block:\r\n{}", Strings.toTextBlock(block3.lines(), Strings::quote));
     }
 
     @Test

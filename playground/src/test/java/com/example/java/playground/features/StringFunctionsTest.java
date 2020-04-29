@@ -1,7 +1,7 @@
 package com.example.java.playground.features;
 
 import com.example.java.playground.AbstractTest;
-import com.example.java.playground.utils.Texts;
+import com.example.java.playground.utils.Strings;
 import org.junit.jupiter.api.Test;
 
 import java.util.StringJoiner;
@@ -15,7 +15,7 @@ public class StringFunctionsTest extends AbstractTest {
                   line 2   
                     line 3
                 """;
-        log.info(Texts.quoteLines(text));
+        log.info(Strings.toTextBlock(text.lines(), Strings::quote));
     }
 
     @Test
@@ -42,10 +42,10 @@ public class StringFunctionsTest extends AbstractTest {
                 .add("  line 4  ")
                 .toString();
 
-        log.info(Texts.quoteLines(text.strip()));
-        log.info(Texts.quoteLines(text.stripIndent()));
-        log.info(Texts.quoteLines(text.stripLeading()));
-        log.info(Texts.quoteLines(text.stripTrailing()));
+        log.info(Strings.toTextBlock(text.strip().lines(), Strings::quote));
+        log.info(Strings.toTextBlock(text.stripIndent().lines(), Strings::quote));
+        log.info(Strings.toTextBlock(text.stripLeading().lines(), Strings::quote));
+        log.info(Strings.toTextBlock(text.stripTrailing().lines(), Strings::quote));
     }
 
     @Test
