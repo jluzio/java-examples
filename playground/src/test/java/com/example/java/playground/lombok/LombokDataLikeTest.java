@@ -53,7 +53,7 @@ public class LombokDataLikeTest {
         log.info("value: {}", value);
     }
 
-    @Builder
+    @Builder(toBuilder = true)
     @Value
     // Note: needed to be static inside another class
     public static class BuilderBean {
@@ -67,6 +67,10 @@ public class LombokDataLikeTest {
                 .value2("234")
                 .build();
         log.info("builder: {}", data);
+
+        // using toBuilder
+        var data2 = data.toBuilder().value1("something else").build();
+        log.info("builder1: {}, builder2: {}", data, data2);
     }
 
     @With
