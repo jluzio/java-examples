@@ -1,6 +1,8 @@
 package com.example.java.playground.features;
 
 import com.example.java.playground.AbstractTest;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,5 +37,15 @@ public class OptionalTest extends AbstractTest {
 
         log.info("stream action (count): {} | {}", optionalNull.stream().count(), optionalNonNull.stream().count());
 
+    }
+
+    @Test
+    void test_collection() {
+        var optional = Optional.ofNullable(List.of("aaa", "bb", "c"));
+        var lengths = optional.stream()
+            .flatMap(v -> v.stream())
+            .map(String::length)
+            .collect(Collectors.toList());
+        log.info("lengths: {}", lengths);
     }
 }
