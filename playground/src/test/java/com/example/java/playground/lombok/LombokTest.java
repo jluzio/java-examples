@@ -1,16 +1,21 @@
 package com.example.java.playground.lombok;
 
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.Cleanup;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 @Slf4j
 public class LombokTest {
@@ -48,7 +53,7 @@ public class LombokTest {
         log.info("Cleanup start :: {}", closeable);
     }
 
-    @Test
+//    @Test
     void test_sneaky_throws() {
         try {
             sneaky_throws();
@@ -58,8 +63,9 @@ public class LombokTest {
         }
     }
 
-    @SneakyThrows
-    void sneaky_throws() {
+//    @SneakyThrows
+    // @SneakyThrows from Lombok 1.18.12 is incompatible with Java 15?
+    void sneaky_throws() throws IOException {
         throw new IOException("test");
     }
 
@@ -98,10 +104,14 @@ public class LombokTest {
         @Getter(lazy = true)
         private final List<Integer> list = expensiveCall();
 
-        @SneakyThrows
+//        @SneakyThrows
         private List<Integer> expensiveCall() {
             log.info("expensiveCall");
-            Thread.sleep(500);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             return List.of(1, 2, 3);
         }
     }
