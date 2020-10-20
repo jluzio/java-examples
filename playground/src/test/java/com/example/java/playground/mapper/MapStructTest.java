@@ -11,6 +11,7 @@ public class MapStructTest {
 
   @Mapper
   interface PersonToUserMapper {
+
     @Mappings({
         @Mapping(target = "fullName", expression = "java(person.getFirstName() + person.getSurname())")
     })
