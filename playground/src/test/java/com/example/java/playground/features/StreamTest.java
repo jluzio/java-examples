@@ -6,17 +6,16 @@ import com.example.java.playground.AbstractTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -189,5 +188,40 @@ public class StreamTest extends AbstractTest {
             (sum, n) -> sum / n));
 
     log.info("mean: {}", mean);
+  }
+
+  @Data
+  @Builder
+  static class OptionalStreamData {
+
+    private List<User> users;
+  }
+
+  @Test
+  void test_optional_stream() {
+    var optData = Optional.ofNullable(
+        OptionalStreamData.builder()
+            .users(
+                List.of(
+                    new User("name1", 11),
+                    new User("name2", 22)
+
+                )
+            )
+            .build());
+
+    var user1Name = optData.stream()
+        .map(OptionalStreamData::getUsers)
+        .flatMap(List::stream)
+        .findFirst()
+        .map(User::getName);
+    log.info("{}", user1Name);
+
+    var user1NameJava8 = optData.map(Stream::of).orElse(Stream.empty())
+        .map(OptionalStreamData::getUsers)
+        .flatMap(List::stream)
+        .findFirst()
+        .map(User::getName);
+    log.info("{}", user1NameJava8);
   }
 }
