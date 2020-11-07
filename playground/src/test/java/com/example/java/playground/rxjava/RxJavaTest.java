@@ -2,6 +2,8 @@ package com.example.java.playground.rxjava;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.google.common.base.Functions;
+import hu.akarnokd.rxjava3.math.MathObservable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
@@ -30,7 +32,7 @@ import org.junit.jupiter.api.Test;
 class RxJavaTest {
 
   @Test
-  void test() {
+  void simple() {
     Flowable.just("Hello world")
         .subscribe(System.out::println);
 
@@ -53,6 +55,30 @@ class RxJavaTest {
         .map(i -> 100 / i)
         .onErrorReturnItem(-1)
         .subscribe(System.out::println, t -> System.out.println("some error happened"));
+  }
+
+  @Test
+  void aggregate() {
+    Observable.range(1, 10)
+        .to(MathObservable::max)
+        .map(Objects::toString)
+        .subscribe(log::info);
+
+    Observable.range(1, 10)
+        .collect(Collectors.maxBy(Integer::compareTo))
+        .mapOptional(v -> v)
+        .map(Objects::toString)
+        .subscribe(log::info);
+
+    Observable.range(1, 10)
+        .to(MathObservable::averageFloat)
+        .map(Objects::toString)
+        .subscribe(log::info);
+
+    Observable.range(1, 10)
+        .collect(Collectors.averagingInt(Integer::intValue))
+        .map(Objects::toString)
+        .subscribe((Consumer<String>) log::info);
   }
 
   @Test
