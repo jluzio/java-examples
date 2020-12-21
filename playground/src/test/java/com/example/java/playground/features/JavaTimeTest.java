@@ -23,5 +23,7 @@ public class JavaTimeTest extends AbstractTest {
     ZonedDateTime zonedDateTimeCurrent = zonedDateTimeUTC
         .withZoneSameInstant(ZoneOffset.ofHours(5));
     log.info("zonedDateTimeCurrent: {}", zonedDateTimeCurrent);
+
+    log.info("today with Time Max{}", localDate.with(LocalTime.MAX));
   }
 }
