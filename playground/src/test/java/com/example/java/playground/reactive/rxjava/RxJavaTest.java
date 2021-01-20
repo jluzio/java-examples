@@ -1,8 +1,7 @@
-package com.example.java.playground.rxjava;
+package com.example.java.playground.reactive.rxjava;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.google.common.base.Functions;
 import hu.akarnokd.rxjava3.math.MathObservable;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
