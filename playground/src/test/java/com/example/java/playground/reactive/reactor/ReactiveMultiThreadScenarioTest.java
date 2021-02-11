@@ -37,7 +37,11 @@ class ReactiveMultiThreadScenarioTest {
             .thenReturn(processValue(v, Duration.ofMillis(baseDurations.get(v) * durationMod)))
     );
 
-    List<String> values = Flux.range(0, count)
+    Flux<Integer> flux = Flux.range(0, count);
+//    Flux<Integer> flux = Flux.fromIterable(
+//        IntStream.range(0, count).boxed().collect(Collectors.toList()));
+
+    List<String> values = flux
         .log()
         .flatMap(service::apply)
         .publishOn(Schedulers.boundedElastic())
