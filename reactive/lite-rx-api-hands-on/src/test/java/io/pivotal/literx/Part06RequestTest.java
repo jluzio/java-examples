@@ -27,6 +27,7 @@ public class Part06RequestTest {
 	PrintStream originalConsole = System.out;
 	ByteArrayOutputStream logConsole;
 	String threadInfos = "\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\s{1}\\[\\S+\\]\\s{1}(INFO)\\s{2}(reactor\\.Flux\\.Zip\\.1)\\s{1}-\\s{1}";
+	String lSep = System.lineSeparator();
 
 	@BeforeEach
 	public void beforeEach() {
@@ -75,15 +76,15 @@ public class Part06RequestTest {
 
 		String log = logConsole.toString().replaceAll(threadInfos, "");
 		assertThat(log)
-				.contains("onSubscribe(FluxZip.ZipCoordinator)\n"
-						+ "request(1)\n"
-						+ "onNext(Person{username='swhite', firstname='Skyler', lastname='White'})\n"
-						+ "request(1)\n"
-						+ "onNext(Person{username='jpinkman', firstname='Jesse', lastname='Pinkman'})\n"
-						+ "request(2)\n"
-						+ "onNext(Person{username='wwhite', firstname='Walter', lastname='White'})\n"
-						+ "onNext(Person{username='sgoodman', firstname='Saul', lastname='Goodman'})\n"
-						+ "onComplete()\n");
+				.contains("onSubscribe(FluxZip.ZipCoordinator)" + lSep
+						+ "request(1)" + lSep
+						+ "onNext(Person{username='swhite', firstname='Skyler', lastname='White'})" + lSep
+						+ "request(1)" + lSep
+						+ "onNext(Person{username='jpinkman', firstname='Jesse', lastname='Pinkman'})" + lSep
+						+ "request(2)" + lSep
+						+ "onNext(Person{username='wwhite', firstname='Walter', lastname='White'})" + lSep
+						+ "onNext(Person{username='sgoodman', firstname='Saul', lastname='Goodman'})" + lSep
+						+ "onComplete()" + lSep);
 	}
 
 //========================================================================================
@@ -96,12 +97,12 @@ public class Part06RequestTest {
 				.verifyComplete();
 
 		assertThat(logConsole.toString())
-				.isEqualTo("Starring:\n"
-						+ "Skyler White\n"
-						+ "Jesse Pinkman\n"
-						+ "Walter White\n"
-						+ "Saul Goodman\n"
-						+ "The end!\n");
+				.isEqualTo("Starring:" + lSep
+						+ "Skyler White" + lSep
+						+ "Jesse Pinkman" + lSep
+						+ "Walter White" + lSep
+						+ "Saul Goodman" + lSep
+						+ "The end!" + lSep);
 	}
 
 }
