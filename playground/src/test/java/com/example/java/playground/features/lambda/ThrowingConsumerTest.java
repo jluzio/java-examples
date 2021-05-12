@@ -15,14 +15,14 @@ class ThrowingConsumerTest {
   @Test
   void accept() {
     assertThatThrownBy(
-        () -> Stream.of("1", "2", "").forEach(ThrowingConsumer.unchecked(this::throwingFunction))
+        () -> Stream.of("1", "2", "").forEach(ThrowingConsumer.unchecked(this::throwingConsumer))
     )
         .isInstanceOf(RuntimeException.class)
         .getCause()
         .isInstanceOf(MismatchedInputException.class);
   }
 
-  private void throwingFunction(String json) throws IOException {
+  private void throwingConsumer(String json) throws IOException {
     Integer value = new ObjectMapper().readValue(json, Integer.class);
     log.info("value: {}", value);
   }
