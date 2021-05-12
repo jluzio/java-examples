@@ -1,18 +1,23 @@
 package com.example.java.playground.json.model;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.example.java.playground.AbstractTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ModelTest extends AbstractTest {
+class ModelTest extends AbstractTest {
 
   @Test
-  void test() throws JsonProcessingException {
+  void simple_mapping() throws JsonProcessingException {
     var dataItem = DataItem.builder()
         .id("id-1")
         .description("desc")
@@ -27,5 +32,16 @@ public class ModelTest extends AbstractTest {
     var dataAsString = objectMapper.writeValueAsString(dataItem);
 
     log.info("data{}{}", System.lineSeparator(), dataAsString);
+  }
+
+  @Test
+  void empty() throws JsonProcessingException {
+    var objectMapper = new ObjectMapper();
+    assertThatThrownBy(() -> objectMapper.readValue((String)null, DataItem.class))
+        .isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> objectMapper.readValue("", DataItem.class))
+        .isInstanceOf(MismatchedInputException.class);
+    assertThat(objectMapper.readValue("null", DataItem.class))
+        .isNull();
   }
 }
