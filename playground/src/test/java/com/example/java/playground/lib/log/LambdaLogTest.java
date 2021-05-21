@@ -1,5 +1,7 @@
 package com.example.java.playground.lib.log;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +10,8 @@ class LambdaLogTest {
 
   @Test
   void lambda_log() {
-    log.debug("using lambda: {}", () -> "expensive value");
+    assertThatCode(() -> log.debug("using lambda: {}", () -> "expensive value"))
+        .doesNotThrowAnyException();
   }
 
 }
