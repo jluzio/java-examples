@@ -1,33 +1,39 @@
 package com.example.java.playground.features;
 
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.example.java.playground.AbstractTest;
+import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class OptionalTest extends AbstractTest {
+class OptionalTest extends AbstractTest {
 
   @Test
   void test() {
-    var optionalNonNull = Optional.of("test");
-    log.info("optionalNonNull :: filter: {}", optionalNonNull.filter(s -> s.length() > 2));
-    log.info("optionalNonNull :: map: {}", optionalNonNull.map(s -> "value is '%s'".formatted(s)));
+    var optionalNonNull = of("test");
+    assertThat(optionalNonNull.filter(s -> s.length() > 2)).isPresent();
+    assertThat(optionalNonNull.map("value is '%s'"::formatted))
+        .isPresent().get().isEqualTo("value is 'test'");
 
-    Optional<String> optionalNull = Optional.ofNullable(null);
-    Assertions.assertEquals(Optional.empty(), optionalNull);
+    Optional<String> optionalNull = ofNullable(null);
+
+    assertThat(optionalNull).isEqualTo(Optional.empty());
 
     log.info("optional.orElse: {}", optionalNull.orElse("other"));
-    log.info("optional.or: {}", optionalNull.or(() -> Optional.of(RandomStringUtils.random(10))));
+    log.info("optional.or: {}", optionalNull.or(() -> of(RandomStringUtils.random(10))));
     log.info("optional.orElseGet: {}", optionalNull.orElseGet(() -> "other"));
-    try {
-      log.info("optional.orElseThrow: {}", optionalNull.orElseThrow());
-      Assertions.fail();
-    } catch (Exception e) {
-      //
-    }
+    assertThatThrownBy(() -> optionalNull.orElseThrow())
+        .isInstanceOf(NoSuchElementException.class);
 
     log.info("optional.filter: {}", optionalNull.filter(v -> v.length() > 2));
     log.info("optional.map: {}", optionalNull.map(String::length));
@@ -42,11 +48,36 @@ public class OptionalTest extends AbstractTest {
 
   @Test
   void test_collection() {
-    var optional = Optional.ofNullable(List.of("aaa", "bb", "c"));
+    var optional = of(List.of("aaa", "bb", "c"));
     var lengths = optional.stream()
-        .flatMap(v -> v.stream())
+        .flatMap(Collection::stream)
         .map(String::length)
         .collect(Collectors.toList());
-    log.info("lengths: {}", lengths);
+    assertThat(lengths)
+        .containsExactly(3, 2, 1);
+  }
+
+  record Parent(String id, Child child) {
+
+  }
+
+  record Child(String id) {
+
+  }
+
+  @Test
+  void nullableMappings() {
+    Function<Parent, Optional<String>> getChildId = p -> of(p)
+        .map(Parent::child)
+        .map(Child::id);
+
+    assertThat(getChildId.apply(new Parent("p1", null)))
+        .isNotPresent();
+
+    assertThat(getChildId.apply(new Parent("p2", new Child(null))))
+        .isNotPresent();
+
+    assertThat(getChildId.apply(new Parent("p3", new Child("c3"))))
+        .isPresent();
   }
 }
