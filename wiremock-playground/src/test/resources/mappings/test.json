@@ -1,9 +1,0 @@
-{
-  "request": {
-    "url": "/templated"
-  },
-  "response": {
-    "body": "{{request.path.[0]}}",
-    "transformers": ["response-template"]
-  }
-}
