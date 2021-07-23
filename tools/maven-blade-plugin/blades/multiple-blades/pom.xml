@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.example.blade</groupId>
+    <artifactId>blade-examples</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>multiple-blades</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <java.version>11</java.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.example.blade</groupId>
+      <artifactId>hello-war</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>com.example.blade</groupId>
+      <artifactId>ping-war</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.backbase.oss</groupId>
+        <artifactId>blade-maven-plugin</artifactId>
+        <configuration>
+          <port>${port}</port>
+          <systemProperties>
+            <hello.source>multiple</hello.source>
+          </systemProperties>
+          <stages>
+            <stage>
+              <id>apps</id>
+              <autoStart>true</autoStart>
+              <multiThreaded>true</multiThreaded>
+              <webApps>
+                <webApp>
+                  <groupId>com.example.blade</groupId>
+                  <artifactId>hello-war</artifactId>
+<!--                  <url>/hello</url>-->
+                </webApp>
+                <webApp>
+                  <groupId>com.example.blade</groupId>
+                  <artifactId>ping-war</artifactId>
+                  <contextPath>/ping</contextPath>
+                </webApp>
+              </webApps>
+            </stage>
+          </stages>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.example</groupId>
-	<artifactId>maven-blade-plugin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  <groupId>com.example.blade</groupId>
+  <artifactId>blade-examples</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-	<properties>
-		<java.version>11</java.version>
-		<port>8888</port>
-		<blade-maven-plugin.version>4.20.0</blade-maven-plugin.version>
-	</properties>
+  <properties>
+    <java.version>11</java.version>
+    <blade-maven-plugin.version>4.20.0</blade-maven-plugin.version>
+    <port>8888</port>
+  </properties>
 
-	<modules>
-		<module>demo</module>
-	</modules>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.backbase.oss</groupId>
-				<artifactId>blade-maven-plugin</artifactId>
-				<version>${blade-maven-plugin.version}</version>
-				<inherited>false</inherited>
-				<configuration>
-					<port>${port}</port>
-					<detectAndConfigureSpringConfigLocation>true</detectAndConfigureSpringConfigLocation>
-					<masterBladeAddress>http://localhost:8080</masterBladeAddress>
-					<stages>
-						<stage>
-							<id>${artifactId}</id>
-							<name>Main Stage Apps</name>
-							<multiThreaded>true</multiThreaded>
-							<webApps>
-								<webApp>
-									<module>demo</module>
-								</webApp>
-							</webApps>
-						</stage>
-					</stages>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <modules>
+    <module>wars/hello-war</module>
+    <module>wars/ping-war</module>
+    <module>blades/hello-blade</module>
+    <module>blades/multiple-blades</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.backbase.oss</groupId>
+          <artifactId>blade-maven-plugin</artifactId>
+          <version>4.20.0</version>
+          <configuration>
+            <multiThreaded>true</multiThreaded>
+            <!-- Generic System Properties for all services -->
+            <systemProperties>
+            </systemProperties>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
 </project>
