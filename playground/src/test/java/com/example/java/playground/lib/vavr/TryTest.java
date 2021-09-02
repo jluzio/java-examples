@@ -65,7 +65,7 @@ class TryTest {
     Function<Try<Response>, String> processor = response ->
         response
             .map(Response::text)
-            .recoverWith(FileNotFoundException.class, Try.success("---empty---"))
+            .recover(FileNotFoundException.class, "---empty---")
             .getOrElse("---error---");
 
     String responseData = processor.apply(defaultErrorResponse);
