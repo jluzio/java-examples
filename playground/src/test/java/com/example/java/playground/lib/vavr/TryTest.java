@@ -4,8 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vavr.API.Match;
 import io.vavr.control.Try;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileSystemException;
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -45,12 +49,38 @@ class TryTest {
         .andThen(r -> log.info("then"));
 
     String responseData = response
+        .mapFailure()
         .map(Response::text)
         .getOrElse("---error---");
     assertThat(responseData).isEqualTo("---error---");
 
     assertThatThrownBy(() -> response.get())
         .isInstanceOf(IOException.class);
+  }
+
+  @Test
+  void try_on_exception_recover() {
+    Try<Response> defaultErrorResponse = Try.of(() -> {
+      throw new FileSystemException("filesystem error");
+    });
+    Function<Try<Response>, String> processor = response ->
+        response
+            .map(Response::text)
+            .recoverWith(FileNotFoundException.class, Try.success("---empty---"))
+            .getOrElse("---error---");
+
+    String responseData = processor.apply(defaultErrorResponse);
+    assertThatThrownBy(defaultErrorResponse::get)
+        .isInstanceOf(FileSystemException.class);
+    assertThat(responseData).isEqualTo("---error---");
+
+    Try<Response> notFoundErrorResponse = Try.of(() -> {
+      throw new FileNotFoundException("file not found");
+    });
+    String responseDataRecovered = processor.apply(notFoundErrorResponse);
+    assertThatThrownBy(notFoundErrorResponse::get)
+        .isInstanceOf(FileNotFoundException.class);
+    assertThat(responseDataRecovered).isEqualTo("---empty---");
   }
 
   private void throwingConsumer(String json) throws IOException {
