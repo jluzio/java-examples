@@ -49,12 +49,11 @@ class TryTest {
         .andThen(r -> log.info("then"));
 
     String responseData = response
-        .mapFailure()
         .map(Response::text)
         .getOrElse("---error---");
     assertThat(responseData).isEqualTo("---error---");
 
-    assertThatThrownBy(() -> response.get())
+    assertThatThrownBy(response::get)
         .isInstanceOf(IOException.class);
   }
 
