@@ -1,4 +1,4 @@
-package com.example.wiremockplayground.api;
+package com.example.wiremock.playground.api;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

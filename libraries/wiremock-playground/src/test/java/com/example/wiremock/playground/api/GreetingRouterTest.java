@@ -1,4 +1,4 @@
-package com.example.wiremockplayground.api;
+package com.example.wiremock.playground.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

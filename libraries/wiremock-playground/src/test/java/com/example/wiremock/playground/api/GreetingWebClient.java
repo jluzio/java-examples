@@ -1,4 +1,4 @@
-package com.example.wiremockplayground.api;
+package com.example.wiremock.playground.api;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

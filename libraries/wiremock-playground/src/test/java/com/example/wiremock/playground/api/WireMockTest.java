@@ -1,4 +1,4 @@
-package com.example.wiremockplayground.api;
+package com.example.wiremock.playground.api;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;

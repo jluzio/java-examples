@@ -1,4 +1,4 @@
-package com.example.wiremockplayground.api;
+package com.example.wiremock.playground.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
