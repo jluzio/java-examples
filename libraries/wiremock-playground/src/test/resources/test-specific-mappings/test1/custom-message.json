@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tomakehurst/wiremock/master/src/main/resources/swagger/schemas/stub-mapping.yaml",
+  "request": {
+    "method": "GET",
+    "url": "/message/custom"
+  },
+  "response": {
+    "status": 200,
+    "body": "Hello world - Test1!",
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}
