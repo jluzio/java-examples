@@ -17,7 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 0)
 @Slf4j
-class WireMockTest {
+class BasicsTest {
 
   @Autowired
   Environment environment;
@@ -26,14 +26,11 @@ class WireMockTest {
 
   @Test
   void test() {
-    String wiremockServerPort = environment.getProperty("wiremock.server.port");
-
     String message = "World!";
-    stubFor(get("/hello").willReturn(ok(message)));
+    stubFor(get("/hello")
+        .willReturn(ok(message)));
 
-    WebClient webClient = WebClient.builder()
-        .baseUrl("http://localhost:%s/".formatted(wiremockServerPort))
-        .build();
+    WebClient webClient = getWebClient();
 
     String response = webClient.get().uri("/hello")
         .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
@@ -52,6 +49,14 @@ class WireMockTest {
         .block();
     log.info("{}", messageBodyFileResponse);
     assertThat(messageBodyFileResponse).isEqualTo(new MessageResponseBody("Hello!"));
+  }
+
+  private WebClient getWebClient() {
+    String wiremockServerPort = environment.getProperty("wiremock.server.port");
+    WebClient webClient = WebClient.builder()
+        .baseUrl("http://localhost:%s/".formatted(wiremockServerPort))
+        .build();
+    return webClient;
   }
 
 }
