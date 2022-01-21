@@ -81,6 +81,15 @@ class RequestMatchingTest {
     log.info(responseWithoutBody);
     assertThat(responseWithoutBody)
         .isEqualTo("Hello world!");
+
+    String apiUrlAlt = "/request-matching/matching-json-path-alt";
+    String responseWithoutBodyAlt = webClient.post().uri(apiUrl)
+        .bodyValue(new GreetingRequest(null))
+        .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
+        .block();
+    log.info(responseWithoutBodyAlt);
+    assertThat(responseWithoutBodyAlt)
+        .isEqualTo("Hello world!");
   }
 
   private WebClient getWebClient() {
