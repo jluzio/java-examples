@@ -36,7 +36,8 @@ class JsonPatchTest {
     String patchJson = """
         [
             {"op":"replace","path":"/telephone","value":"+1-555-56"},
-            {"op":"add","path":"/favorites/0","value": "Bread"}
+            {"op":"add","path":"/favorites/0","value": "Bread"},
+            {"op":"replace","path":"/communicationPreferences","value": {"post": false, "push": true}}
         ]
         """;
 
@@ -56,8 +57,8 @@ class JsonPatchTest {
             "+1-555-56",
             List.of("Bread", "Milk", "Eggs"),
             Map.of(
-                "post", true,
-                "email", true)));
+                "post", false,
+                "push", true)));
   }
 
   @Test
