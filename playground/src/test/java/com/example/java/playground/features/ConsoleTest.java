@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 class ConsoleTest {
 
   @Test
-  void test() {
-    // doesn't work if not in a interactive terminal
+  void test_in_console_enabled_environment() {
+    // doesn't work in a non-interactive terminal
     Console console = System.console();
     assertThat(console).isNotNull();
 
