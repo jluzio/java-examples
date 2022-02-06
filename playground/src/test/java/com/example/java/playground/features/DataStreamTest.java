@@ -34,7 +34,7 @@ class DataStreamTest {
         "Java Key Chain"
     };
     final int totalElements = prices.length;
-    BigDecimal totalPrice = getTotalPrice(prices, units);
+    BigDecimal expectedTotalPrice = getTotalPrice(prices, units);
 
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     DataOutputStream dataOutput = new DataOutputStream(output);
@@ -49,7 +49,7 @@ class DataStreamTest {
     double price;
     int unit;
     String desc;
-    double total = 0.0;
+    double totalPrice = 0.0;
     int elements = 0;
 
     try {
@@ -58,7 +58,7 @@ class DataStreamTest {
         unit = dataInput.readInt();
         desc = dataInput.readUTF();
         log.debug("You ordered {} units of {} at {}", unit, desc, price);
-        total += unit * price;
+        totalPrice += unit * price;
         elements++;
       }
     } catch (EOFException e) {
@@ -68,11 +68,12 @@ class DataStreamTest {
     assertThat(elements)
         .isEqualTo(totalElements);
 
-    BigDecimal scaledTotalPrice = scaledValue(totalPrice);
-    assertThat(total)
+    BigDecimal expectedScaledTotalPrice = scaledValue(expectedTotalPrice);
+    log.debug("expectedTotalPrice: {}", expectedScaledTotalPrice);
+    assertThat(totalPrice)
         .extracting(BigDecimal::new, InstanceOfAssertFactories.BIG_DECIMAL)
-        .matches(v -> Objects.equals(scaledValue(v), scaledTotalPrice),
-            String.format("must equal: %s", scaledTotalPrice));
+        .matches(v -> Objects.equals(scaledValue(v), expectedScaledTotalPrice),
+            String.format("must equal: %s", expectedScaledTotalPrice));
   }
 
   private BigDecimal getTotalPrice(double[] prices, int[] units) {
