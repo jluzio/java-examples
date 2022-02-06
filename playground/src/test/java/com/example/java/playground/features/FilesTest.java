@@ -12,15 +12,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent.Kind;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 class FilesTest {
@@ -49,7 +58,7 @@ class FilesTest {
 
   @Test
   void directoryStream() throws IOException {
-    try (DirectoryStream<Path> paths = Files.newDirectoryStream(Path.of("."))) {
+    try (DirectoryStream<Path> paths = Files.newDirectoryStream(currentPath())) {
       List<String> files = StreamSupport.stream(paths.spliterator(), false)
           .map(Path::getFileName)
           .map(Object::toString)
@@ -62,7 +71,8 @@ class FilesTest {
   @Test
   void fileVisitor() throws IOException {
     FileVisitor<Path> fileVisitor = new SimpleFileVisitor<>() {
-      final PathMatcher ignoredDirectoryMatcher = FileSystems.getDefault().getPathMatcher("glob:.*");
+      final PathMatcher ignoredDirectoryMatcher = FileSystems.getDefault()
+          .getPathMatcher("glob:.*");
 
       @Override
       public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
@@ -84,8 +94,59 @@ class FilesTest {
     };
 
     Files.walkFileTree(
-        Path.of("."),
+        currentPath(),
         fileVisitor);
+  }
+
+  @Test
+  void watchService() throws IOException, InterruptedException {
+    WatchService watcher = FileSystems.getDefault().newWatchService();
+
+    var dir = targetClassesPath();
+    dir.register(watcher,
+        StandardWatchEventKinds.ENTRY_CREATE,
+        StandardWatchEventKinds.ENTRY_MODIFY,
+        StandardWatchEventKinds.ENTRY_DELETE);
+
+    Path newFile = dir.resolve("file.tmp");
+    if (Files.exists(newFile)) {
+      Files.delete(newFile);
+    }
+
+    Flux.interval(Duration.ofMillis(100))
+        .take(2)
+        .publishOn(Schedulers.parallel())
+        .doOnNext(ignored -> {
+          try {
+            if (!Files.exists(newFile)) {
+              log.debug("Creating file: {}", newFile);
+              Files.createFile(newFile);
+            } else {
+              log.debug("Deleting file: {}", newFile);
+              Files.delete(newFile);
+            }
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        })
+        .blockLast();
+
+    log.debug("polling events");
+    WatchKey watchKey = watcher.poll(1, TimeUnit.SECONDS);
+    log.debug("watchKey: {}", watchKey);
+    if (watchKey != null) {
+      watchKey.pollEvents()
+          .forEach(e -> log.debug("event: {}#{} | ctx: {}", e.kind(), e.count(), e.context()));
+    }
+  }
+
+  private Path currentPath() {
+    return Path.of(".");
+  }
+
+  private Path targetClassesPath() throws IOException {
+    return Path.of("target/classes");
+//    return loader.getResource("classpath:application.yml").getFile().toPath().getParent();
   }
 
 }
