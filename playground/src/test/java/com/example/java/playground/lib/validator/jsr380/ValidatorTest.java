@@ -17,15 +17,22 @@ class ValidatorTest {
 
   @Test
   void test() {
-    var person = Person.builder()
+    var validPerson = Person.builder()
+        .id("id")
+        .name("required-name")
+        .age(42)
+        .build();
+    var invalidPerson = Person.builder()
         .id("id")
         .name("")
         .age(123)
         .build();
 
-    var constraintViolations = validator.validate(person);
-    log.info("constraintViolations: {}", constraintViolations);
-    assertThat(constraintViolations)
-        .isNotEmpty();
+    var validConstraintViolations = validator.validate(validPerson);
+    assertThat(validConstraintViolations).isEmpty();
+
+    var invalidConstraintViolations = validator.validate(invalidPerson);
+    log.info("constraintViolations: {}", invalidConstraintViolations);
+    assertThat(invalidConstraintViolations).isNotEmpty();
   }
 }
