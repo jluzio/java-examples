@@ -10,13 +10,14 @@ log_call() {
 }
 call_jbang() {
   log_call "jbang"
-  jbang com.github.tomakehurst:wiremock-jre8-standalone:2.28.0 $cmd_opts
+  jbang com.github.tomakehurst:wiremock-jre8-standalone:2.32.0 $cmd_opts
 }
 call_jar() {
   log_call "jar"
-  jar_file="target/dependency/wiremock-standalone.jar"
+  jar_file="target/dependency/wiremock-jre8-standalone.jar"
   if [ ! -f $jar_file ]; then
-    mvn dependency:copy@wiremock-standalone
+    mvn dependency:copy -Dartifact="com.github.tomakehurst:wiremock-jre8-standalone:2.32.0" -DoutputDirectory=target/dependency -Dmdep.stripVersion=true
+    #mvn dependency:copy@wiremock-standalone
   fi
   java -jar $jar_file $cmd_opts
 }

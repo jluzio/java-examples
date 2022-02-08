@@ -101,7 +101,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.0</version>
         <executions>
           <execution>
             <id>wiremock-standalone</id>
@@ -110,6 +110,7 @@
             </goals>
             <phase>package</phase>
             <configuration>
+              <stripVersion>true</stripVersion>
               <artifactItems>
                 <artifactItem>
                   <groupId>com.github.tomakehurst</groupId>
@@ -117,7 +118,6 @@
                   <version>${wiremock.version}</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
-                  <destFileName>wiremock-standalone.jar</destFileName>
                 </artifactItem>
               </artifactItems>
             </configuration>
