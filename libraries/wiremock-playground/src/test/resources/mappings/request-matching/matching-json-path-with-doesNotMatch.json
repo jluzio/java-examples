@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tomakehurst/wiremock/master/src/main/resources/swagger/schemas/stub-mapping.yaml",
+  "request": {
+    "method": "POST",
+    "url": "/request-matching/matching-json-path/numbers",
+    "bodyPatterns": [ {
+        "matchesJsonPath": {
+          "expression": "$.target",
+          "doesNotMatch": "(1|2).*"
+        }
+    } ]
+  },
+  "response": {
+    "status": 200,
+    "body": "Hello not 1.* or 2.*!",
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}
