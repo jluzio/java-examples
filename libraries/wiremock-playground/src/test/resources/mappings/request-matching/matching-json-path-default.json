@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tomakehurst/wiremock/master/src/main/resources/swagger/schemas/stub-mapping.yaml",
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/request-matching/matching-json-path/numbers"
+  },
+  "response": {
+    "status": 200,
+    "body": "Hello default!",
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}
