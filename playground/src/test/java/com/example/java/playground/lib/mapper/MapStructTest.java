@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 @Slf4j
-public class MapStructTest {
+class MapStructTest {
 
   @Mapper
   interface PersonToUserMapper {
