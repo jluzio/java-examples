@@ -1,12 +1,13 @@
 package com.example.java.playground.features.collection;
 
-import com.example.java.playground.AbstractTest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class ForEachTest extends AbstractTest {
+@Slf4j
+class ForEachTest {
 
   @Test
   void test() {

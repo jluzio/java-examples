@@ -5,18 +5,18 @@ import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.example.java.playground.AbstractTest;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class OptionalTest extends AbstractTest {
+@Slf4j
+class OptionalTest {
 
   @Test
   void test() {

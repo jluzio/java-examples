@@ -1,6 +1,5 @@
 package com.example.java.playground.features.io;
 
-import com.example.java.playground.AbstractTest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Authenticator;
@@ -15,10 +14,12 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class HttpClientTest extends AbstractTest {
+@Slf4j
+class HttpClientTest {
   // Module: java.net.http
 
   @Test

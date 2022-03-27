@@ -1,6 +1,5 @@
 package com.example.java.playground.features.io;
 
-import com.example.java.playground.AbstractTest;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,10 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-class IoTest extends AbstractTest {
+@Slf4j
+class IoTest {
 
   @Test
   @org.junit.jupiter.api.Disabled

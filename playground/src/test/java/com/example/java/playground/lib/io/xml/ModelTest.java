@@ -1,13 +1,14 @@
 package com.example.java.playground.lib.io.xml;
 
-import com.example.java.playground.AbstractTest;
 import jakarta.xml.bind.JAXB;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-class ModelTest extends AbstractTest {
+@Slf4j
+class ModelTest {
 
   @Test
   void test() {

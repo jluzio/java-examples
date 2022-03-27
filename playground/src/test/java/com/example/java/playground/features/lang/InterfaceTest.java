@@ -1,16 +1,16 @@
 package com.example.java.playground.features.lang;
 
-import com.example.java.playground.AbstractTest;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class InterfaceTest extends AbstractTest {
+@Slf4j
+class InterfaceTest {
 
   interface SampleInterface {
 
     default int defaultFoo() {
       return 42;
     }
-
     static int staticFoo() {
       return 42;
     }

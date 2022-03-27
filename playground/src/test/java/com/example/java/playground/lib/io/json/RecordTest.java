@@ -2,12 +2,13 @@ package com.example.java.playground.lib.io.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.java.playground.AbstractTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-class RecordTest extends AbstractTest {
+@Slf4j
+class RecordTest {
 
   record Data(String id, String value) {
 

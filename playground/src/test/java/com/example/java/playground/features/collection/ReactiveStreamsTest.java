@@ -2,7 +2,6 @@ package com.example.java.playground.features.collection;
 
 import static org.awaitility.Awaitility.await;
 
-import com.example.java.playground.AbstractTest;
 import java.time.Duration;
 import java.util.concurrent.Flow;
 import java.util.concurrent.SubmissionPublisher;
@@ -10,9 +9,11 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-class ReactiveStreamsTest extends AbstractTest {
+@Slf4j
+class ReactiveStreamsTest {
 
   @lombok.Data
   @AllArgsConstructor

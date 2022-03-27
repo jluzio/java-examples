@@ -1,14 +1,15 @@
 package com.example.java.playground.features.lang;
 
-import com.example.java.playground.AbstractTest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class JavaTimeTest extends AbstractTest {
+@Slf4j
+class JavaTimeTest {
 
   @Test
   void test_values() {

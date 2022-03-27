@@ -1,11 +1,12 @@
 package com.example.java.playground.features.lang;
 
-import com.example.java.playground.AbstractTest;
 import java.text.NumberFormat;
 import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class NumberFormattingTest extends AbstractTest {
+@Slf4j
+class NumberFormattingTest {
 
   @Test
   void test() {

@@ -1,6 +1,5 @@
 package com.example.java.playground.features.func;
 
-import com.example.java.playground.AbstractTest;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoublePredicate;
@@ -11,9 +10,11 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.function.UnaryOperator;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-class FunctionalInterfaceTest extends AbstractTest {
+@Slf4j
+class FunctionalInterfaceTest {
 
   // Enforces Single Abstract Method
   @FunctionalInterface

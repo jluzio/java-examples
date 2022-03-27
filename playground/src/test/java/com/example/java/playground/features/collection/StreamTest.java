@@ -2,7 +2,6 @@ package com.example.java.playground.features.collection;
 
 import static java.util.stream.Collectors.joining;
 
-import com.example.java.playground.AbstractTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +18,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-class StreamTest extends AbstractTest {
+@Slf4j
+class StreamTest {
 
   @Test
   void test_find() {

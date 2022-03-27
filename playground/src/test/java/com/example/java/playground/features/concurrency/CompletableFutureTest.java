@@ -1,10 +1,11 @@
 package com.example.java.playground.features.concurrency;
 
-import com.example.java.playground.AbstractTest;
 import java.util.concurrent.CompletableFuture;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class CompletableFutureTest extends AbstractTest {
+@Slf4j
+class CompletableFutureTest {
 
   @Test
   void test_when_complete() {

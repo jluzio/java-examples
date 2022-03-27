@@ -1,14 +1,13 @@
 package com.example.java.playground.features.lang;
 
-import com.example.java.playground.AbstractTest;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-public class SwitchTest extends AbstractTest {
+@Slf4j
+class SwitchTest {
 
   @Test
-  public void test() {
+  void test() {
     var switchVal = "test";
     var returnValue = switch (switchVal) {
       case "x", "y" -> 1;

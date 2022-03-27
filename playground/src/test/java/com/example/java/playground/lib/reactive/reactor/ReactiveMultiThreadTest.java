@@ -11,10 +11,12 @@ import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 class ReactiveMultiThreadTest {
+  Scheduler valuesScheduler = Schedulers.newParallel("values-worker", 5);
 
   @Test
   void test_multi_thread() {
@@ -39,7 +41,9 @@ class ReactiveMultiThreadTest {
   private Mono<String> processValue(Integer value) {
     return Mono.just(value)
         .delayElement(Duration.ofMillis(RandomUtils.nextInt(0, 50)))
-        .map(this::valueMapper);
+        .publishOn(valuesScheduler)
+        .map(this::valueMapper)
+        .doOnNext(v -> log.debug("processValue: {}", v));
   }
 
   private String valueMapper(Integer value) {

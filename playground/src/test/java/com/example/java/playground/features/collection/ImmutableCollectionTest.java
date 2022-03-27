@@ -2,15 +2,16 @@ package com.example.java.playground.features.collection;
 
 import static java.util.Map.entry;
 
-import com.example.java.playground.AbstractTest;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class ImmutableCollectionTest extends AbstractTest {
+@Slf4j
+class ImmutableCollectionTest {
 
   @Test
   void test() {

@@ -3,7 +3,6 @@ package com.example.java.playground.lib.io.json;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.example.java.playground.AbstractTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -11,9 +10,11 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-class ModelTest extends AbstractTest {
+@Slf4j
+class ModelTest {
 
   @Test
   void simple_mapping() throws JsonProcessingException {

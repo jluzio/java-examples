@@ -1,9 +1,10 @@
 package com.example.java.playground.features.lang;
 
-import com.example.java.playground.AbstractTest;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class RecordTest extends AbstractTest {
+@Slf4j
+class RecordTest {
 
   // Note: each field is final
   public record UserRecord(String name, int age) {

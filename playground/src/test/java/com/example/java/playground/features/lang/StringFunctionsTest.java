@@ -1,15 +1,16 @@
 package com.example.java.playground.features.lang;
 
-import com.example.java.playground.AbstractTest;
 import com.example.java.playground.utils.Strings;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class StringFunctionsTest extends AbstractTest {
+@Slf4j
+class StringFunctionsTest {
 
   @Test
-  public void test_text_block() {
+  void test_text_block() {
     var text = """
         line 1
           line 2   
@@ -19,12 +20,12 @@ public class StringFunctionsTest extends AbstractTest {
   }
 
   @Test
-  public void test_formatted() {
+  void test_formatted() {
     log.info("formatted: {}", "2: %2$s | 1: %1$s".formatted("v-1", "v-2"));
   }
 
   @Test
-  public void test_lines() {
+  void test_lines() {
     var text = """
         line 1
           line 2   

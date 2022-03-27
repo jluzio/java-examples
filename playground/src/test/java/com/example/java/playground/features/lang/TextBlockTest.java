@@ -1,13 +1,14 @@
 package com.example.java.playground.features.lang;
 
-import com.example.java.playground.AbstractTest;
 import com.example.java.playground.utils.Strings;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-public class TextBlockTest extends AbstractTest {
+@Slf4j
+class TextBlockTest {
 
   @Test
-  public void test_default() {
+  void test_default() {
     var block1 = """
         line 1
         line              2
@@ -33,7 +34,7 @@ public class TextBlockTest extends AbstractTest {
   }
 
   @Test
-  public void test_utils() {
+  void test_utils() {
     String htmlTextBlock = "<html>   \n" +
         "\t<body>\t\t \n" +
         "\t\t<p>Hello</p>  \t \n" +
