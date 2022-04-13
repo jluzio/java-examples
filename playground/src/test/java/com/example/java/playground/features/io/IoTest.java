@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class IoTest {
     var file = new File(userDir, "src/test/resources/features/text.txt");
 
     var text = IntStream.rangeClosed(1, 20)
-        .mapToObj(i -> "line %s".formatted(i))
+        .mapToObj("line %s"::formatted)
         .collect(Collectors.joining(System.lineSeparator()));
     Files.writeString(file.toPath(), text);
 
@@ -49,23 +50,33 @@ class IoTest {
       log.info("data: {}", data);
     }
 
-    Files.lines(file.toPath()).forEach(valueLog("line: {}"));
+    try (Stream<String> lines = Files.lines(file.toPath())) {
+      lines.forEach(v -> log.debug("line: {}", v));
+    }
   }
 
   @Test
   void test_list_files() throws IOException, URISyntaxException {
     var file = new File(this.getClass().getResource("/features").toURI());
-    Files.list(file.toPath()).forEach(valueLog("file: {}"));
+    try (var files = Files.list(file.toPath())) {
+      files.forEach(v -> log.debug("file: {}", v));
+    }
+    try (var files = Files.list(file.toPath())) {
+      files.forEach(v -> log.debug("file: {}", v));
+    }
   }
 
   @Test
   void test_find_file() throws IOException {
     var rootPath = Path.of(System.getProperty("user.dir"), "src");
-    Files.find(rootPath,
+    try (var pathStream = Files.find(
+        rootPath,
         4,
-        (path, basicFileAttributes) -> path.endsWith("text.txt"))
-        .limit(3)
-        .forEach(valueLog("matching file: {}"));
+        (path, basicFileAttributes) -> path.endsWith("text.txt"))) {
+      pathStream
+          .limit(3)
+          .forEach(v -> log.debug("matching file: {}", v));
+    }
   }
 
   @Test
