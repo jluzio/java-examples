@@ -1,13 +1,9 @@
 package com.example.java.playground.features.collection;
 
-import static java.util.stream.Collectors.joining;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -96,51 +92,6 @@ class StreamTest {
     private String name;
     final private int age;
     private String department;
-  }
-
-  @Test
-  void test_reduce() {
-    var values = IntStream.range(0, 5).boxed().collect(Collectors.toList());
-
-    var sum = values.stream().reduce(0, (acc, value) -> acc + value);
-    log.info("reduce[sum]: {}", sum);
-
-    var max = values.stream().reduce(Integer::max);
-    log.info("reduce[max]: {}", max);
-
-    var strJoin = values.stream().map(v -> v.toString())
-        .reduce("", (acc, value) -> "%s|%s".formatted(acc, value));
-    log.info("reduce[strJoin]: {}", strJoin);
-
-    List<User> users = Arrays.asList(new User("John", 30), new User("Julie", 35));
-    int computedAges =
-        users.stream().reduce(0, (acc, user) -> acc + user.getAge(), Integer::sum);
-    log.info("reduce[computedAges]: {}", computedAges);
-    int pComputedAges =
-        users.parallelStream().reduce(0, (acc, user) -> acc + user.getAge(), Integer::sum);
-    log.info("reduce[pComputedAges]: {}", pComputedAges);
-    int mComputedAges =
-        users.stream().map(User::getAge).reduce(0, (acc, age) -> acc + age);
-    log.info("reduce[mComputedAges]: {}", mComputedAges);
-
-    List<String> l = new ArrayList(Arrays.asList("one", "two"));
-    Stream<String> sl = l.stream();
-    l.add("three");
-    log.info("join: {}", sl.collect(joining(" ")));
-
-    var concatList = IntStream.range(1, 11).boxed().collect(Collectors.toList());
-    List<String> concatToStrings = concatList.parallelStream().map(Object::toString)
-        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-    log.info("concatToStrings: {}", concatToStrings);
-
-    BiConsumer<ArrayList<String>, String> c = ArrayList::add;
-
-    List<String> concatToStrings2 = concatList.parallelStream().map(Object::toString)
-        .collect(
-            () -> new ArrayList(),
-            (acc, value) -> acc.add(value),
-            (acc, otherAcc) -> acc.addAll(otherAcc));
-    log.info("concatToStrings2: {}", concatToStrings2);
   }
 
   @Test
