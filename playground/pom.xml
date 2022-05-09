@@ -121,6 +121,12 @@
       <version>0.10.4</version>
     </dependency>
 
+    <dependency>
+      <groupId>one.util</groupId>
+      <artifactId>streamex</artifactId>
+      <version>0.8.1</version>
+    </dependency>
+
     <!-- JAXB API v3.0.1 -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
