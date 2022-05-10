@@ -2,14 +2,21 @@ package com.example.java.playground.lib.reactive.reactor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import one.util.streamex.IntStreamEx;
+import java.util.stream.Collectors;
 import one.util.streamex.StreamEx;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
 class CollectionTest {
+
+  enum Role {USER, ADMIN}
+
+  record User(String id, String username, String fullName, Role role) {
+
+  }
 
   @Test
   void map_concat() {
@@ -28,11 +35,43 @@ class CollectionTest {
 
   @Test
   void collector_shortcuts() {
-    var lengths = StreamEx.of("1", "2", "3")
-        .map(String::length)
-        .toList();
-    assertThat(lengths)
-        .containsExactly(1, 1, 1);
+    var user1 = new User("uuid1", "john.doe@mail.org", "John Doe", Role.USER);
+    var user2 = new User("uuid2", "jane.doe@mail.org", "Jane Doe", Role.USER);
+    var user3 = new User("uuid3", "admin.doe@mail.org", "Admin Doe", Role.ADMIN);
+    var users = List.of(user1, user2, user3);
+
+    assertThat(
+        StreamEx.of(users)
+            .map(User::username)
+            .toList())
+        .containsExactly("john.doe@mail.org", "jane.doe@mail.org", "admin.doe@mail.org");
+    assertThat(
+        StreamEx.of(users)
+            .groupingBy(User::role))
+        .containsAllEntriesOf(
+            Map.of(
+                Role.USER, List.of(user1, user2),
+                Role.ADMIN, List.of(user3)
+            ));
+    assertThat(StreamEx.of(1, 2, 3).joining("; "))
+        .isEqualTo("1; 2; 3");
+
+    // Note: Java 16 has toList
+    assertThat(
+        users.stream()
+            .map(User::username)
+            .collect(Collectors.toList())
+    )
+        .containsExactly("john.doe@mail.org", "jane.doe@mail.org", "admin.doe@mail.org");
+    assertThat(
+        users.stream()
+            .collect(Collectors.groupingBy(User::role)))
+        .containsAllEntriesOf(
+            Map.of(
+                Role.USER, List.of(user1, user2),
+                Role.ADMIN, List.of(user3)
+            ));
+
   }
 
 }
