@@ -44,6 +44,7 @@ class MapTest {
     assertThat(map3_1)
         .containsAllEntriesOf(expected);
 
+    // WARNING: this creates an anonymous class, ie more work/memory for the classloader
     var map3_2 = new HashMap<>() {
       {
         putAll(map1);
