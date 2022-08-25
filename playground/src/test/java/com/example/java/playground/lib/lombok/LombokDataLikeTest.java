@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-public class LombokDataLikeTest {
+class LombokDataLikeTest {
 
   @Data
   class DataBean {
@@ -74,8 +74,8 @@ public class LombokDataLikeTest {
   // Note: needed to be static inside another class
   public static class BuilderBean {
 
-    private String value1;
-    private String value2;
+    String value1;
+    String value2;
   }
 
   @Test
@@ -95,8 +95,8 @@ public class LombokDataLikeTest {
   @Value
   class WithBean {
 
-    private String value1;
-    private String value2;
+    String value1;
+    String value2;
   }
 
   @Test
