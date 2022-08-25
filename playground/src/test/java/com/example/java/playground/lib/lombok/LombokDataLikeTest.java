@@ -71,6 +71,8 @@ class LombokDataLikeTest {
 
   @Builder(toBuilder = true)
   @Value
+  // makes constructor public instead of package private
+  @AllArgsConstructor
   // Note: needed to be static inside another class
   public static class BuilderBean {
 
