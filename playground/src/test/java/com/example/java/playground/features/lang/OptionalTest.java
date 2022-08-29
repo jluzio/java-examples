@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 class OptionalTest {
 
   @Test
-  void test() {
+  void test_basic() {
     var optionalNonNull = of("test");
     assertThat(optionalNonNull.filter(s -> s.length() > 2)).isPresent();
     assertThat(optionalNonNull.map("value is '%s'"::formatted))
@@ -43,7 +43,6 @@ class OptionalTest {
 
     log.info("stream action (count): {} | {}", optionalNull.stream().count(),
         optionalNonNull.stream().count());
-
   }
 
   @Test
