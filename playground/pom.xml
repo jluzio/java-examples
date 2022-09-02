@@ -59,6 +59,7 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
+      <!-- can use: optional, provided or inside compiler annotationProcessorPaths -->
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -81,11 +82,15 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct-processor</artifactId>
       <version>${org.mapstruct.version}</version>
+      <!-- can use: optional, provided or inside compiler annotationProcessorPaths -->
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-mapstruct-binding</artifactId>
       <version>${lombok-mapstruct-binding.version}</version>
+      <!-- can use: optional, provided or inside compiler annotationProcessorPaths -->
+      <optional>true</optional>
     </dependency>
 
     <dependency>
