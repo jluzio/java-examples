@@ -69,10 +69,10 @@ class LombokDataLikeTest {
     log.info("value: {}", value);
   }
 
-  @Builder(toBuilder = true)
   @Value
   // makes constructor public instead of package private
   @AllArgsConstructor
+  @Builder(toBuilder = true)
   // Note: needed to be static inside another class
   public static class BuilderBean {
 
@@ -93,8 +93,8 @@ class LombokDataLikeTest {
     log.info("builder1: {}, builder2: {}", data, data2);
   }
 
-  @With
   @Value
+  @With
   class WithBean {
 
     String value1;

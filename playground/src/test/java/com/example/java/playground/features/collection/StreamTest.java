@@ -82,6 +82,13 @@ class StreamTest {
     log.info("intSum2: {}", intSum2);
   }
 
+  @Test
+  void test_cast() {
+    List<Object> objectValues = List.of("v1", "v2");
+    List<String> stringValues = objectValues.stream()
+        .map(String.class::cast)
+        .toList();
+  }
 
   @Data
   @RequiredArgsConstructor
