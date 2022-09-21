@@ -3,7 +3,7 @@ package com.example.java.playground.lib.mockito;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doAnswer;
 
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,20 +17,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ResultCaptorTest {
 
-  static class NumberSupplier implements Supplier<Long> {
+  static class NumberSupplier implements Supplier<Integer> {
+
+    AtomicInteger count = new AtomicInteger(0);
 
     @Override
-    public Long get() {
-      return new Random().nextLong();
+    public Integer get() {
+      return count.incrementAndGet();
     }
   }
 
   @RequiredArgsConstructor
   static class NumberConsumer {
-    private Supplier<Long> numberSupplier;
 
-    public String defineNumber() {
-      return numberSupplier.get() % 2 == 0 ? "even" : "odd";
+    private Supplier<Integer> numberSupplier;
+
+    public String consume() {
+      return "number=%d".formatted(numberSupplier.get());
     }
   }
 
@@ -41,11 +44,17 @@ class ResultCaptorTest {
 
   @Test
   void test() {
-    var captor = new ResultCaptor<Long>();
+    var captor = new ResultCaptor<Integer>();
     doAnswer(captor).when(numberSupplier).get();
-    var output = numberConsumer.defineNumber();
-    var number = captor.getValue();
-    assertThat(output)
-        .isEqualTo(number % 2 == 0 ? "even" : "odd");
+
+    var output1 = numberConsumer.consume();
+    assertThat(output1).isEqualTo("number=1");
+    assertThat(captor.getValue()).isEqualTo(1);
+    assertThat(captor.getAllValues()).containsExactly(1);
+
+    var output2 = numberConsumer.consume();
+    assertThat(output2).isEqualTo("number=2");
+    assertThat(captor.getValue()).isEqualTo(2);
+    assertThat(captor.getAllValues()).containsExactly(1, 2);
   }
 }
