@@ -209,6 +209,21 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- System Stubs: for testing with only lambda pattern -->
+    <dependency>
+      <groupId>uk.org.webcompere</groupId>
+      <artifactId>system-stubs-core</artifactId>
+      <version>2.0.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- System Stubs: for JUnit 5 -->
+    <dependency>
+      <groupId>uk.org.webcompere</groupId>
+      <artifactId>system-stubs-jupiter</artifactId>
+      <version>2.0.1</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
