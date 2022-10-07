@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 import reactor.test.publisher.TestPublisher;
 
@@ -85,6 +86,23 @@ class ReactorTest {
         .collectList()
         .block();
     log.info("values: {}", values);
+  }
+
+  @Test
+  void subscribe_long_running_task() {
+    Runnable runnable = () -> {
+      log.debug("publisher<start>");
+      Mono.delay(Duration.ofMillis(100)).block();
+      log.debug("publisher<end>");
+    };
+    var publisher = Mono.fromRunnable(runnable)
+        .subscribeOn(Schedulers.boundedElastic());
+
+    log.debug("start");
+    StepVerifier.create(publisher)
+        .expectComplete()
+        .verify(Duration.ofMillis(150));
+    log.debug("end");
   }
 
 }
