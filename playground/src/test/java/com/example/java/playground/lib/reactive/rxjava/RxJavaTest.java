@@ -92,9 +92,9 @@ class RxJavaTest {
   @Test
   void simple_background_computation() throws InterruptedException {
     Flowable.fromCallable(() -> {
-      Thread.sleep(20); //  imitate expensive computation
-      return "Done";
-    })
+          Thread.sleep(20); //  imitate expensive computation
+          return "Done";
+        })
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.single())
         .subscribe(System.out::println, Throwable::printStackTrace);
@@ -305,16 +305,16 @@ class RxJavaTest {
   @Test
   void using_aka_resource_management() {
     Observable.using(
-        () -> new Scanner(new StringReader("12 23 34 45 56")),
-        scanner -> Observable.create(o -> {
-              while (scanner.hasNextInt()) {
-                o.onNext(scanner.nextInt());
-              }
-              o.onComplete();
-            }
-        ),
-        scanner -> scanner.close()
-    )
+            () -> new Scanner(new StringReader("12 23 34 45 56")),
+            scanner -> Observable.create(o -> {
+                  while (scanner.hasNextInt()) {
+                    o.onNext(scanner.nextInt());
+                  }
+                  o.onComplete();
+                }
+            ),
+            scanner -> scanner.close()
+        )
         .map(Object::toString)
         .subscribe(log::info);
   }

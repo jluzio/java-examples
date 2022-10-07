@@ -18,6 +18,7 @@ class AnnotationTest {
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.TYPE)
   static @interface SomeAnnotation {
+
     String value();
   }
 

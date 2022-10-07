@@ -23,6 +23,7 @@ class JsonPatchTest {
       String telephone,
       List<String> favorites,
       Map<String, Boolean> communicationPreferences) {
+
   }
 
   @Autowired

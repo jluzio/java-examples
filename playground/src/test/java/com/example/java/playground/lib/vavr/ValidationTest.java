@@ -20,7 +20,7 @@ class ValidationTest {
                 ? Validation.valid(42)
                 : Validation.invalid("Invalid");
     Validation<String, Integer> validation = validatorFunction.apply(true);
-    Assertions.<Validation<String,Integer>>assertThat(validation)
+    Assertions.<Validation<String, Integer>>assertThat(validation)
         .matches(Validation::isValid)
         .extracting(Validation::get)
         .isEqualTo(42);

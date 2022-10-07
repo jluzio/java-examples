@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vavr.API.Match;
 import io.vavr.control.Try;
 import java.io.FileNotFoundException;
 import java.io.IOException;

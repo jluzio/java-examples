@@ -14,6 +14,7 @@ class DeadlockTest {
 
   @Data
   static class Friend {
+
     private final String name;
     private int bowsCompleted = 0;
 

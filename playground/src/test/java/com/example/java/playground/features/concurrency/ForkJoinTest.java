@@ -2,7 +2,6 @@ package com.example.java.playground.features.concurrency;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

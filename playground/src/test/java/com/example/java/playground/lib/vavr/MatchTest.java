@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.vavr.MatchError;
-import io.vavr.Predicates;
 import io.vavr.control.Option;
 import org.junit.jupiter.api.Test;
 

@@ -11,6 +11,7 @@ import uk.org.webcompere.systemstubs.properties.SystemProperties;
 
 @ExtendWith(SystemStubsExtension.class)
 class SystemStubsEnvironmentTest {
+
   @SystemStub
   private static EnvironmentVariables envVars = new EnvironmentVariables()
       .set("env_var", "env_var_value");

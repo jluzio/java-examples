@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class AddOpensTest {
 
-  record Data(String id, String name) {}
+  record Data(String id, String name) {
+
+  }
 
   @Test
   void test() {

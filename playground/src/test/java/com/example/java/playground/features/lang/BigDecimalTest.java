@@ -23,7 +23,7 @@ class BigDecimalTest {
           var y = v.multiply(BigDecimal.valueOf(-1));
           log.info("{} : {} : {}", y, y.unscaledValue(), y.stripTrailingZeros().scale());
         })
-    .subscribe()
+        .subscribe()
     ;
 
   }

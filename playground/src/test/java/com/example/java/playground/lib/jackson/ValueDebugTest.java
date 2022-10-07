@@ -24,8 +24,7 @@ class ValueDebugTest {
         .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
         .disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .disable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        ;
+        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL);
 
     var data = new Data(List.of(
         new DataItem("key-1", "value-1", "optional-1"),

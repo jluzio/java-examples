@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import io.vavr.control.Try;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import lombok.Data;

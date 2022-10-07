@@ -11,6 +11,7 @@ class InterfaceTest {
     default int defaultFoo() {
       return 42;
     }
+
     static int staticFoo() {
       return 42;
     }

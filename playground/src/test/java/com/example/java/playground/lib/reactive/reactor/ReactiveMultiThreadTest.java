@@ -16,6 +16,7 @@ import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 class ReactiveMultiThreadTest {
+
   Scheduler valuesScheduler = Schedulers.newParallel("values-worker", 5);
 
   @Test

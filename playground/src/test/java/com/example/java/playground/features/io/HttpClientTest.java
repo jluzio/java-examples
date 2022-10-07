@@ -52,13 +52,13 @@ class HttpClientTest {
 
     // GET
     client.sendAsync(
-        HttpRequest
-            .newBuilder(pageUri)
-            .headers("Foo", "foovalue", "Bar", "barvalue")
-            .GET()
-            .build(),
-        HttpResponse.BodyHandlers.ofString()
-    )
+            HttpRequest
+                .newBuilder(pageUri)
+                .headers("Foo", "foovalue", "Bar", "barvalue")
+                .GET()
+                .build(),
+            HttpResponse.BodyHandlers.ofString()
+        )
         .thenApply(HttpResponse::body)
         .thenAccept(body -> log.info("[get:async] body: {}", body))
         .get()

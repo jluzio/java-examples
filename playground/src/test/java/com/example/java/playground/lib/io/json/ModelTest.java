@@ -37,7 +37,7 @@ class ModelTest {
   @Test
   void empty() throws JsonProcessingException {
     var objectMapper = new ObjectMapper();
-    assertThatThrownBy(() -> objectMapper.readValue((String)null, DataItem.class))
+    assertThatThrownBy(() -> objectMapper.readValue((String) null, DataItem.class))
         .isInstanceOf(IllegalArgumentException.class);
     assertThatThrownBy(() -> objectMapper.readValue("", DataItem.class))
         .isInstanceOf(MismatchedInputException.class);

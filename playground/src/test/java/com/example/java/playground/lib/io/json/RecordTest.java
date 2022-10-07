@@ -15,7 +15,7 @@ class RecordTest {
   }
 
   @Test
-  // Support for records from version 2.12.x
+    // Support for records from version 2.12.x
   void record() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
 
