@@ -8,15 +8,15 @@ class SystemConfigHelperTest {
 
   @Test
   void toEnvironmentConfigKey() {
-    assertThat(SystemConfigHelper.toEnvironmentConfigKey("key1"))
+    assertThat(SystemConfigHelper.convertToEnvironmentConfigKey("key1"))
         .isEqualTo("KEY1");
-    assertThat(SystemConfigHelper.toEnvironmentConfigKey("someKey1"))
+    assertThat(SystemConfigHelper.convertToEnvironmentConfigKey("someKey1"))
         .isEqualTo("SOME_KEY1");
-    assertThat(SystemConfigHelper.toEnvironmentConfigKey("sample.key1"))
+    assertThat(SystemConfigHelper.convertToEnvironmentConfigKey("sample.key1"))
         .isEqualTo("SAMPLE_KEY1");
-    assertThat(SystemConfigHelper.toEnvironmentConfigKey("sample.someKey1"))
+    assertThat(SystemConfigHelper.convertToEnvironmentConfigKey("sample.someKey1"))
         .isEqualTo("SAMPLE_SOME_KEY1");
-    assertThat(SystemConfigHelper.toEnvironmentConfigKey("sample.some-key1"))
+    assertThat(SystemConfigHelper.convertToEnvironmentConfigKey("sample.some-key1"))
         .isEqualTo("SAMPLE_SOME_KEY1");
   }
 }

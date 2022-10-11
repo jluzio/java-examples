@@ -14,7 +14,7 @@ public class SystemConfigHelper {
       .andThen(v -> CharMatcher.forPredicate(Character::isLetterOrDigit).negate()
           .replaceFrom(v, ENVIRONMENT_VAR_SEPARATOR));
 
-  public String toEnvironmentConfigKey(String key) {
+  public String convertToEnvironmentConfigKey(String key) {
     return envVarFormatConverter.apply(key);
   }
 
