@@ -1,6 +1,9 @@
 package com.example.java.playground.features.collection;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -183,4 +186,26 @@ class StreamTest {
         .map(User::getName);
     log.info("{}", user1NameJava8);
   }
+
+  @Test
+  void find_first_nullable() {
+    HashMap<String, String> map = new HashMap<>();
+    map.put("key1", null);
+    map.put("key2", "val2");
+
+    assertThat(
+        Stream.of("key1", "key2")
+            .flatMap(k -> Stream.ofNullable(map.get(k)))
+            .findFirst()
+            .orElse("not-found"))
+        .isEqualTo("val2");
+
+    assertThat(
+        Stream.of("key1", "key3")
+            .flatMap(k -> Stream.ofNullable(map.get(k)))
+            .findFirst()
+            .orElse("not-found"))
+        .isEqualTo("not-found");
+  }
+
 }

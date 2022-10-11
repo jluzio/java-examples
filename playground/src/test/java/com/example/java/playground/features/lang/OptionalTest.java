@@ -79,4 +79,5 @@ class OptionalTest {
     assertThat(getChildId.apply(new Parent("p3", new Child("c3"))))
         .isPresent();
   }
+
 }
