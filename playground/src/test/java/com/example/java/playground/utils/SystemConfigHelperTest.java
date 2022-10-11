@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class SystemConfigHelperTest {
 
   @Test
-  void toEnvironmentConfigKey() {
+  void convertToEnvironmentConfigKey() {
     assertThat(SystemConfigHelper.convertToEnvironmentConfigKey("key1"))
         .isEqualTo("KEY1");
     assertThat(SystemConfigHelper.convertToEnvironmentConfigKey("someKey1"))
