@@ -22,6 +22,10 @@ class MapStructTest {
     @Mapping(target = "fullName", expression = "java(person.getFirstName() + person.getSurname())")
     User toUser(Person person);
 
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "fullName", ignore = true)
+    User mapUserRef(User user);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void merge(@MappingTarget User target, User other);
   }
@@ -60,4 +64,17 @@ class MapStructTest {
         .build());
   }
 
+  @Test
+  void mapUserRef() {
+    var user = User.builder()
+        .username("john.doe")
+        .email("mail@server.org")
+        .fullName("John Doe")
+        .build();
+
+    assertThat(mapper.mapUserRef(user))
+        .isEqualTo(User.builder()
+            .username("john.doe")
+            .build());
+  }
 }
