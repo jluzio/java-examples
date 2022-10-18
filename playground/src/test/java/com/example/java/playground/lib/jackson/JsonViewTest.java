@@ -37,12 +37,19 @@ class JsonViewTest {
     }
   }
 
+  /**
+   * JsonView can be applied directly or with an interface
+   */
+  @JsonView(Public.class)
+  interface ModelBase {
+
+  }
+
   @Data
   @RequiredArgsConstructor
   @AllArgsConstructor
   @Builder
-  @JsonView(Public.class)
-  static class User {
+  static class User implements ModelBase {
 
     private String id;
     private String username;
