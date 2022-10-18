@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "user-reference.json"
+    }
+  ],
+  "extends": {
+    "$ref": "user-reference.json"
+  },
+  "properties": {
+    "email": {
+      "type": "string"
+    },
+    "fullName": {
+      "type": "string"
+    }
+  }
+}

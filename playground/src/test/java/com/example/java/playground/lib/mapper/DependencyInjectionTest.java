@@ -2,6 +2,8 @@ package com.example.java.playground.lib.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.types.Person;
+import com.example.types.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -50,11 +52,10 @@ class DependencyInjectionTest {
         new DependencyInjectionTest$OtherCustomMapperImpl()
     );
 
-    Person person = Person.builder()
-        .firstName("John   ")
-        .surname("Doe   ")
-        .email("mail@server.org     ")
-        .build();
+    Person person = new Person()
+        .withFirstName("John   ")
+        .withSurname("Doe   ")
+        .withEmail("mail@server.org     ");
 
     User user = mapper.toUser(person);
     log.info("user: {}", user);

@@ -2,6 +2,8 @@ package com.example.java.playground.lib.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.types.Person;
+import com.example.types.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.BeanMapping;
@@ -34,11 +36,10 @@ class MapStructTest {
 
   @Test
   void toUser() {
-    Person person = Person.builder()
-        .firstName("John")
-        .surname("Doe")
-        .email("mail@server.org")
-        .build();
+    Person person = new Person()
+        .withFirstName("John")
+        .withSurname("Doe")
+        .withEmail("mail@server.org");
 
     User user = mapper.toUser(person);
     log.info("user: {}", user);
@@ -46,35 +47,34 @@ class MapStructTest {
 
   @Test
   void merge() {
-    User target = User.builder()
-        .username("dummy-user")
-        .email("mail@server.org")
-        .build();
-    User other = User.builder()
-        .username("john.doe")
-        .fullName("John Doe")
-        .build();
+    User target = new User()
+        .withId("1")
+        .withUsername("dummy-user")
+        .withEmail("mail@server.org");
+    User other = new User()
+        .withUsername("john.doe")
+        .withFullName("John Doe");
 
     mapper.merge(target, other);
 
-    assertThat(target).isEqualTo(User.builder()
-        .username("john.doe")
-        .email("mail@server.org")
-        .fullName("John Doe")
-        .build());
+    assertThat(target).isEqualTo(new User()
+        .withId("1")
+        .withUsername("john.doe")
+        .withEmail("mail@server.org")
+        .withFullName("John Doe"));
   }
 
   @Test
   void mapUserRef() {
-    var user = User.builder()
-        .username("john.doe")
-        .email("mail@server.org")
-        .fullName("John Doe")
-        .build();
+    var user = new User()
+        .withId("1")
+        .withUsername("john.doe")
+        .withEmail("mail@server.org")
+        .withFullName("John Doe");
 
     assertThat(mapper.mapUserRef(user))
-        .isEqualTo(User.builder()
-            .username("john.doe")
-            .build());
+        .isEqualTo(new User()
+            .withId("1")
+            .withUsername("john.doe"));
   }
 }
