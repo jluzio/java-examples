@@ -56,7 +56,7 @@ class JsonViewTest {
     @JsonView(Detailed.class)
     private String email;
     @JsonView(Internal.class)
-    private String ssn;
+    private String password;
 
   }
 
@@ -83,7 +83,7 @@ class JsonViewTest {
         .id("1")
         .username("john.doe")
         .email("john.doe@mail.org")
-        .ssn("private-ssn")
+        .password("12345")
         .build();
 
     var userJson = objectMapper
