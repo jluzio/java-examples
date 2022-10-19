@@ -30,6 +30,9 @@ class MapStructTest {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void merge(@MappingTarget User target, User other);
+
+    @Mapping(target = "id", ignore = true)
+    User duplicateWithoutId(User user);
   }
 
   UserMapper mapper = UserMapper.INSTANCE;
@@ -76,5 +79,20 @@ class MapStructTest {
         .isEqualTo(new User()
             .withId("1")
             .withUsername("john.doe"));
+  }
+
+  @Test
+  void duplicateWithoutId() {
+    var user = new User()
+        .withId("1")
+        .withUsername("john.doe")
+        .withEmail("mail@server.org")
+        .withFullName("John Doe");
+
+    assertThat(mapper.duplicateWithoutId(user))
+        .isEqualTo(new User()
+            .withUsername("john.doe")
+            .withEmail("mail@server.org")
+            .withFullName("John Doe"));
   }
 }
