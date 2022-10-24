@@ -32,7 +32,7 @@ class MapStructTest {
     void merge(@MappingTarget User target, User other);
 
     @Mapping(target = "id", ignore = true)
-    User duplicateWithoutId(User user);
+    void mergeWithoutId(@MappingTarget User target, User other);
   }
 
   UserMapper mapper = UserMapper.INSTANCE;
@@ -89,8 +89,12 @@ class MapStructTest {
         .withEmail("mail@server.org")
         .withFullName("John Doe");
 
-    assertThat(mapper.duplicateWithoutId(user))
+    var target = new User()
+        .withId("123");
+    mapper.mergeWithoutId(target, user);
+    assertThat(target)
         .isEqualTo(new User()
+            .withId("123")
             .withUsername("john.doe")
             .withEmail("mail@server.org")
             .withFullName("John Doe"));
