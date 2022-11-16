@@ -37,6 +37,14 @@ class StreamTest {
     log.info("allMatch: {}", values.get().allMatch(v -> v > 2));
     log.info("anyMatch: {}", values.get().anyMatch(v -> v > 2));
     log.info("noneMatch: {}", values.get().noneMatch(v -> v > 2));
+
+    Supplier<Stream<Integer>> emptyIntStreamSupplier = Stream::empty;
+    assertThat(emptyIntStreamSupplier.get().allMatch(v -> v > 2))
+        .isTrue();
+    assertThat(emptyIntStreamSupplier.get().anyMatch(v -> v > 2))
+        .isFalse();
+    assertThat(emptyIntStreamSupplier.get().noneMatch(v -> v > 2))
+        .isTrue();
   }
 
   @Test
