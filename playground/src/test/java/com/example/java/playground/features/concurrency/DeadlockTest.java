@@ -1,8 +1,6 @@
 package com.example.java.playground.features.concurrency;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +31,17 @@ class DeadlockTest {
   void test() throws InterruptedException {
     var alphonse = Mockito.spy(new Friend("Alphonse"));
     var gaston = Mockito.spy(new Friend("Gaston"));
-    new Thread(() -> alphonse.bow(gaston)).start();
-    new Thread(() -> gaston.bow(alphonse)).start();
+    var threadAlphonse = new Thread(() -> alphonse.bow(gaston));
+    var threadGaston = new Thread(() -> gaston.bow(alphonse));
+
+    threadAlphonse.start();
+    threadGaston.start();
 
     Thread.sleep(100L);
 
-    verify(alphonse).bowBack(any());
-    verify(gaston).bowBack(any());
+    threadAlphonse.interrupt();
+    threadGaston.interrupt();
+
     assertThat(alphonse.getBowsCompleted()).isZero();
     assertThat(gaston.getBowsCompleted()).isZero();
   }

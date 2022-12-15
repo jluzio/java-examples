@@ -1,6 +1,6 @@
 package com.example.java.playground.lib.validator.jsr380;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 public interface ValidationGroups {
 

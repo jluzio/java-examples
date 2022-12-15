@@ -15,7 +15,7 @@ import org.mapstruct.Named;
 @Slf4j
 class DependencyInjectionTest {
 
-  @Mapper
+  @Mapper(componentModel = "spring")
   interface OtherMapper {
 
     @Named("otherTrim")
@@ -24,7 +24,7 @@ class DependencyInjectionTest {
     }
   }
 
-  @Mapper
+  @Mapper(componentModel = "spring")
   interface OtherCustomMapper {
 
     @Named("otherCustomTrim")

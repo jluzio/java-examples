@@ -13,7 +13,7 @@ class JavaTimeTest {
 
   @Test
   void test_values() {
-    var localDate = LocalDate.of(2020, 01, 01);
+    var localDate = LocalDate.of(2020, 1, 1);
     log.info("localDate: {}", localDate);
     var localTime = LocalTime.of(10, 12, 13);
     log.info("localTime: {}", localTime);
@@ -25,6 +25,6 @@ class JavaTimeTest {
         .withZoneSameInstant(ZoneOffset.ofHours(5));
     log.info("zonedDateTimeCurrent: {}", zonedDateTimeCurrent);
 
-    log.info("today with Time Max{}", localDate.with(LocalTime.MAX));
+    log.info("today with Time Max: {}", localDate.atTime(LocalTime.MAX));
   }
 }

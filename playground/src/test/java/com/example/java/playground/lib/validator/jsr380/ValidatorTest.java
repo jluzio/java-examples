@@ -2,7 +2,8 @@ package com.example.java.playground.lib.validator.jsr380;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import javax.validation.Validator;
+import com.google.common.base.Strings;
+import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,13 @@ class ValidatorTest {
     var invalidConstraintViolations = validator.validate(INVALID_PERSON);
     log.info("invalidConstraintViolations: {}", invalidConstraintViolations);
     assertThat(invalidConstraintViolations).isNotEmpty();
+
+    var propertyInvalidConstraintViolations = validator.validate(
+        CREATE_VALID_PERSON.toBuilder()
+            .name(Strings.repeat("-", 80))
+            .build());
+    log.info("propertyInvalidConstraintViolations: {}", propertyInvalidConstraintViolations);
+    assertThat(propertyInvalidConstraintViolations).isNotEmpty();
   }
 
   @Test
