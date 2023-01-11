@@ -2,6 +2,7 @@ package com.example.java.playground.features.collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +84,16 @@ class StreamTest {
 
     Stream.iterate(1, n -> n < 5, n -> n + 1)
         .forEach(x -> log.info("iterate[1]: {}", x));
+  }
+
+  @Test
+  void test_forEach() {
+    var output = new ArrayList<String>();
+    var values = List.of("a", "b", "c");
+    IntStream.range(0, values.size())
+        .forEach(i -> output.add("%s:%s".formatted(i, values.get(i))));
+    log.debug("output: {}", output);
+    assertThat(output).contains("0:a", "1:b", "2:c");
   }
 
   @Test
