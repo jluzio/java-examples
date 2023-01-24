@@ -1,10 +1,15 @@
 package com.example.java.playground.lib.jackson;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 import com.example.types.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class ObjectMapperTest {
   ObjectMapper mapper = new ObjectMapper();
@@ -23,6 +28,20 @@ class ObjectMapperTest {
     assertThat(convertedData.getAdditionalProperties())
         .isEqualTo(someData.getAdditionalProperties())
         .isNotSameAs(someData.getAdditionalProperties());
+  }
+
+  @Test
+  void closeStream() throws IOException {
+    User someData = new User()
+        .withId("id1")
+        .withUsername("username1")
+        .withAdditionalProperty("key1", "val1");
+    var jsonString = mapper.writeValueAsString(someData);
+    var jsonInputStream = Mockito.spy(new ByteArrayInputStream(jsonString.getBytes()));
+    var convertedData = mapper.readValue(jsonInputStream, User.class);
+    assertThat(convertedData)
+        .isEqualTo(someData);
+    verify(jsonInputStream).close();
   }
 
 }
