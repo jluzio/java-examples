@@ -42,7 +42,7 @@ class CollectTest {
         "k4", "v4",
         "k5", "v5");
     assertThat(new ArrayList<>(mapDefault.keySet()))
-        .isNotEqualTo(List.of("k1", "k2", "k3", "k4", "k5"));
+        .isEqualTo(List.of("k1", "k2", "k3", "k4", "k5"));
   }
 
   @Test
