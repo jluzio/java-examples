@@ -7,6 +7,7 @@ import com.google.common.collect.Streams;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -16,33 +17,44 @@ class CollectTest {
 
   @Test
   void map_builder() {
-    var map = ImmutableMap.builder()
-        .put("k1", "v1")
-        .put("k2", "v2")
-        .put("k3", "v3")
-        .put("k4", "v4")
-        .put("k5", "v5")
-        .build();
-    assertThat(new ArrayList<>(map.keySet()))
-        .isEqualTo(List.of("k1", "k2", "k3", "k4", "k5"));
+    Consumer<Runnable> repeatVerifier = runnable ->
+        IntStream.rangeClosed(1, 100)
+            .forEach(i -> runnable.run());
 
-    var map2 = ImmutableMap.of(
-        "k1", "v1",
-        "k2", "v2",
-        "k3", "v3",
-        "k4", "v4",
-        "k5", "v5");
-    assertThat(new ArrayList<>(map2.keySet()))
-        .isEqualTo(List.of("k1", "k2", "k3", "k4", "k5"));
+    repeatVerifier.accept(() -> {
+      var map = ImmutableMap.builder()
+          .put("k1", "v1")
+          .put("k2", "v2")
+          .put("k3", "v3")
+          .put("k4", "v4")
+          .put("k5", "v5")
+          .build();
+      assertThat(map.keySet())
+          .containsExactly("k1", "k2", "k3", "k4", "k5");
+    });
 
-    var mapDefault = Map.of(
-        "k1", "v1",
-        "k2", "v2",
-        "k3", "v3",
-        "k4", "v4",
-        "k5", "v5");
-    assertThat(new ArrayList<>(mapDefault.keySet()))
-        .isEqualTo(List.of("k1", "k2", "k3", "k4", "k5"));
+    repeatVerifier.accept(() -> {
+      var map2 = ImmutableMap.of(
+          "k1", "v1",
+          "k2", "v2",
+          "k3", "v3",
+          "k4", "v4",
+          "k5", "v5");
+      assertThat(map2.keySet())
+          .containsExactly("k1", "k2", "k3", "k4", "k5");
+    });
+
+    repeatVerifier.accept(() -> {
+      var mapDefault = Map.of(
+          "k1", "v1",
+          "k2", "v2",
+          "k3", "v3",
+          "k4", "v4",
+          "k5", "v5");
+      // Does not guarantee order
+      assertThat(mapDefault.keySet())
+          .containsExactlyInAnyOrder("k1", "k2", "k3", "k4", "k5");
+    });
   }
 
   @Test
