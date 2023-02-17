@@ -3,6 +3,7 @@ package com.example.java.playground.features.time;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -62,6 +63,46 @@ class ClockTest {
         .isEqualTo(fixedLocalDateTime);
     assertThat(OffsetDateTime.now(clock))
         .isEqualTo(fixedDateTime);
+  }
+
+  @Test
+  void offset() {
+    OffsetDateTime baseFixedDateTime = LocalDate.of(2000, 1, 2)
+        .atTime(LocalTime.of(12, 13))
+        .atOffset(ZoneOffset.UTC);
+    OffsetDateTime fixedDateTime = baseFixedDateTime.plusMinutes(3);
+    assertThat(fixedDateTime)
+        .isEqualTo(LocalDate.of(2000, 1, 2)
+            .atTime(LocalTime.of(12, 16))
+            .atOffset(ZoneOffset.UTC));
+
+    var baseClock = Clock.fixed(
+        baseFixedDateTime.toInstant(),
+        ZoneOffset.UTC);
+    var clock = Clock.offset(baseClock, Duration.ofMinutes(3));
+
+    assertThat(OffsetDateTime.now(baseClock))
+        .isEqualTo(baseFixedDateTime);
+    assertThat(OffsetDateTime.now(clock))
+        .isEqualTo(fixedDateTime);
+  }
+
+  @Test
+  void tick() {
+    OffsetDateTime baseFixedDateTime = LocalDate.of(2000, 1, 2)
+        .atTime(LocalTime.of(12, 13, 33))
+        .atOffset(ZoneOffset.UTC);
+
+    var baseClock = Clock.fixed(
+        baseFixedDateTime.toInstant(),
+        ZoneOffset.UTC);
+    var clock = Clock.tick(baseClock, Duration.ofMinutes(1));
+
+    assertThat(OffsetDateTime.now(baseClock))
+        .isEqualTo(baseFixedDateTime);
+    // ticks are 1 minute, so 33 seconds isn't a full tick, which will be rounded to 0
+    assertThat(OffsetDateTime.now(clock))
+        .isEqualTo(baseFixedDateTime.withSecond(0));
   }
 
   /**
