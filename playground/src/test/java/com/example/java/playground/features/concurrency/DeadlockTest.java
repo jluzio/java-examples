@@ -17,13 +17,13 @@ class DeadlockTest {
     private int bowsCompleted = 0;
 
     public synchronized void bow(Friend bower) {
-      log.debug("{}: {} has bowed to me!", this.name, bower.getName());
+      log.info("{}: {} has bowed to me!", this.name, bower.getName());
       bower.bowBack(this);
       bowsCompleted++;
     }
 
     public synchronized void bowBack(Friend bower) {
-      log.debug("{}: {} has bowed back to me!", this.name, bower.getName());
+      log.info("{}: {} has bowed back to me!", this.name, bower.getName());
     }
   }
 

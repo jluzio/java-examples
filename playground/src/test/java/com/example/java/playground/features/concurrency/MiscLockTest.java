@@ -14,15 +14,15 @@ class MiscLockTest {
   static class Locker {
 
     public synchronized void syncMethod1() {
-      log.debug("syncMethod1");
+      log.info("syncMethod1");
     }
 
     public synchronized void syncMethod2() {
-      log.debug("syncMethod2");
+      log.info("syncMethod2");
     }
 
     public synchronized void syncMethod1And2() {
-      log.debug("syncMethod1And2");
+      log.info("syncMethod1And2");
       syncMethod1();
       syncMethod2();
     }
@@ -42,16 +42,16 @@ class MiscLockTest {
             .boxed()
             .map(this::processRun)
             .collect(Collectors.toList()));
-    log.debug("results: {}", results);
+    log.info("results: {}", results);
   }
 
   private Callable<Integer> processRun(Integer value) {
     return () -> {
-      log.debug("processRun: {}", value);
+      log.info("processRun: {}", value);
       locker.syncMethod1();
-      log.debug("processRun: {} :: syncMethod1", value);
+      log.info("processRun: {} :: syncMethod1", value);
       locker.syncMethod1();
-      log.debug("processRun: {} :: syncMethod2", value);
+      log.info("processRun: {} :: syncMethod2", value);
       return value;
     };
   }

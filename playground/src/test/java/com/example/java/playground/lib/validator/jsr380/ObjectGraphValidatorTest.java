@@ -30,7 +30,7 @@ class ObjectGraphValidatorTest {
   void test() {
     var car = new Car(List.of(new Part("")));
     var constraintViolations = validator.validate(car);
-    log.debug("constraintViolations: {}", constraintViolations);
+    log.info("constraintViolations: {}", constraintViolations);
     assertThat(constraintViolations)
         .isNotEmpty();
   }

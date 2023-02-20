@@ -36,7 +36,7 @@ class ForkJoinTest {
     ForkJoinPool pool = new ForkJoinPool();
     long[] array = LongStream.range(0, 100).toArray();
     pool.execute(new IncrementTask(array, 0, array.length));
-    log.debug("array: {}", array);
+    log.info("array: {}", array);
   }
 
 }

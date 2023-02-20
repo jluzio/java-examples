@@ -65,7 +65,7 @@ class CollectTest {
         values.stream(),
         IntStream.range(0, values.size()).boxed(),
         (v, i) -> output.add("%s:%s".formatted(i, v)));
-    log.debug("output: {}", output);
+    log.info("output: {}", output);
     assertThat(output).contains("0:a", "1:b", "2:c");
   }
 

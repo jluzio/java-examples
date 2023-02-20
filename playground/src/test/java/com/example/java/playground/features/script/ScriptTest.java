@@ -37,13 +37,13 @@ class ScriptTest {
         .map(ScriptEngineFactory::getNames)
         .flatMap(Collection::stream)
         .toList();
-    log.debug("engines: {}", names);
+    log.info("engines: {}", names);
   }
 
   @Test
   void groovy() throws ScriptException {
     var engine = manager.getEngineByName("groovy");
-    log.debug("engine: {}", engine);
+    log.info("engine: {}", engine);
     var context = new SimpleScriptContext();
     context.setAttribute(
         "javaVar", "Hello Java", ScriptContext.ENGINE_SCOPE);
@@ -60,7 +60,7 @@ class ScriptTest {
             line two
             line three'''""",
         context);
-    log.debug("eval: {}", eval);
+    log.info("eval: {}", eval);
   }
 
   @Test
@@ -68,7 +68,7 @@ class ScriptTest {
     var engine = manager.getEngineByName("graal.js");
     assertThat(engine.getFactory())
         .isEqualTo(manager.getEngineByName("js").getFactory());
-    log.debug("engine: {}", engine);
+    log.info("engine: {}", engine);
 
     var graalVmContext = org.graalvm.polyglot.Context.newBuilder("js")
         .allowHostAccess(HostAccess.ALL)
@@ -105,7 +105,7 @@ class ScriptTest {
             """
 //        , context
     );
-    log.debug("eval: {}", eval);
+    log.info("eval: {}", eval);
   }
 
 }

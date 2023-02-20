@@ -12,7 +12,7 @@ class ExceptionTest {
   void initCause() {
     var cause = new IllegalArgumentException("Some runtime exception");
     var throwable = new IndexOutOfBoundsException("Index was 0").initCause(cause);
-    log.debug("throwable", throwable);
+    log.info("throwable", throwable);
     Assertions.assertThatThrownBy(
             () -> {
               throw throwable;

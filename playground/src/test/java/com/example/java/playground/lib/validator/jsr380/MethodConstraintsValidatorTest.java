@@ -42,12 +42,12 @@ class MethodConstraintsValidatorTest {
     }
 
     public void drive(@Max(500) int speed) {
-      log.debug("Driving at {}", speed);
+      log.info("Driving at {}", speed);
     }
 
     @ParameterScriptAssert(lang = "groovy", script = "luggagePieces.size() <= passengers.size() * 2")
     public void load(List<Person> passengers, List<LuggagePiece> luggagePieces) {
-      log.debug("Loading in car: passengers={} | luggage={}", passengers, luggagePieces);
+      log.info("Loading in car: passengers={} | luggage={}", passengers, luggagePieces);
     }
   }
 
@@ -69,7 +69,7 @@ class MethodConstraintsValidatorTest {
     var method = Car.class.getMethod("drive", int.class);
     var constraintViolations = validator.forExecutables()
         .validateParameters(car, method, new Object[]{999});
-    log.debug("constraintViolations: {}", constraintViolations);
+    log.info("constraintViolations: {}", constraintViolations);
     assertThat(constraintViolations).isNotEmpty();
   }
 
@@ -88,7 +88,7 @@ class MethodConstraintsValidatorTest {
             passengers,
             luggagePieces
         });
-    log.debug("constraintViolations: {}", constraintViolations);
+    log.info("constraintViolations: {}", constraintViolations);
     assertThat(constraintViolations).isNotEmpty();
   }
 
@@ -98,7 +98,7 @@ class MethodConstraintsValidatorTest {
     var method = Car.class.getMethod("getDriver");
     var constraintViolations = validator.forExecutables()
         .validateReturnValue(car, method, car.getDriver());
-    log.debug("constraintViolations: {}", constraintViolations);
+    log.info("constraintViolations: {}", constraintViolations);
     assertThat(constraintViolations).isNotEmpty();
   }
 

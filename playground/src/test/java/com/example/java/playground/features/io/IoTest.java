@@ -51,7 +51,7 @@ class IoTest {
     }
 
     try (Stream<String> lines = Files.lines(file.toPath())) {
-      lines.forEach(v -> log.debug("line: {}", v));
+      lines.forEach(v -> log.info("line: {}", v));
     }
   }
 
@@ -59,10 +59,10 @@ class IoTest {
   void test_list_files() throws IOException, URISyntaxException {
     var file = new File(this.getClass().getResource("/features").toURI());
     try (var files = Files.list(file.toPath())) {
-      files.forEach(v -> log.debug("file: {}", v));
+      files.forEach(v -> log.info("file: {}", v));
     }
     try (var files = Files.list(file.toPath())) {
-      files.forEach(v -> log.debug("file: {}", v));
+      files.forEach(v -> log.info("file: {}", v));
     }
   }
 
@@ -75,7 +75,7 @@ class IoTest {
         (path, basicFileAttributes) -> path.endsWith("text.txt"))) {
       pathStream
           .limit(3)
-          .forEach(v -> log.debug("matching file: {}", v));
+          .forEach(v -> log.info("matching file: {}", v));
     }
   }
 

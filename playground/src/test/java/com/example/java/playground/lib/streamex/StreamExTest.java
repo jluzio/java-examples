@@ -132,7 +132,7 @@ class StreamExTest {
         .flatMapValues(List::stream)
         .invert()
         .grouping();
-    log.debug("users2roles: {}", users2roles);
+    log.info("users2roles: {}", users2roles);
     assertThat(users2roles)
         .isEqualTo(Map.of(
             user1, List.of(user1.role()),

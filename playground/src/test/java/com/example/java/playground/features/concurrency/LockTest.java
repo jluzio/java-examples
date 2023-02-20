@@ -43,7 +43,7 @@ class LockTest {
     public void bow(Friend bower) {
       if (impendingBow(bower)) {
         try {
-          log.debug("{}: {} has bowed to me!", this.name, bower.getName());
+          log.info("{}: {} has bowed to me!", this.name, bower.getName());
           bower.bowBack(this);
           completedBows++;
         } finally {
@@ -51,13 +51,13 @@ class LockTest {
           bower.lock.unlock();
         }
       } else {
-        log.debug("{}: {} started to bow to me, but saw that I was already bowing to him.",
+        log.info("{}: {} started to bow to me, but saw that I was already bowing to him.",
             this.name, bower.getName());
       }
     }
 
     public void bowBack(Friend bower) {
-      log.debug("{}: {} has bowed back to me!", this.name, bower.getName());
+      log.info("{}: {} has bowed back to me!", this.name, bower.getName());
     }
   }
 
@@ -97,7 +97,7 @@ class LockTest {
 
     assertThat(alphonse.getCompletedBows()).isPositive();
     assertThat(gaston.getCompletedBows()).isPositive();
-    log.debug("Alphonse: {}", alphonse.getCompletedBows());
-    log.debug("Gaston: {}", gaston.getCompletedBows());
+    log.info("Alphonse: {}", alphonse.getCompletedBows());
+    log.info("Gaston: {}", gaston.getCompletedBows());
   }
 }

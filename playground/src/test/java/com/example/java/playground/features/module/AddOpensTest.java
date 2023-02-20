@@ -16,6 +16,6 @@ class AddOpensTest {
   void test() {
     var data = new Data("id1", "name1");
     var target = List.of(data);
-    log.debug("{}", ReflectionToStringBuilder.toString(target));
+    log.info("{}", ReflectionToStringBuilder.toString(target));
   }
 }

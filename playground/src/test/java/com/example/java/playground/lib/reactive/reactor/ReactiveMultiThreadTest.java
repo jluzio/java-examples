@@ -44,7 +44,7 @@ class ReactiveMultiThreadTest {
         .delayElement(Duration.ofMillis(RandomUtils.nextInt(0, 50)))
         .publishOn(valuesScheduler)
         .map(this::valueMapper)
-        .doOnNext(v -> log.debug("processValue: {}", v));
+        .doOnNext(v -> log.info("processValue: {}", v));
   }
 
   private String valueMapper(Integer value) {

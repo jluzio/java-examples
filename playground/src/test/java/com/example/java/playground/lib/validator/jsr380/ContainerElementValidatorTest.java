@@ -25,7 +25,7 @@ class ContainerElementValidatorTest {
   void list() {
     var car = new Car(List.of(""));
     var constraintViolations = validator.validate(car);
-    log.debug("constraintViolations: {}", constraintViolations);
+    log.info("constraintViolations: {}", constraintViolations);
     assertThat(constraintViolations)
         .isNotEmpty();
   }

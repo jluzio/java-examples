@@ -43,16 +43,16 @@ class JsonPatchTest {
         ]
         """;
 
-    log.debug("initial value: {}", initialValueJson);
+    log.info("initial value: {}", initialValueJson);
 
     JsonPatch patch = mapper.readValue(patchJson, JsonPatch.class);
-    log.debug("patch: {}", patch);
+    log.info("patch: {}", patch);
 
     JsonNode node = mapper.readValue(initialValueJson, JsonNode.class);
     JsonNode patched = patch.apply(node);
 
     Customer customer = mapper.treeToValue(patched, Customer.class);
-    log.debug("patched value: {}", customer);
+    log.info("patched value: {}", customer);
     assertThat(customer)
         .isEqualTo(new Customer(
             null,
@@ -75,10 +75,10 @@ class JsonPatchTest {
         ]
         """;
 
-    log.debug("initial value: {}", initialValueJson);
+    log.info("initial value: {}", initialValueJson);
 
     JsonPatch patch = mapper.readValue(patchJson, JsonPatch.class);
-    log.debug("patch: {}", patch);
+    log.info("patch: {}", patch);
 
     Customer initialValue = mapper.readValue(initialValueJson, Customer.class);
     JsonNode node = mapper.convertValue(initialValue, JsonNode.class);
@@ -86,7 +86,7 @@ class JsonPatchTest {
     JsonNode patched = patch.apply(node);
 
     Customer customer = mapper.treeToValue(patched, Customer.class);
-    log.debug("patched value: {}", customer);
+    log.info("patched value: {}", customer);
     assertThat(customer)
         .isEqualTo(new Customer(
             null,

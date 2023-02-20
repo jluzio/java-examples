@@ -91,18 +91,18 @@ class ReactorTest {
   @Test
   void subscribe_long_running_task() {
     Runnable runnable = () -> {
-      log.debug("publisher<start>");
+      log.info("publisher<start>");
       Mono.delay(Duration.ofMillis(100)).block();
-      log.debug("publisher<end>");
+      log.info("publisher<end>");
     };
     var publisher = Mono.fromRunnable(runnable)
         .subscribeOn(Schedulers.boundedElastic());
 
-    log.debug("start");
+    log.info("start");
     StepVerifier.create(publisher)
         .expectComplete()
         .verify(Duration.ofMillis(150));
-    log.debug("end");
+    log.info("end");
   }
 
 }

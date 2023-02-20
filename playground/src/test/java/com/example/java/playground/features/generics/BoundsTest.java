@@ -24,12 +24,12 @@ class BoundsTest {
 
       @Override
       public void init() {
-        log.debug("init");
+        log.info("init");
       }
 
       @Override
       public String get() {
-        log.debug("get");
+        log.info("get");
         return "42";
       }
     }
@@ -50,7 +50,7 @@ class BoundsTest {
 
   <T extends Supplier<String> & Initializer> void initSupplier(T supplier) {
     supplier.init();
-    log.debug("get: {}", supplier.get());
+    log.info("get: {}", supplier.get());
   }
 
 }

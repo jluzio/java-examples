@@ -92,7 +92,7 @@ class StreamTest {
     var values = List.of("a", "b", "c");
     IntStream.range(0, values.size())
         .forEach(i -> output.add("%s:%s".formatted(i, values.get(i))));
-    log.debug("output: {}", output);
+    log.info("output: {}", output);
     assertThat(output).contains("0:a", "1:b", "2:c");
   }
 

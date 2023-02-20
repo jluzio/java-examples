@@ -7,9 +7,18 @@ import org.junit.jupiter.api.Test;
 class Slf4jTest {
 
   @Test
-  void test() {
+  void exception() {
     Throwable throwable = new RuntimeException("Some exception");
-    log.debug("message: {}", "error has occurred", throwable);
+    log.info("message: {}", "error has occurred", throwable);
+  }
+
+  @Test
+  void levels() {
+    log.error("error");
+    log.warn("warn");
+    log.info("info");
+    log.info("debug");
+    log.trace("trace");
   }
 
 }

@@ -17,7 +17,7 @@ class StopwatchTest {
     Mono.delay(Duration.ofMillis(100)).block();
     var elapsed = stopwatch.stop().elapsed();
     assertThat(elapsed).isGreaterThanOrEqualTo(Duration.ofMillis(100));
-    log.debug("elapsed: {}", stopwatch);
+    log.info("elapsed: {}", stopwatch);
   }
 
 }

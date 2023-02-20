@@ -34,7 +34,7 @@ class CollectionTest {
         .map(username -> new User().withUsername(username))
         .toList();
     var usernames = mapper.mapUsers(users);
-    log.debug("usernames: {}", usernames);
+    log.info("usernames: {}", usernames);
     assertThat(usernames)
         .isEqualTo(expectedUsernames);
   }

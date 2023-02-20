@@ -30,7 +30,7 @@ class LogEnvironmentConfigTest {
 
   @Test
   void test() {
-    log.debug("debug");
+    log.info("debug");
     log.info("info");
     log.warn("warn");
   }

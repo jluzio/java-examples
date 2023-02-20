@@ -78,7 +78,7 @@ class BeanConstraintsValidatorTest {
         .luggagePieces(null)
         .build();
     var constraintViolations = validator.validate(car);
-    log.debug("constraintViolations: {}", constraintViolations);
+    log.info("constraintViolations: {}", constraintViolations);
     assertThat(constraintViolations).isNotEmpty();
   }
 
@@ -90,7 +90,7 @@ class BeanConstraintsValidatorTest {
         .luggagePieces(luggagePieces(10))
         .build();
     var constraintViolations = validator.validate(car);
-    log.debug("constraintViolations: {}", constraintViolations);
+    log.info("constraintViolations: {}", constraintViolations);
     assertThat(constraintViolations).isNotEmpty();
   }
 

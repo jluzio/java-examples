@@ -10,7 +10,7 @@ class LambdaLogTest {
 
   @Test
   void lambda_log() {
-    assertThatCode(() -> log.debug("using lambda: {}", () -> "expensive value"))
+    assertThatCode(() -> log.info("using lambda: {}", () -> "expensive value"))
         .doesNotThrowAnyException();
   }
 

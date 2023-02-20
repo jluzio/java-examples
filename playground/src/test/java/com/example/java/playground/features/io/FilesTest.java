@@ -54,7 +54,7 @@ class FilesTest {
           .map(Path::getFileName)
           .map(Object::toString)
           .collect(Collectors.toList());
-      log.debug("files: {}", files);
+      log.info("files: {}", files);
       assertThat(files).isNotEmpty();
     }
   }
@@ -68,7 +68,7 @@ class FilesTest {
       @Override
       public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
           throws IOException {
-        log.debug("preVisitDirectory: {}", dir);
+        log.info("preVisitDirectory: {}", dir);
         Path dirName = dir.toRealPath().getFileName();
         if (ignoredDirectoryMatcher.matches(dirName)) {
           return FileVisitResult.SKIP_SUBTREE;
@@ -79,7 +79,7 @@ class FilesTest {
 
       @Override
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        log.debug("visitFile: {}", file);
+        log.info("visitFile: {}", file);
         return super.visitFile(file, attrs);
       }
     };
@@ -110,10 +110,10 @@ class FilesTest {
         .doOnNext(ignored -> {
           try {
             if (!Files.exists(newFile)) {
-              log.debug("Creating file: {}", newFile);
+              log.info("Creating file: {}", newFile);
               Files.createFile(newFile);
             } else {
-              log.debug("Deleting file: {}", newFile);
+              log.info("Deleting file: {}", newFile);
               Files.delete(newFile);
             }
           } catch (IOException e) {
@@ -122,12 +122,12 @@ class FilesTest {
         })
         .blockLast();
 
-    log.debug("polling events");
+    log.info("polling events");
     WatchKey watchKey = watcher.poll(1, TimeUnit.SECONDS);
-    log.debug("watchKey: {}", watchKey);
+    log.info("watchKey: {}", watchKey);
     if (watchKey != null) {
       watchKey.pollEvents()
-          .forEach(e -> log.debug("event: {}#{} | ctx: {}", e.kind(), e.count(), e.context()));
+          .forEach(e -> log.info("event: {}#{} | ctx: {}", e.kind(), e.count(), e.context()));
     }
   }
 

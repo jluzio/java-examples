@@ -31,7 +31,7 @@ class ValueDebugTest {
         new DataItem("key-2", "value-2", null)
     ));
 
-    log.debug("{}", objectMapper.writeValueAsString(data));
+    log.info("{}", objectMapper.writeValueAsString(data));
   }
 
 }

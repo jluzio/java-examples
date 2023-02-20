@@ -12,7 +12,7 @@ class ToStringSupplierTest {
   @Test
   void lazyLog() {
     Supplier<Object> expensiveCallSupplier = () -> "expensive call result";
-    log.debug("lazyLog {}", asString(expensiveCallSupplier));
+    log.info("lazyLog {}", asString(expensiveCallSupplier));
   }
 
 }

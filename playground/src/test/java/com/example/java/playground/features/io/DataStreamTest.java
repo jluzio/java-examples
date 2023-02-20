@@ -57,7 +57,7 @@ class DataStreamTest {
         price = dataInput.readDouble();
         unit = dataInput.readInt();
         desc = dataInput.readUTF();
-        log.debug("You ordered {} units of {} at {}", unit, desc, price);
+        log.info("You ordered {} units of {} at {}", unit, desc, price);
         totalPrice += unit * price;
         elements++;
       }
@@ -69,7 +69,7 @@ class DataStreamTest {
         .isEqualTo(totalElements);
 
     BigDecimal expectedScaledTotalPrice = scaledValue(expectedTotalPrice);
-    log.debug("expectedTotalPrice: {}", expectedScaledTotalPrice);
+    log.info("expectedTotalPrice: {}", expectedScaledTotalPrice);
     assertThat(totalPrice)
         .extracting(BigDecimal::new, InstanceOfAssertFactories.BIG_DECIMAL)
         .matches(v -> Objects.equals(scaledValue(v), expectedScaledTotalPrice),

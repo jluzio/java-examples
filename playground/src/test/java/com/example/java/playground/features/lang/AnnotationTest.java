@@ -35,14 +35,14 @@ class AnnotationTest {
         return SomeAnnotation.class;
       }
     };
-    log.debug("annotation: {}", annotation);
+    log.info("annotation: {}", annotation);
     assertThat(annotation)
         .isNotNull()
         .extracting(SomeAnnotation::value)
         .isEqualTo("someValue");
 
     SomeAnnotation annotationOnClass = this.getClass().getAnnotation(SomeAnnotation.class);
-    log.debug("annotationOnClass: {}", annotationOnClass);
+    log.info("annotationOnClass: {}", annotationOnClass);
     assertThat(annotationOnClass)
         .isEqualTo(annotation);
   }

@@ -32,7 +32,7 @@ class Base64Test {
   @Test
   void basic_coding() {
     String encodedData = Base64.getEncoder().encodeToString(INITIAL_DATA.getBytes());
-    log.debug("encodedData: {}", encodedData);
+    log.info("encodedData: {}", encodedData);
     assertThat(encodedData).isNotNull();
     String decodedData = new String(Base64.getDecoder().decode(encodedData));
     assertThat(decodedData).isEqualTo(INITIAL_DATA);
@@ -41,7 +41,7 @@ class Base64Test {
   @Test
   void mime_coding() {
     String encodedData = Base64.getMimeEncoder().encodeToString(INITIAL_DATA.getBytes());
-    log.debug("encodedData: {}", encodedData);
+    log.info("encodedData: {}", encodedData);
     assertThat(encodedData).isNotNull();
     String decodedData = new String(Base64.getMimeDecoder().decode(encodedData));
     assertThat(decodedData).isEqualTo(INITIAL_DATA);
@@ -50,7 +50,7 @@ class Base64Test {
   @Test
   void url_coding() {
     String encodedData = Base64.getUrlEncoder().encodeToString(INITIAL_DATA.getBytes());
-    log.debug("encodedData: {}", encodedData);
+    log.info("encodedData: {}", encodedData);
     assertThat(encodedData).isNotNull();
     String decodedData = new String(Base64.getUrlDecoder().decode(encodedData));
     assertThat(decodedData).isEqualTo(INITIAL_DATA);
@@ -59,14 +59,14 @@ class Base64Test {
   @Test
   void encodings() throws Exception {
     byte[] fileBytes = Files.readAllBytes(imageResource.getFile().toPath());
-    log.debug("fileBytesAsString: {}", new String(fileBytes));
+    log.info("fileBytesAsString: {}", new String(fileBytes));
     var encodedData = Base64.getEncoder().encodeToString(fileBytes);
-    log.debug("encodedData: {}", encodedData);
+    log.info("encodedData: {}", encodedData);
     var encodedDataMime = Base64.getMimeEncoder().encodeToString(fileBytes);
-    log.debug("encodedDataMime: {}", encodedDataMime);
+    log.info("encodedDataMime: {}", encodedDataMime);
     var encodedDataUrl = Base64.getUrlEncoder().encodeToString(fileBytes);
-    log.debug("encodedDataUrl: {}", encodedDataUrl);
-    log.debug("comparisons: {}", Map.of(
+    log.info("encodedDataUrl: {}", encodedDataUrl);
+    log.info("comparisons: {}", Map.of(
         "eq encodedDataMime", Objects.equals(encodedData, encodedDataMime),
         "eq encodedDataUrl", Objects.equals(encodedData, encodedDataUrl)
     ));
@@ -87,15 +87,15 @@ class Base64Test {
   private void testDecoder(Decoder decoder, String decoderId, byte[] data, byte[] dataWithHeader) {
     try {
       byte[] decodedData = decoder.decode(data);
-      log.debug("decodedData.length = {}", decodedData.length);
+      log.info("decodedData.length = {}", decodedData.length);
     } catch (Exception e) {
-      log.debug("Does not decode basic data with {}", decoderId);
+      log.info("Does not decode basic data with {}", decoderId);
     }
     try {
       byte[] decodedDataWithHeader = decoder.decode(dataWithHeader);
-      log.debug("decodedDataWithHeader.length = {}", decodedDataWithHeader.length);
+      log.info("decodedDataWithHeader.length = {}", decodedDataWithHeader.length);
     } catch (Exception e) {
-      log.debug("Does not decode data with header with {}", decoderId);
+      log.info("Does not decode data with header with {}", decoderId);
     }
   }
 
