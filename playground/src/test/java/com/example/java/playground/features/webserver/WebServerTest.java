@@ -17,16 +17,22 @@ class WebServerTest {
   void test() throws IOException {
     HttpServer server = SimpleFileServer.createFileServer(
         new InetSocketAddress("localhost", 8000),
-        Path.of("target/test-classes/features").toRealPath(),
+        Path.of("target/test-classes/web-server-data").toRealPath(),
         OutputLevel.INFO
     );
+    var featuresDirHandler = SimpleFileServer.createFileHandler(
+        Path.of("target/test-classes/features").toRealPath());
+    server.createContext("/features", featuresDirHandler);
 
     server.start();
     try {
       RestTemplate restTemplate = new RestTemplate();
-      String data = restTemplate.getForObject("http://localhost:8000/text.txt", String.class);
-      assertThat(data)
-          .isNotNull();
+      String helloData = restTemplate.getForObject("http://localhost:8000/hello.txt", String.class);
+      assertThat(helloData)
+          .isEqualTo("Hello world!");
+      String textData = restTemplate.getForObject("http://localhost:8000/features/text.txt", String.class);
+      assertThat(textData)
+          .isNotEmpty();
     } finally {
       server.stop(0);
     }

@@ -1,6 +1,7 @@
 package com.example.java.playground.features.lang;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,11 @@ class RecordTest {
   // Note: each field is final
   public record UserRecord(String name, int age) {
 
+    public UserRecord {
+      if (age < 0) {
+        throw new IllegalArgumentException("age");
+      }
+    }
   }
 
   @Test
@@ -26,6 +32,9 @@ class RecordTest {
     assertThat(user)
         .isNotEqualTo(anotherUser)
         .isEqualTo(sameDataUser);
+
+    assertThatThrownBy(() -> new UserRecord("John Doe", -1))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
 }
