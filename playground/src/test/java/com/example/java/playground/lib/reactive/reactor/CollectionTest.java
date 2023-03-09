@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import one.util.streamex.StreamEx;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
@@ -72,6 +73,24 @@ class CollectionTest {
                 Role.ADMIN, List.of(user3)
             ));
 
+  }
+
+  @Test
+  void collectMap() {
+    var users = IntStream.rangeClosed(1, 3)
+        .mapToObj(it ->
+            new User("id%s".formatted(it), "username%s".formatted(it), "fname", Role.USER))
+        .toList();
+
+    var usernameByIdMap = Flux.fromIterable(users)
+        .collectMap(User::id, User::username)
+        .block();
+    assertThat(usernameByIdMap)
+        .isEqualTo(Map.of(
+            "id1", "username1",
+            "id2", "username2",
+            "id3", "username3"
+        ));
   }
 
 }
