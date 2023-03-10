@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -23,6 +24,10 @@ import org.junit.jupiter.api.Test;
 
 @Slf4j
 class StreamTest {
+
+  record UserData(String id, String username, String fullName) {
+
+  }
 
   @Test
   void test_find() {
@@ -230,6 +235,24 @@ class StreamTest {
             .findFirst()
             .orElse("not-found"))
         .isEqualTo("not-found");
+  }
+
+
+  @Test
+  void collectMap() {
+    var users = IntStream.rangeClosed(1, 3)
+        .mapToObj(it ->
+            new UserData("id%s".formatted(it), "username%s".formatted(it), "fname"))
+        .toList();
+
+    var usernameByIdMap = users.stream()
+        .collect(Collectors.toMap(UserData::id, UserData::username));
+    assertThat(usernameByIdMap)
+        .isEqualTo(Map.of(
+            "id1", "username1",
+            "id2", "username2",
+            "id3", "username3"
+        ));
   }
 
 }
