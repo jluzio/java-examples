@@ -1,11 +1,14 @@
 package com.example.java.playground.features.collection;
 
+import static java.util.Map.entry;
+import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +64,22 @@ class MapTest {
         .containsAllEntriesOf(expected);
 
     // See also other libs, for ex StreamEx
+  }
+
+  @Test
+  void empty_values() {
+    var map = Stream.of(
+            entry("k1", ofNullable("v1")),
+            entry("k2", ofNullable("v2")),
+            entry("k3", ofNullable(null)),
+            entry("k4", Optional.empty())
+        ).filter(e -> e.getValue().isPresent())
+        .collect(Collectors.toMap(Entry::getKey, e -> e.getValue().get()));
+    assertThat(map)
+        .isEqualTo(Map.of(
+            "k1", "v1",
+            "k2", "v2"
+        ));
   }
 
 }
