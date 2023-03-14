@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Locale.IsoCountryCode;
 import java.util.MissingResourceException;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +13,22 @@ import org.junit.jupiter.api.Test;
 class LocaleTest {
 
   @Test
-  void locale_info() {
+  void localeInfo_getAvailableLocales() {
     Arrays.stream(Locale.getAvailableLocales()).forEach(this::localeInfo);
+  }
 
+  @Test
+  void localeInfo_getISOCountries() {
+    var isoCountries = Locale.getISOCountries(IsoCountryCode.PART1_ALPHA2);
+    Arrays.stream(Locale.getAvailableLocales()).forEach(locale -> {
+      if (isoCountries.contains(locale.getCountry())) {
+        localeInfo(locale);
+      }
+    });
+  }
+
+  @Test
+  void localeInfo_customLocale() {
     var customLocale = Locale.of("PT", "PT");
     localeInfo(customLocale);
   }
