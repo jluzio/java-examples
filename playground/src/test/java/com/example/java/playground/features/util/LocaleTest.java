@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class LocaleTest {
 
   @Test
-  void locales() {
+  void getAvailableLocales() {
     Arrays.stream(Locale.getAvailableLocales()).forEach(locale -> {
       log.info(Strings.repeat("-", 80));
       log.info("locale: {}", locale);
