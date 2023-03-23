@@ -89,11 +89,7 @@ class MapTest {
             entry("k1", "v1"),
             entry("k2", "v2"),
             new SimpleEntry<>("k3", null)
-        ).collect(
-            HashMap::new,
-            (m, entry) -> m.put(entry.getKey(), entry.getValue()),
-            HashMap::putAll
-        );
+        ).collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
     var expectedMap = new HashMap<String, String>();
     expectedMap.put("k1", "v1");
     expectedMap.put("k2", "v2");
