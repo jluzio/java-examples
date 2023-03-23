@@ -4,6 +4,7 @@ import static java.util.Map.entry;
 import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +68,7 @@ class MapTest {
   }
 
   @Test
-  void empty_values() {
+  void filter_out_null_values_with_stream_entries() {
     var map = Stream.of(
             entry("k1", ofNullable("v1")),
             entry("k2", ofNullable("v2")),
@@ -80,6 +81,25 @@ class MapTest {
             "k1", "v1",
             "k2", "v2"
         ));
+  }
+
+  @Test
+  void null_values_with_simple_entry() {
+    var map = Stream.of(
+            new SimpleEntry<>("k1", "v1"),
+            new SimpleEntry<>("k2", "v2"),
+            new SimpleEntry<>("k3", null)
+        ).collect(
+            HashMap::new,
+            (m, entry) -> m.put(entry.getKey(), entry.getValue()),
+            HashMap::putAll
+        );
+    var expectedMap = new HashMap<String, String>();
+    expectedMap.put("k1", "v1");
+    expectedMap.put("k2", "v2");
+    expectedMap.put("k3", null);
+    assertThat(map)
+        .isEqualTo(expectedMap);
   }
 
 }
