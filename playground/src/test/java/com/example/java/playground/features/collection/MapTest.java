@@ -86,8 +86,8 @@ class MapTest {
   @Test
   void null_values_with_simple_entry() {
     var map = Stream.of(
-            new SimpleEntry<>("k1", "v1"),
-            new SimpleEntry<>("k2", "v2"),
+            entry("k1", "v1"),
+            entry("k2", "v2"),
             new SimpleEntry<>("k3", null)
         ).collect(
             HashMap::new,
