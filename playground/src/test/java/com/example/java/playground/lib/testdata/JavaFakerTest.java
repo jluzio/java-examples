@@ -34,7 +34,7 @@ class JavaFakerTest {
     String name = "Hello %s %s".formatted(faker.name().firstName(), faker.name().lastName());
     log.info(name);
     assertThat(name)
-        .matches("Hello \\w+ \\w+");
+        .matches("Hello [\\w']+ [\\w']+");
   }
 
   @Test
