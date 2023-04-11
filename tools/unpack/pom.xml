@@ -60,6 +60,12 @@
                   <type>zip</type>
                   <classifier>api</classifier>
                 </dependency>
+                <dependency>
+                  <groupId>com.backbase.dbs.arrangement</groupId>
+                  <artifactId>arrangement-manager</artifactId>
+                  <type>zip</type>
+                  <classifier>api</classifier>
+                </dependency>
               </artifactItems>
               <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
             </configuration>
