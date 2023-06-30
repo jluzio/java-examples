@@ -1,4 +1,4 @@
-package com.example.java.playground.lib.commons.lang3;
+package com.example.java.playground.lib.commons.lang;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
