@@ -1,6 +1,7 @@
 package com.example.java.playground.features.collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -56,6 +58,20 @@ class StreamTest {
         .isFalse();
     assertThat(emptyIntStreamSupplier.get().noneMatch(v -> v > 2))
         .isTrue();
+  }
+
+  @Test
+  void test_nullable_map() {
+    var user1 = new UserData("1", "user1", "user 1");
+    var user2 = new UserData("2", "user2", "user 2");
+    var user3 = new UserData("3", "user3", null);
+
+    List<UserData> users = List.of(user1, user2, user3);
+    assertThatThrownBy(() ->
+        users.stream()
+            .map(UserData::fullName)
+            .allMatch(Predicate.not(String::isBlank))
+    ).isInstanceOf(NullPointerException.class);
   }
 
   @Test
