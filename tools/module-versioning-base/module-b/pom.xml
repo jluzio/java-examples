@@ -5,14 +5,20 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example.tools.moduleversioning</groupId>
-  <artifactId>module-versioning-base</artifactId>
+  <artifactId>module-b</artifactId>
   <version>1.0.0</version>
-  <packaging>pom</packaging>
+  <name>module-b</name>
 
-  <modules>
-    <module>module-a-v1.0</module>
-    <module>module-a-v2.0</module>
-    <module>module-b</module>
-  </modules>
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.example.tools.moduleversioning</groupId>
+      <artifactId>module-a</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
 
 </project>

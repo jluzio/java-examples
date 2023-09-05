@@ -32,8 +32,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 //	implementation project(path: ':module-a-v2.0')
-	implementation 'com.example.tools.moduleversioning:module-a:1.0.0'
 	implementation 'com.example.tools.moduleversioning:module-a:2.0.0'
+	implementation 'com.example.tools.moduleversioning:module-b:1.0.0'
 }
 
 tasks.named('test') {
