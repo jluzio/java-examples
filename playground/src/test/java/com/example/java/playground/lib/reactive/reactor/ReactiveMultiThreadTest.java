@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -41,7 +41,7 @@ class ReactiveMultiThreadTest {
 
   private Mono<String> processValue(Integer value) {
     return Mono.just(value)
-        .delayElement(Duration.ofMillis(RandomUtils.nextInt(0, 50)))
+        .delayElement(Duration.ofMillis(ThreadLocalRandom.current().nextInt(0, 50)))
         .publishOn(valuesScheduler)
         .map(this::valueMapper)
         .doOnNext(v -> log.info("processValue: {}", v));

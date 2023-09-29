@@ -1,7 +1,6 @@
 package com.example.java.playground.lib.reactive.reactor;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
@@ -33,17 +32,15 @@ class ReactiveMultiThreadScenarioTest {
     int durationMod = 100;
 
     IntStream.range(0, count).forEach(v ->
-        when(service.apply(eq(v)))
+        when(service.apply(v))
             .thenReturn(processValue(v, Duration.ofMillis(baseDurations.get(v) * durationMod)))
     );
 
     Flux<Integer> flux = Flux.range(0, count);
-//    Flux<Integer> flux = Flux.fromIterable(
-//        IntStream.range(0, count).boxed().collect(Collectors.toList()));
 
     List<String> values = flux
         .log()
-        .flatMap(service::apply)
+        .flatMap(service)
         .publishOn(Schedulers.boundedElastic())
         .log()
         .collectList()
@@ -60,9 +57,9 @@ class ReactiveMultiThreadScenarioTest {
 
   private Mono<String> processValue(Integer value, Duration duration) {
     return Mono.just(value)
+        .log()
         .delayElement(duration)
-        .map(this::valueMapper)
-        ;
+        .map(this::valueMapper);
   }
 
   private String valueMapper(Integer value) {
