@@ -7,23 +7,26 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.maciejwalkowiak.wiremock.spring.ConfigureWireMock;
+import com.maciejwalkowiak.wiremock.spring.EnableWireMock;
+import com.maciejwalkowiak.wiremock.spring.InjectWireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
-import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@AutoConfigureWireMock(port = 0)
+@EnableWireMock({
+    @ConfigureWireMock(name = "default", stubLocation = ".")
+})
 @Slf4j
 class RequestMatchingTest {
 
-  @Autowired
-  Environment environment;
+  @InjectWireMock("default")
+  WireMockServer wiremock;
 
   record GreetingRequest(String target) {
 
@@ -31,6 +34,7 @@ class RequestMatchingTest {
 
   @Test
   void test_matchingJsonPath() {
+    WireMock.configureFor(wiremock.port());
     WebClient webClient = getWebClient();
 
     String apiUrl = "/hello";
@@ -93,11 +97,9 @@ class RequestMatchingTest {
   }
 
   private WebClient getWebClient() {
-    String wiremockServerPort = environment.getProperty("wiremock.server.port");
-    WebClient webClient = WebClient.builder()
-        .baseUrl("http://localhost:%s/".formatted(wiremockServerPort))
+    return WebClient.builder()
+        .baseUrl(wiremock.baseUrl())
         .build();
-    return webClient;
   }
 
 }
