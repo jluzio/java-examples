@@ -2,10 +2,12 @@ package com.example.java.playground.lib.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.java.playground.lib.json.JsonPatchTest.Customer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.diff.JsonDiff;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = JacksonAutoConfiguration.class)
 @Slf4j
-class JsonPatchTest {
+class JsonDiffTest {
 
   record Customer(
       String id,
@@ -35,7 +37,10 @@ class JsonPatchTest {
     String initialValueJson = """
         {"telephone":"+1-555-12","favorites":["Milk","Eggs"],"communicationPreferences":{"post":true,"email":true}}
         """;
-    String patchJson = """
+    String updatedValueJson = """
+        {"id":null,"telephone":"+1-555-56","favorites":["Bread","Milk","Eggs"],"communicationPreferences":{"post":false,"push":true}}
+        """;
+    String expectedPatchJson = """
         [
             {"op":"replace","path":"/telephone","value":"+1-555-56"},
             {"op":"add","path":"/favorites/0","value": "Bread"},
@@ -43,10 +48,19 @@ class JsonPatchTest {
         ]
         """;
     JsonNode initialValueJsonNode = mapper.readValue(initialValueJson, JsonNode.class);
+    JsonNode updatedValueJsonNode = mapper.readValue(updatedValueJson, JsonNode.class);
     log.info("initial value: {}", initialValueJson);
+    log.info("updated value: {}", updatedValueJson);
 
-    JsonPatch patch = mapper.readValue(patchJson, JsonPatch.class);
+    log.debug("patch.1: {}", JsonDiff.asJson(updatedValueJsonNode, initialValueJsonNode));
+    log.debug("patch.2: {}", JsonDiff.asJson(updatedValueJsonNode, initialValueJsonNode));
+    log.debug("patch.3: {}", JsonDiff.asJsonPatch(initialValueJsonNode, updatedValueJsonNode));
+    log.debug("patch.4: {}", JsonDiff.asJsonPatch(initialValueJsonNode, updatedValueJsonNode));
+
+    JsonPatch patch = JsonDiff.asJsonPatch(initialValueJsonNode, updatedValueJsonNode);
     log.info("patch: {}", patch);
+
+    assertThat(patch).isNotNull();
 
     JsonNode updateValueJsonNode = patch.apply(initialValueJsonNode);
     Customer updatedValue = mapper.treeToValue(updateValueJsonNode, Customer.class);
@@ -60,39 +74,6 @@ class JsonPatchTest {
             Map.of(
                 "post", false,
                 "push", true)));
-  }
-
-  @Test
-  void simple_test_with_convert() throws IOException, JsonPatchException {
-    String initialValueJson = """
-        {"telephone":"+1-555-12","favorites":["Milk","Eggs"],"communicationPreferences":{"post":true,"email":true}}
-        """;
-    String patchJson = """
-        [
-            {"op":"replace","path":"/telephone","value":"+1-555-56"},
-            {"op":"add","path":"/favorites/0","value": "Bread"}
-        ]
-        """;
-    log.info("initial value: {}", initialValueJson);
-
-    JsonPatch patch = mapper.readValue(patchJson, JsonPatch.class);
-    log.info("patch: {}", patch);
-
-    Customer initialValue = mapper.readValue(initialValueJson, Customer.class);
-    JsonNode initialValueJsonNode = mapper.convertValue(initialValue, JsonNode.class);
-
-    JsonNode updateValueJsonNode = patch.apply(initialValueJsonNode);
-    Customer updatedValue = mapper.treeToValue(updateValueJsonNode, Customer.class);
-    log.info("updated value: {}", mapper.writeValueAsString(updatedValue));
-
-    assertThat(updatedValue)
-        .isEqualTo(new Customer(
-            null,
-            "+1-555-56",
-            List.of("Bread", "Milk", "Eggs"),
-            Map.of(
-                "post", true,
-                "email", true)));
   }
 
 }
