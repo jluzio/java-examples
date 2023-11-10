@@ -42,6 +42,12 @@ class JavaTimeTest {
         .isEqualTo(Period.parse("P1M19D"));
     assertThat(period.getDays())
         .isEqualTo(19);
+
+    var yearsPeriod = Period.ofYears(7);
+    assertThat(yearsPeriod.getMonths())
+        .isZero();
+    assertThat(yearsPeriod.toTotalMonths())
+        .isEqualTo(84);
   }
 
   @Test
