@@ -9,16 +9,21 @@ import com.maciejwalkowiak.wiremock.spring.InjectWireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@SpringBootTest
 @EnableWireMock({
     @ConfigureWireMock(name = "default"),
     @ConfigureWireMock(name = "customStubLocation", stubLocation = ".")
 })
 @Slf4j
 class JsonStubBasicTest {
+
+  @Configuration
+  static class Config {
+
+  }
 
   @InjectWireMock("default")
   WireMockServer wiremock;

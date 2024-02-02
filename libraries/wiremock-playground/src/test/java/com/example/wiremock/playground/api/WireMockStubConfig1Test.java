@@ -9,6 +9,7 @@ import com.maciejwalkowiak.wiremock.spring.InjectWireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootTest
@@ -17,6 +18,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 })
 @Slf4j
 class WireMockStubConfig1Test {
+
+  @Configuration
+  static class Config {
+
+  }
 
   @InjectWireMock("default")
   WireMockServer wiremock;
