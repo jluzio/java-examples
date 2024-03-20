@@ -12,7 +12,6 @@ java {
   sourceCompatibility = JavaVersion.VERSION_21
 }
 
-
 // enable Java preview features
 val compileJvmArgs = listOf("--enable-preview")
 val runtimeJvmArgs = listOf(
@@ -29,7 +28,6 @@ tasks.withType<Test>().configureEach {
 tasks.withType<JavaExec>().configureEach {
   jvmArgs(runtimeJvmArgs)
 }
-
 
 configurations {
   compileOnly {
