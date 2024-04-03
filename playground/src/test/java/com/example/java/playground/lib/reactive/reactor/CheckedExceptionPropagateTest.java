@@ -61,6 +61,7 @@ class CheckedExceptionPropagateTest {
               .isInstanceOf(throwable.getClass());
         })
         .block())
+        .satisfies(t -> log.info("Thrown exception: {} | {}", t.getMessage(), t.getClass().getName()))
         .isInstanceOf(RuntimeException.class)
         .hasCauseInstanceOf(throwable.getClass());
   }
