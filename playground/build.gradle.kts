@@ -9,8 +9,10 @@ group = "com.example.spring"
 version = "1.0.0"
 
 java {
+  // 2024.04.16: Java 22 is not fully supported
   sourceCompatibility = JavaVersion.VERSION_21
 }
+
 
 // enable Java preview features
 val compileJvmArgs = listOf("--enable-preview")
