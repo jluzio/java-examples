@@ -1,5 +1,7 @@
 package com.example.java.playground.features.io;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +10,7 @@ import java.io.StringReader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -36,6 +39,49 @@ class IoTest {
 //            }
 //            writer.flush();
 //        }
+  }
+
+  @Test
+  void basic_paths() {
+    var basePath = Paths.get(".");
+    var absolutePath = basePath.toAbsolutePath();
+    var normalizedPath = basePath.normalize();
+    log.info("bp: {} | ap:{} | np:{}", basePath, absolutePath, normalizedPath);
+
+    assertThat(basePath)
+        .isNotEqualTo(absolutePath)
+        .isNotEqualTo(normalizedPath);
+    assertThat(absolutePath)
+        .isNotEqualTo(normalizedPath);
+
+    assertThat(basePath.relativize(Path.of("src")))
+        .isEqualTo(Path.of("src"));
+    assertThat(basePath.relativize(Path.of("src/test/java")))
+        .isEqualTo(Path.of("src/test/java"));
+
+    assertThat(Path.of("src/test/java").getParent())
+        .isEqualTo(Path.of("src/test"));
+    assertThat(Path.of("src/test/java").getFileName())
+        .isEqualTo(Path.of("java"));
+    assertThat(Path.of("src/test/java").subpath(1, 3))
+        .isEqualTo(Path.of("test/java"));
+    assertThat(Path.of("src/test/java").getNameCount())
+        .isEqualTo(3);
+    assertThat(Path.of("src/test/java").getName(0))
+        .isEqualTo(Path.of("src"));
+
+    assertThat(Path.of("src/test/java").relativize(Path.of("src/main/java")))
+        .isEqualTo(Path.of("../../main/java"));
+
+    assertThat(Path.of("src/test/java").startsWith(Path.of("src/test")))
+        .isTrue();
+    assertThat(Path.of("src/test/java").endsWith(Path.of("java")))
+        .isTrue();
+
+    assertThat(Path.of("/subfolder/file").getRoot())
+        .isEqualTo(Path.of("/"));
+    assertThat(Path.of("subfolder/file").getRoot())
+        .isNull();
   }
 
   @Test

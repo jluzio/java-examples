@@ -1,5 +1,7 @@
 package com.example.java.playground.features.lang;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.example.java.playground.utils.Strings;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
@@ -57,5 +59,24 @@ class StringFunctionsTest {
   @Test
   void test_repeat() {
     log.info("v: {}", "pete".repeat(3));
+  }
+
+  @Test
+  void test_format() {
+    // note: total chars 7, rounded using java.math.RoundingMode#HALF_UP
+    assertThat("%7.2f".formatted(123.456789))
+        .isEqualTo(" 123.46")
+        .hasSize(7);
+
+    assertThat("%-7.2f".formatted(123.456789))
+        .isEqualTo("123.46 ")
+        .hasSize(7);
+
+    assertThat("%5d".formatted(123))
+        .isEqualTo("  123")
+        .hasSize(5);
+
+    assertThat("%1$s...%1$s".formatted("seeing double"))
+        .isEqualTo("seeing double...seeing double");
   }
 }

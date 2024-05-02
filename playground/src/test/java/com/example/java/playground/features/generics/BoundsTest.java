@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -38,7 +39,7 @@ class BoundsTest {
   }
 
   @Test
-  void lower_bounds() {
+  void lower_bounded_wildcards() {
     var list = Lists.newArrayList("1234", "123", "12");
     Predicate<String> lengthPredicate = s -> s.length() > 3;
     Predicate<Object> objectPredicate = Predicates.alwaysFalse();
@@ -46,6 +47,18 @@ class BoundsTest {
     list.removeIf(objectPredicate);
     assertThat(list)
         .isEqualTo(List.of("123", "12"));
+
+    var listInts = Lists.newArrayList(1, 2);
+    addNumbers(listInts);
+    var listObjects = Lists.<Object>newArrayList("1", "2");
+    addNumbers(listObjects);
+    // can't be called with List<String>
+  }
+
+  public void addNumbers(List<? super Integer> list) {
+    for (int i = 1; i <= 10; i++) {
+      list.add(i);
+    }
   }
 
   <T extends Supplier<String> & Initializer> void initSupplier(T supplier) {

@@ -46,6 +46,13 @@ class Day4Test1GridChallenge {
           .map(it -> it.chars().sorted().boxed().collect(Collectors.toList()))
           .collect(Collectors.toList());
 
+      List<String> debugSortedGrid = sortedGridChars.stream()
+          .map(chars -> chars.stream()
+              .map(it -> (char) it.intValue())
+              .map(it -> Character.toString(it))
+              .collect(Collectors.joining()))
+          .collect(Collectors.toList());
+
       int rowN = grid.size();
       int cellN = grid.get(0).length();
 
