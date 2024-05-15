@@ -1,0 +1,1 @@
+[reference](https://codility.com/media/train/3-PrefixSums.pdf)
