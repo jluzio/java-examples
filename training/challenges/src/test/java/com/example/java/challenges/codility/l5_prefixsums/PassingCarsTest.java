@@ -29,6 +29,8 @@ class PassingCarsTest {
       int count = 0;
       for (int i = 0, carDir; i < A.length; i++) {
         carDir = A[i];
+        // using the sum of cars seen to add to each iteration, if car is going right
+        // it becomes clearer dry running it
         if (carDir == 1) {
           passingRightCount++;
           count += passingLeftCount;

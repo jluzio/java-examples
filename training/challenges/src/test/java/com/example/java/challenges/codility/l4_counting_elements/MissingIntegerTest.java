@@ -31,7 +31,7 @@ class MissingIntegerTest {
   class Solution {
 
     public int solution(int[] A) {
-      // Implement your solution here
+      // sort O(n * log n), and then check for first missing O(n)
       Arrays.sort(A);
       int expected = 1;
       for (int v : A) {

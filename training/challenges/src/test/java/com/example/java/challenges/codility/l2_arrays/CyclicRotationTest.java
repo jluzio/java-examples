@@ -23,9 +23,11 @@ class CyclicRotationTest {
   class Solution {
 
     public int[] solution(int[] A, int K) {
+      // uses a new array. to reuse there had to be tmp value storage
       int[] output = new int[A.length];
       int outputI;
       for (int i = 0; i < A.length; i++) {
+        // rotate by calculating the new index
         outputI = (i + K) % A.length;
         output[outputI] = A[i];
       }

@@ -25,7 +25,7 @@ class PermCheckTest {
   class Solution {
 
     public int solution(int[] A) {
-      // Implement your solution here
+      // sort O(n * log n) and check if equal to expected
       java.util.Arrays.sort(A);
       for (int i = 0; i < A.length; i++) {
         if (A[i] != i + 1) {

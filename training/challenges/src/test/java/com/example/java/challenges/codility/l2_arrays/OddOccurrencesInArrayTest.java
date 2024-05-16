@@ -25,13 +25,15 @@ class OddOccurrencesInArrayTest {
   class Solution {
 
     public int solution(int[] A) {
-      Map<Integer, Integer> count = new HashMap<Integer, Integer>();
+      // store counts
+      Map<Integer, Integer> countOfNumberMap = new HashMap<Integer, Integer>();
       for (int v : A) {
-        count.put(
+        countOfNumberMap.put(
             v,
-            count.getOrDefault(v, 0) + 1);
+            countOfNumberMap.getOrDefault(v, 0) + 1);
       }
-      return count.entrySet().stream()
+      // search for the count that is odd
+      return countOfNumberMap.entrySet().stream()
           .filter(e -> e.getValue() % 2 == 1)
           .map(Map.Entry::getKey)
           .findFirst()

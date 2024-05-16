@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 class PermMissingElemTest {
 
   Solution s = new Solution();
-  record Data(int[] A){}
+
+  record Data(int[] A) {
+
+  }
 
   @Test
   void test() {
@@ -28,18 +31,19 @@ class PermMissingElemTest {
   class Solution {
 
     public int solution(int[] A) {
-      // Implement your solution here
-      if (A.length == 0)
+      if (A.length == 0) { // 0 elements -> 1
         return 1;
+      }
 
+      // sort and then check expected
       java.util.Arrays.sort(A);
       int expected = 1;
       for (; expected <= A.length; expected++) {
-        if (A[expected - 1] != expected) {
+        if (A[expected - 1] != expected) { // expected is missing
           return expected;
         }
       }
-
+      // if all elements were ok, expected is next
       return expected;
     }
   }

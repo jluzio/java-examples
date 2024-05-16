@@ -3,6 +3,7 @@ package com.example.java.challenges.codility.l3_time_complexity;
 import org.junit.jupiter.api.Test;
 
 class FrogJmpTest {
+
   Solution s = new Solution();
 
   @Test
@@ -19,9 +20,10 @@ class FrogJmpTest {
   }
 
   class Solution {
+
     public int solution(int X, int Y, int D) {
-      // Implement your solution here
-      return (int)Math.ceil(((double)(Y - X)) / D);
+      // calculate number of jumps using formula
+      return (int) Math.ceil(((double) (Y - X)) / D);
     }
   }
 }

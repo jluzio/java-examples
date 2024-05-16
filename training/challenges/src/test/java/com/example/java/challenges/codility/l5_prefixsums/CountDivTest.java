@@ -28,9 +28,13 @@ class CountDivTest {
   class Solution {
 
     public int solution(int A, int B, int K) {
+      // number of divisions, gotten by the int division, which translates to number of divisors
       int oneToMaxCount = B / K;
       int oneToMinCount = A / K;
       boolean includeMinInCount = A % K == 0;
+      // divisors from a sub range is the difference from
+      // the divisors from 0 to start, the divisors from 0 to end
+      // and checking if start is divisor
       return oneToMaxCount - oneToMinCount + (includeMinInCount ? 1 : 0);
     }
   }

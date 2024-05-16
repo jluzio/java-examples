@@ -45,7 +45,7 @@ class GenomicRangeQueryTest {
       char[] chars = S.toCharArray();
 
       // arrays of count of letters from 0-to-index
-      // number of occurrences in to-from is count[to] - count[from
+      // number of occurrences in to-from is "countTo" - "countFrom" (countFrom = count[from -1] or 0 if from == 0)
       int[] aCount = new int[S.length()];
       int[] cCount = new int[S.length()];
       int[] gCount = new int[S.length()];
@@ -74,6 +74,7 @@ class GenomicRangeQueryTest {
       for (int i = 0, from, to; i < P.length; i++) {
         from = P[i];
         to = Q[i];
+        // check if it has the character by checking the sums of occurrences
         if (hasChar(aCount, from, to)) {
           output[i] = 1;
         } else if (hasChar(cCount, from, to)) {
@@ -87,15 +88,11 @@ class GenomicRangeQueryTest {
       return output;
     }
 
+    // check if it has the character by checking the sums of occurrences
     private boolean hasChar(int[] counts, int from, int to) {
-      if (counts[to] - counts[from] > 0) { // incremented char
-        return true;
-      } else if (from == 0 && counts[from] > 0) { // first position char
-        return true;
-      } else if (from > 0 && counts[from - 1] < counts[from]) {
-        return true;
-      }
-      return false;
+      int countsTo = counts[to];
+      int countsFrom = from > 0 ? counts[from - 1] : 0;
+      return countsTo - countsFrom > 0;
     }
   }
 }

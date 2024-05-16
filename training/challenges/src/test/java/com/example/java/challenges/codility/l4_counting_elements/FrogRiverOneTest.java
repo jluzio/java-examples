@@ -26,7 +26,7 @@ class FrogRiverOneTest {
   class Solution {
 
     public int solution(int X, int[] A) {
-      // Implement your solution here
+      // record min times of leafs in position
       Map<Integer, Integer> timesPerPosition = new HashMap<Integer, Integer>();
       Integer minTimeInPosition;
       for (int time = 0, pos; time < A.length; time++) {
@@ -40,10 +40,12 @@ class FrogRiverOneTest {
       int crossTime = -1;
       for (int pos = 1; pos <= X; pos++) {
         minTimeInPosition = timesPerPosition.get(pos);
+        // if no leaf fell for position -> -1
         if (minTimeInPosition == null) {
           crossTime = -1;
           break;
         }
+        // compute max time
         crossTime = Math.max(minTimeInPosition, crossTime);
       }
       return crossTime;

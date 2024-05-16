@@ -24,7 +24,6 @@ class TapeEquilibriumTest {
   class Solution {
 
     public int solution(int[] A) {
-      // Implement your solution here
       int sum = 0;
       for (int v : A) {
         sum += v;
@@ -34,6 +33,8 @@ class TapeEquilibriumTest {
       int diff = Integer.MAX_VALUE;
       int currDiff;
 
+      // check partition sums by deriving from total sum
+      // then check both values
       for (int p = 1; p < A.length; p++) {
         pLeft += A[p - 1];
         pRight -= A[p - 1];

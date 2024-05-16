@@ -17,14 +17,15 @@ class BinaryGapTest {
       int max = 0;
       int curr = 0;
       boolean started = false;
+      // keep shifting to check the rightmost bit
       for (int v = N; v > 0; v >>= 1) {
-        if ((v & 1) == 1) {
-          if (started) {
+        if ((v & 1) == 1) { // 1 was found, we are starting a sequence
+          if (started) { // if we had already started, store the max value of the sequence
             max = curr > max ? curr : max;
           }
           started = true;
           curr = 0;
-        } else {
+        } else { // zeroes
           curr++;
         }
       }
