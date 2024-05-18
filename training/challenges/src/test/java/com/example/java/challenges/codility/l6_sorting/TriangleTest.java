@@ -25,8 +25,10 @@ class TriangleTest {
 
     public int solution(int[] A) {
       // this problem doesn't state that you can reorder the array,
-      // but it's the only way for the solution given the possible sizes
-      // 3 elements close to each other have the best chance to fulfill the triangle rules
+      // but it's the only way for the solution given the performance restrictions
+      // i guess it was supposed to be implied since this is a sorting lesson,
+      // but it's only clear after trying that solution and dry-running some cases.
+      // Note that 3 elements close to each other have the best chance (unclear how to prove) to fulfill the triangle rules
       Arrays.sort(A);
       for (int i = 0; i < A.length - 2; i++) {
         if (isTriangular(A, i, i + 1, i + 2)) {

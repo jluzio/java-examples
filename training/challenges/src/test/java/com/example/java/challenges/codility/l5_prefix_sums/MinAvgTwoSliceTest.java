@@ -1,4 +1,4 @@
-package com.example.java.challenges.codility.l5_prefixsums;
+package com.example.java.challenges.codility.l5_prefix_sums;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
