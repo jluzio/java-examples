@@ -17,7 +17,7 @@ class BaseAlgorithms {
   public int binarySearch(int[] A, int x) {
     int n = A.length;
     int result = -1;
-    for (int beg = 0, end = n - 1; beg < end; ) {
+    for (int beg = 0, end = n - 1; beg <= end; ) {
       int mid = (beg + end) / 2;
       int midV = A[mid];
       if (midV == x) {
