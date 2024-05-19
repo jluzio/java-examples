@@ -1,5 +1,6 @@
 https://codility.com/media/train/9-Sieve.pdf
 
+# Find Prime numbers
 ~~~text
 Chapter 11
 Sieve of Eratosthenes
@@ -27,4 +28,34 @@ def sieve(n):
                 k += i
             i += 1
     return sieve        
+~~~
+
+# Factorization into prime numbers
+Figure if a number can be composed by the product of 2 prime numbers.
+
+## prepare array
+~~~python
+def arrayF(n):
+    F = [0] * (n + 1)
+    i = 2
+    while (i * i <= n):
+        if (F[i] == 0):
+            k = i * i
+            while (k <= n):
+                if (F[k] == 0):
+                    F[k] = i;
+                k += i
+        i += 1
+    return F
+~~~
+
+## factorization of x
+~~~python
+def factorization(x, F):
+    primeFactors = []
+    while (F[x] > 0):
+        primeFactors += [F[x]]
+        x /= F[x]
+    primeFactors += [x]
+    return primeFactors
 ~~~
