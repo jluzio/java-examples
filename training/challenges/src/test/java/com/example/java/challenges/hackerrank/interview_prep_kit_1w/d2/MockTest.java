@@ -1,11 +1,11 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d2;
 
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
 
-class Day2Test4MockTest {
+class MockTest {
 
   @Test
   void test() {
@@ -33,7 +33,6 @@ class Day2Test4MockTest {
       // c d d c
       // a b b a
 
-      // Write your code here
       int n = matrix.size() / 2;
       int size = matrix.size();
 

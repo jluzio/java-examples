@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d1;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.Test;
 
 
-class Day1Test3TimeConversion {
+class TimeConversion {
 
   @Test
   void test() {
@@ -27,7 +27,6 @@ class Day1Test3TimeConversion {
      */
 
     public static String timeConversion(String s) {
-      // Write your code here
       LocalTime localTime = LocalTime.parse(s, DateTimeFormatter.ofPattern("hh:mm:ssa"));
       return localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }

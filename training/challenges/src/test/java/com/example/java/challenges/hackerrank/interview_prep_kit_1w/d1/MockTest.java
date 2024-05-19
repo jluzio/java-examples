@@ -1,17 +1,10 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d1;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 
-class Day1Test4MockTest {
+class MockTest {
 
   @Test
   void test() {
@@ -28,7 +21,6 @@ class Day1Test4MockTest {
      */
 
     public static int findMedian(List<Integer> arr) {
-      // Write your code here
       return arr.stream()
           .sorted()
           .skip(arr.size() / 2)

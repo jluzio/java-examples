@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d2;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -8,14 +8,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class Day2Test3CountingSort1 {
+class CountingSort1 {
 
   @Test
   void test() {
@@ -34,7 +33,6 @@ class Day2Test3CountingSort1 {
      */
 
     public static List<Integer> countingSort(List<Integer> arr) {
-      // Write your code here
       int[] output = new int[100];
       for (Integer integer : arr) {
         output[integer]++;

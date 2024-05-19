@@ -1,16 +1,15 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d3;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class Day3Test3CaesarCipher {
+class CaesarCipher {
 
   record TestData(String s, int k) {
 
@@ -36,7 +35,6 @@ class Day3Test3CaesarCipher {
      */
 
     public static String caesarCipher(String s, int k) {
-      // Write your code here
       return s.chars()
           .mapToObj(it -> (char) it)
           .map(c -> {

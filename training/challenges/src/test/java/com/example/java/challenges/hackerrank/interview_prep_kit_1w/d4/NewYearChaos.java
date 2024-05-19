@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d4;
 
 import static java.util.stream.Collectors.toList;
 
@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class Day4Test2NewYearChaos {
+class NewYearChaos {
 
   record Data(List<Integer> q, String expected) {
 
@@ -39,7 +39,6 @@ class Day4Test2NewYearChaos {
      */
 
     public static void minimumBribes(List<Integer> q) {
-      // Write your code here
       int bribes = 0;
       for (int i = 0; i < q.size(); i++) {
         int val = q.get(i);

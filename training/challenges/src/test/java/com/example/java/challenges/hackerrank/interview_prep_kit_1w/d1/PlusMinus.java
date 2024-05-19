@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d1;
 
 import java.io.*;
 import java.util.*;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-class Day1Test1PlusMinus {
+class PlusMinus {
 
   @Test
   void test() throws IOException {
@@ -26,7 +26,6 @@ class Day1Test1PlusMinus {
      */
 
     public static void plusMinus(List<Integer> arr) {
-      // Write your code here
       int positives = 0;
       int negatives = 0;
       int zeroes = 0;

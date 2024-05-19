@@ -1,13 +1,11 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d3;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 import org.junit.jupiter.api.Test;
 
-class Day3Test1ZigZag {
+class ZigZag {
 
   @Test
   void test() throws Exception {

@@ -1,21 +1,15 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d2;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
 import java.util.stream.*;
 import org.junit.jupiter.api.Test;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-class Day2Test1LonelyInteger {
+class LonelyInteger {
 
   @Test
   void test() {
@@ -32,7 +26,6 @@ class Day2Test1LonelyInteger {
      */
 
     public static int lonelyinteger(List<Integer> a) {
-      // Write your code here
       Map<Integer, List<Integer>> collect = a.stream()
           .collect(Collectors.groupingBy(v -> v));
       return collect.entrySet().stream()

@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d2;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class Day2Test2DiagonalDifference {
+class DiagonalDifference {
 
   @Test
   void test() {
@@ -35,7 +35,6 @@ class Day2Test2DiagonalDifference {
      */
 
     public static int diagonalDifference(List<List<Integer>> arr) {
-      // Write your code here
       int size = arr.get(0).size();
       int d1 = 0;
       int d2 = size - 1;

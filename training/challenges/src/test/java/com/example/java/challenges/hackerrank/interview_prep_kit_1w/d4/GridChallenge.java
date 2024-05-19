@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d4;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class Day4Test1GridChallenge {
+class GridChallenge {
 
   record TestData(List<String> grid) {
 
@@ -41,7 +41,6 @@ class Day4Test1GridChallenge {
      */
 
     public static String gridChallenge(List<String> grid) {
-      // Write your code here
       List<List<Integer>> sortedGridChars = grid.stream()
           .map(it -> it.chars().sorted().boxed().collect(Collectors.toList()))
           .collect(Collectors.toList());

@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d3;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
-class Day3Test2TowerBreakers {
+class TowerBreakers {
 
   record TestData(int n, int m) {
 
@@ -36,7 +36,6 @@ class Day3Test2TowerBreakers {
      */
 
     public static int towerBreakers(int n, int m) {
-      // Write your code here
       if (m == 1) return 2;
       return n % 2 == 1 ? 1 : 2;
     }

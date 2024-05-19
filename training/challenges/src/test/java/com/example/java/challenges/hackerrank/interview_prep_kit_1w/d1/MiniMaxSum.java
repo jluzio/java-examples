@@ -1,4 +1,4 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d1;
 
 import static java.util.stream.Collectors.toList;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class Day1Test2MiniMaxSum {
+class MiniMaxSum {
 
   @Test
   void test() {
@@ -25,7 +25,6 @@ class Day1Test2MiniMaxSum {
      */
 
     public static void miniMaxSum(List<Integer> arr) {
-      // Write your code here
       List<Integer> sorted = arr.stream().sorted().collect(toList());
       long min = 0, max = 0;
       for (int i = 0; i < 4; i++) {

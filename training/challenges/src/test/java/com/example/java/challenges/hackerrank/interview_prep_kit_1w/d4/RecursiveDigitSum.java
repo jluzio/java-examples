@@ -1,15 +1,14 @@
-package com.example.java.challenges.hackerrank.interview_prep_kit_1w;
+package com.example.java.challenges.hackerrank.interview_prep_kit_1w.d4;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-class Day4Test2RecursiveDigitSum {
+class RecursiveDigitSum {
 
   record Data(String n, int k){}
 
@@ -33,7 +32,6 @@ class Day4Test2RecursiveDigitSum {
      */
 
     public static int superDigit(String n, int k) {
-      // Write your code here
       if (k > 1) {
         String value = String.valueOf(superDigit(n, 1));
         String currentValue = value;
