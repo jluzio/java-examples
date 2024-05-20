@@ -1,1 +1,0 @@
-https://codility.com/media/train/6-Leader.pdf

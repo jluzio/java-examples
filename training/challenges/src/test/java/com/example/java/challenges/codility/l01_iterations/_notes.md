@@ -1,1 +1,0 @@
-[reference](https://codility.com/media/train/Iterations.pdf)
