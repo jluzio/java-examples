@@ -24,14 +24,15 @@ class TapeEquilibriumTest {
   class Solution {
 
     public int solution(int[] A) {
-      int sum = 0;
+      // NOTE: could also use int since: 100_000 * 1000 < Integer.MAX_VALUE
+      long sum = 0;
       for (int v : A) {
         sum += v;
       }
-      int pLeft = 0;
-      int pRight = sum;
-      int diff = Integer.MAX_VALUE;
-      int currDiff;
+      long pLeft = 0;
+      long pRight = sum;
+      long diff = Long.MAX_VALUE;
+      long currDiff;
 
       // check partition sums by deriving from total sum
       // then check both values
@@ -43,7 +44,7 @@ class TapeEquilibriumTest {
           diff = currDiff;
         }
       }
-      return diff;
+      return (int) diff;
     }
   }
 }

@@ -25,6 +25,11 @@ class OddOccurrencesInArrayTest {
   class Solution {
 
     public int solution(int[] A) {
+//      return solutionUsingXor(A);
+      return solutionUsingCount(A);
+    }
+
+    public int solutionUsingCount(int[] A) {
       // store counts
       Map<Integer, Integer> countOfNumberMap = new HashMap<Integer, Integer>();
       for (int v : A) {
@@ -38,6 +43,15 @@ class OddOccurrencesInArrayTest {
           .map(Map.Entry::getKey)
           .findFirst()
           .get();
+    }
+
+    public int solutionUsingXor(int[] A) {
+      // a xor 0 = a | a xor a == 0 | a xor b = ?
+      int xorAccumulator = 0;
+      for (int a : A) {
+        xorAccumulator ^= a;
+      }
+      return xorAccumulator;
     }
   }
 }
