@@ -7,7 +7,6 @@ import java.util.concurrent.Flow;
 import java.util.concurrent.SubmissionPublisher;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -15,16 +14,12 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class ReactiveStreamsTest {
 
-  @lombok.Data
-  @AllArgsConstructor
-  public class User {
+  public record User(String name, String mail) {
 
-    private String name;
-    private String mail;
   }
 
   @Test
-  public void test() {
+  void test() {
     log.info("Reactive Streams");
     SubmissionPublisher<User> publisher = new SubmissionPublisher<>();
 
@@ -32,11 +27,13 @@ class ReactiveStreamsTest {
     publisher.subscribe(new MySubscriber("sub-2", 1));
 
     IntStream.range(1, 10).forEach(
-        v -> publisher.submit(new User("name-" + v, String.format("name-%s@example.org", v))));
+        v -> publisher.submit(
+            new User("name-" + v, String.format("name-%s@example.org", v)))
+    );
     publisher.close();
 
     Predicate<MySubscriber> mySubscriberDone = sub -> sub.processedItems == sub.requestedItems;
-    Predicate<Flow.Subscriber> subscriberDone = sub -> mySubscriberDone.test((MySubscriber) sub);
+    Predicate<Flow.Subscriber<?>> subscriberDone = sub -> mySubscriberDone.test((MySubscriber) sub);
 
     await()
         .atMost(Duration.ofSeconds(3))
@@ -45,7 +42,7 @@ class ReactiveStreamsTest {
   }
 
   @Data
-  class MySubscriber implements Flow.Subscriber<User> {
+  static class MySubscriber implements Flow.Subscriber<User> {
 
     final private String logCtx;
     final private int requestedItems;
@@ -64,7 +61,7 @@ class ReactiveStreamsTest {
 
     @Override
     public void onError(Throwable throwable) {
-      log.info("{}:error :: {}", logCtx, throwable);
+      log.info("{}:error :: {}", logCtx, throwable.getMessage(), throwable);
     }
 
     @Override
