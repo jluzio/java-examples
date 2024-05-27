@@ -139,5 +139,4 @@ class CollectorToMapTest {
     assertThat(valuesMapValues)
         .isEqualTo(orderedExpectedValues);
   }
-
 }
