@@ -1,9 +1,10 @@
-package com.example.java.playground.features.concurrency;
+package com.example.java.playground.features.concurrent;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.LongStream;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 class ForkJoinTest {
 
   @Data
+  @EqualsAndHashCode(callSuper = true)
   class IncrementTask extends RecursiveAction {
 
     public static final int THRESHOLD = 3;

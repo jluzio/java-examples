@@ -1,6 +1,7 @@
 package com.example.java.playground.lib.lombok;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ class BuilderTest {
   }
 
   @Data
+  @EqualsAndHashCode(callSuper = true)
   @ToString(callSuper = true)
   @SuperBuilder
   public static class Child extends Parent {

@@ -1,4 +1,4 @@
-package com.example.java.playground.features.collection;
+package com.example.java.playground.features.concurrent;
 
 import static org.awaitility.Awaitility.await;
 

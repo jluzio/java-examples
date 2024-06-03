@@ -1,4 +1,4 @@
-package com.example.java.playground.features.concurrency;
+package com.example.java.playground.features.concurrent;
 
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;

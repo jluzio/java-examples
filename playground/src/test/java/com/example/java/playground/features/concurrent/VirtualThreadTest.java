@@ -1,4 +1,4 @@
-package com.example.java.playground.features.concurrency;
+package com.example.java.playground.features.concurrent;
 
 import java.time.Duration;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package com.example.java.playground.features.collection;
+package com.example.java.playground.features.stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

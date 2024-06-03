@@ -1,4 +1,4 @@
-package com.example.java.playground.features.concurrency;
+package com.example.java.playground.features.concurrent;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
