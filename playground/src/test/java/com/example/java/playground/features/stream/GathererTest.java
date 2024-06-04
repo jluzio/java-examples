@@ -113,4 +113,15 @@ class GathererTest {
     return new Limit();
   }
 
+  @Test
+  void composing_gatherers() {
+    Gatherer<Integer, ?, Integer> map = map(v -> v + 1);
+    Gatherer<Integer, ?, Integer> limit = limit(2);
+    var data = Stream.of(1, 2, 3, 4)
+        .gather(map.andThen(limit))
+        .toList();
+    assertThat(data)
+        .containsExactly(2, 3);
+  }
+
 }
