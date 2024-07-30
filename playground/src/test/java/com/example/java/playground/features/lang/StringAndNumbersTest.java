@@ -13,6 +13,7 @@ class StringAndNumbersTest {
     var numberAsString = "123456789";
     var digits = IntStream.rangeClosed(1, 9).boxed().toList();
 
+    // number -> string
     String numberAsStringTest1 = IntStream.rangeClosed(1, 9)
         .mapToObj(String::valueOf)
         .collect(Collectors.joining());
@@ -25,23 +26,30 @@ class StringAndNumbersTest {
     assertThat(numberAsStringTest2)
         .isEqualTo(numberAsString);
 
+    // string -> number
     var digitsTest1 = numberAsString.chars()
-        .mapToObj(v -> Integer.valueOf(String.valueOf((char) v)))
+        .mapToObj(Character::getNumericValue)
         .toList();
     assertThat(digitsTest1)
         .isEqualTo(digits);
 
-    // Character.toString() since Java 11
     var digitsTest2 = numberAsString.chars()
-        .mapToObj(v -> Integer.valueOf(Character.toString(v)))
+        .mapToObj(v -> Character.digit(v, Character.MAX_RADIX))
         .toList();
     assertThat(digitsTest2)
         .isEqualTo(digits);
 
     var digitsTest3 = numberAsString.chars()
-        .mapToObj(v -> Character.digit(v, Character.MAX_RADIX))
+        .mapToObj(v -> Integer.valueOf(String.valueOf((char) v)))
         .toList();
     assertThat(digitsTest3)
+        .isEqualTo(digits);
+
+    // Character.toString() since Java 11
+    var digitsTest4 = numberAsString.chars()
+        .mapToObj(v -> Integer.valueOf(Character.toString(v)))
+        .toList();
+    assertThat(digitsTest4)
         .isEqualTo(digits);
   }
 
