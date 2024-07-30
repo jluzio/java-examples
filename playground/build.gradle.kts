@@ -64,7 +64,7 @@ dependencies {
   testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapstruct_version}")
 
   implementation("io.projectreactor:reactor-core")
-  implementation("com.google.guava:guava:33.0.0-jre")
+  implementation("com.google.guava:guava:33.2.1-jre")
   implementation("org.apache.commons:commons-lang3:3.13.0")
   implementation("org.apache.commons:commons-collections4:4.4")
   implementation("org.apache.commons:commons-text:1.10.0")
