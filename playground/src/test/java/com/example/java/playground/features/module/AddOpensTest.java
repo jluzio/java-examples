@@ -16,6 +16,7 @@ class AddOpensTest {
   void test() {
     var data = new Data("id1", "name1");
     var target = List.of(data);
+    // NOTE: Running the test with JUnit directly in IntelliJ (and not Gradle), seems to lack the required JVM params
     log.info("{}", ReflectionToStringBuilder.toString(target));
   }
 }

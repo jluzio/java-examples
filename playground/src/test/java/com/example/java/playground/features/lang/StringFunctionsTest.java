@@ -63,13 +63,15 @@ class StringFunctionsTest {
 
   @Test
   void test_format() {
+    var expectedFormattedNumber = "%.2f".formatted(123.46);
+
     // note: total chars 7, rounded using java.math.RoundingMode#HALF_UP
     assertThat("%7.2f".formatted(123.456789))
-        .isEqualTo(" 123.46")
+        .isEqualTo(" %s".formatted(expectedFormattedNumber))
         .hasSize(7);
 
     assertThat("%-7.2f".formatted(123.456789))
-        .isEqualTo("123.46 ")
+        .isEqualTo("%s ".formatted(expectedFormattedNumber))
         .hasSize(7);
 
     assertThat("%5d".formatted(123))

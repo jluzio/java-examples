@@ -1,7 +1,9 @@
+import org.gradle.internal.deployment.RunApplication
+
 plugins {
   java
-  id("org.springframework.boot") version "3.2.2"
-  id("io.spring.dependency-management") version "1.1.4"
+  id("org.springframework.boot") version "3.3.2"
+  id("io.spring.dependency-management") version "1.1.6"
   id("org.jsonschema2pojo") version "1.2.1"
 }
 
@@ -42,6 +44,8 @@ repositories {
 
 dependencies {
   val mapstruct_version = "1.5.5.Final"
+//  val graal_vm_version = "23.0.5"
+  val graal_vm_version = "24.0.2"
 
   implementation("org.springframework.boot:spring-boot-starter")
   implementation("org.springframework.boot:spring-boot-starter-json")
@@ -76,8 +80,10 @@ dependencies {
   implementation("io.github.threeten-jaxb:threeten-jaxb-core:2.1.0")
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:")
   implementation("org.apache.groovy:groovy-jsr223:")
-  implementation("org.graalvm.js:js:23.0.3")
-  implementation("org.graalvm.js:js-scriptengine:23.0.3")
+  implementation("org.graalvm.polyglot:polyglot:$graal_vm_version")
+//  implementation("org.graalvm.polyglot:js:$graal_vm_version")
+  implementation("org.graalvm.polyglot:js-community:$graal_vm_version")
+  implementation("org.graalvm.js:js-scriptengine:$graal_vm_version")
   implementation("com.github.javafaker:javafaker:1.0.2") {
     exclude("org.yaml", "snakeyaml")
   }
