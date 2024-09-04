@@ -1,4 +1,4 @@
-package com.example.java.playground.lib.mapper;
+package com.example.java.playground.lib.mapper.mapstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.graalvm.collections.Pair;

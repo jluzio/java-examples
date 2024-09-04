@@ -1,4 +1,4 @@
-package com.example.java.playground.lib.mapper;
+package com.example.java.playground.lib.mapper.mapstruct;
 
 import jakarta.validation.constraints.Email;
 import org.mapstruct.Named;

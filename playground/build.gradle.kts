@@ -62,6 +62,7 @@ dependencies {
   implementation("org.mapstruct:mapstruct:${mapstruct_version}")
   annotationProcessor("org.mapstruct:mapstruct-processor:${mapstruct_version}")
   testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapstruct_version}")
+  implementation("org.modelmapper:modelmapper:3.2.1")
 
   implementation("io.projectreactor:reactor-core")
   implementation("com.google.guava:guava:33.2.1-jre")

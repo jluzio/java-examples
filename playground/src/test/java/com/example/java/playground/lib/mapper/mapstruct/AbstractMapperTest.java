@@ -1,4 +1,4 @@
-package com.example.java.playground.lib.mapper;
+package com.example.java.playground.lib.mapper.mapstruct;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
