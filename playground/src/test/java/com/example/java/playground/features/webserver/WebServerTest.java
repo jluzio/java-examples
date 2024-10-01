@@ -9,19 +9,24 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.web.client.RestTemplate;
 
 class WebServerTest {
 
   @Test
   void test() throws IOException {
+    var loader = new DefaultResourceLoader();
+    var webServerDataResource = loader.getResource("web-server-data/");
+    var featuresResource = loader.getResource("features/");
+
     HttpServer server = SimpleFileServer.createFileServer(
         new InetSocketAddress("localhost", 8000),
-        Path.of("target/test-classes/web-server-data").toRealPath(),
+        webServerDataResource.getFile().toPath(),
         OutputLevel.INFO
     );
     var featuresDirHandler = SimpleFileServer.createFileHandler(
-        Path.of("target/test-classes/features").toRealPath());
+        featuresResource.getFile().toPath());
     server.createContext("/features", featuresDirHandler);
 
     server.start();

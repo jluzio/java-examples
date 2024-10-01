@@ -43,7 +43,7 @@ repositories {
 }
 
 dependencies {
-  val mapstruct_version = "1.5.5.Final"
+  val mapstruct_version = "1.6.2"
 //  val graal_vm_version = "23.0.5"
   val graal_vm_version = "24.0.2"
 

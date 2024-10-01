@@ -1,0 +1,1 @@
+Used only for getting the location of the test resources folder

@@ -145,8 +145,7 @@ class FilesTest {
   }
 
   private Path targetClassesPath() throws IOException {
-    return Path.of("target/classes");
-//    return loader.getResource("classpath:application.yml").getFile().toPath().getParent();
+    return loader.getResource("classpath:test-location.txt").getFile().toPath().getParent();
   }
 
   private Path getTxtPath() throws IOException {
