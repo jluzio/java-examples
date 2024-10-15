@@ -1,0 +1,5 @@
+spring.application.name: security-playground
+
+logging:
+  level:
+    com.example: DEBUG

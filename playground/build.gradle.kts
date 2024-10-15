@@ -2,12 +2,12 @@ import org.gradle.internal.deployment.RunApplication
 
 plugins {
   java
-  id("org.springframework.boot") version "3.3.2"
+  id("org.springframework.boot") version "3.3.4"
   id("io.spring.dependency-management") version "1.1.6"
   id("org.jsonschema2pojo") version "1.2.1"
 }
 
-group = "com.example.spring"
+group = "com.example"
 version = "1.0.0"
 
 java {
