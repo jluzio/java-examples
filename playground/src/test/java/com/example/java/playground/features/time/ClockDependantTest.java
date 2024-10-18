@@ -18,12 +18,26 @@ import org.springframework.context.annotation.Import;
 class ClockDependantTest {
 
   @Configuration
-  @Import(ClockDependantBean.class)
+  @Import({TimeConfig.class, ClockDependantBean.class})
   static class Config {
+
+  }
+
+  static class TimeConfig {
 
     @Bean
     Clock clock() {
       return Clock.fixed(FIXED_INSTANT, ZoneOffset.UTC);
+    }
+  }
+
+  @RequiredArgsConstructor
+  static class ClockDependantBean {
+
+    private final Clock clock;
+
+    public LocalDateTime sayTime() {
+      return LocalDateTime.now(clock);
     }
   }
 
@@ -37,13 +51,4 @@ class ClockDependantTest {
         .isEqualTo(LocalDateTime.ofInstant(FIXED_INSTANT, ZoneOffset.UTC));
   }
 
-  @RequiredArgsConstructor
-  static class ClockDependantBean {
-
-    private final Clock clock;
-
-    public LocalDateTime sayTime() {
-      return LocalDateTime.now(clock);
-    }
-  }
 }
