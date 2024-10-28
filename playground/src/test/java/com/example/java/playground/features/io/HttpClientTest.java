@@ -11,6 +11,7 @@ import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
+import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
@@ -21,17 +22,48 @@ import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
+import uk.org.webcompere.systemstubs.jupiter.SystemStub;
+import uk.org.webcompere.systemstubs.jupiter.SystemStubsExtension;
+import uk.org.webcompere.systemstubs.properties.SystemProperties;
 
+// https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/module-summary.html
+@SpringBootTest(
+    properties = {
+//        "logging.level.jdk.httpclient.HttpClient=INFO",
+        "logging.level.jdk.httpclient.HttpClient=DEBUG",
+//        "logging.level.jdk.httpclient.HttpClient=ERROR",
+    }
+)
+@ExtendWith(SystemStubsExtension.class)
 @Slf4j
 class HttpClientTest {
   // Module: java.net.http
 
+  // System Properties for logging -Djdk.httpclient.HttpClient.log=<value>
+  @SystemStub
+  private static SystemProperties systemProps = new SystemProperties()
+      .set("jdk.httpclient.HttpClient.log", "requests,headers")
+//      .set("jdk.httpclient.HttpClient.log", "requests,headers,trace")
+//      .set("jdk.httpclient.HttpClient.log", "errors,requests,headers")
+//      .set("jdk.httpclient.HttpClient.log", "errors,requests,headers,frames:control:data:window,ssl,trace,channel")
+//      .set("jdk.httpclient.HttpClient.log", "errors,requests,headers,frames:all,ssl,trace,channel")
+      ;
+
+  @Configuration
+  static class Config {
+
+  }
+
   @Test
   void test_get() throws URISyntaxException, IOException, InterruptedException {
-    try (HttpClient client = HttpClient.newHttpClient()) {
+    var client = defaultHttpClient();
+    try (client) {
       // GET
       HttpRequest request = HttpRequest
-          .newBuilder(new URI("https://en.wikipedia.org/wiki/Free_Willy"))
+          .newBuilder(new URI("https://jsonplaceholder.typicode.com/todos/1"))
           .headers("Foo", "foovalue", "Bar", "barvalue")
           .GET()
           .build();
@@ -44,12 +76,20 @@ class HttpClientTest {
     }
   }
 
+  private HttpClient defaultHttpClient() {
+    return HttpClient.newBuilder()
+        .followRedirects(Redirect.NORMAL)
+        .connectTimeout(Duration.ofSeconds(30))
+        .build();
+  }
+
   @Test
   void test_get_async() throws URISyntaxException {
-    try (HttpClient client = HttpClient.newHttpClient()) {
+    var client = defaultHttpClient();
+    try (client) {
       // GET
       HttpRequest request = HttpRequest
-          .newBuilder(new URI("https://en.wikipedia.org/wiki/Free_Willy"))
+          .newBuilder(new URI("https://jsonplaceholder.typicode.com/todos/1"))
           .headers("Foo", "foovalue", "Bar", "barvalue")
           .GET()
           .build();
