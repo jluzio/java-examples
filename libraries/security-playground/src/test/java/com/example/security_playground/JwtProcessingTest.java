@@ -11,10 +11,7 @@ import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jwt.SignedJWT;
-import java.io.StringWriter;
 import lombok.extern.log4j.Log4j2;
-import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemWriter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -95,21 +92,8 @@ class JwtProcessingTest {
     assertThat(targetJwt.verify(verifier))
         .isTrue();
 
-    String pemString = getPem(key);
+    String pemString = KeyUtils.getPem(key);
     log.debug("Public Key:{}{}", System.lineSeparator(), pemString);
   }
 
-  private String getPem(JWK key) throws Exception {
-    try (
-        StringWriter outputWriter = new StringWriter();
-        PemWriter pemWriter = new PemWriter(outputWriter);
-    ) {
-      var pemObject = new PemObject("PUBLIC KEY", key.toRSAKey().toPublicKey().getEncoded());
-
-      pemWriter.writeObject(pemObject);
-      pemWriter.flush();
-      pemWriter.close();
-      return outputWriter.toString();
-    }
-  }
 }

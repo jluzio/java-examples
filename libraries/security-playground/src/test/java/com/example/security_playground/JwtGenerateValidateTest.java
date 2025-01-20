@@ -1,6 +1,7 @@
 package com.example.security_playground;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,18 +12,29 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import java.io.IOException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
+@Slf4j
 class JwtGenerateValidateTest {
 
   @Test
-  void test_generate_and_validate() throws JOSEException, ParseException {
+  void test_generate_and_validate() throws JOSEException, ParseException, IOException {
     // RSA signatures require a public and private RSA key pair, the public key
     // must be made known to the JWS recipient in order to verify the signatures
     RSAKey rsaJWK = new RSAKeyGenerator(2048)
@@ -64,6 +76,27 @@ class JwtGenerateValidateTest {
     assertEquals("alice", signedJWT.getJWTClaimsSet().getSubject());
     assertEquals("https://c2id.com", signedJWT.getJWTClaimsSet().getIssuer());
     assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));
+
+    log.info("Public Key:{}{}", System.lineSeparator(), KeyUtils.getPem(rsaPublicJWK));
+    log.info("Private Key:{}{}", System.lineSeparator(), KeyUtils.getPem(rsaJWK));
+  }
+
+  @Test
+  void convert_standard_to_jwk() throws NoSuchAlgorithmException {
+    // Generate the RSA key pair
+    KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
+    gen.initialize(2048);
+    KeyPair keyPair = gen.generateKeyPair();
+
+    // Convert to JWK format
+    JWK jwk = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+        .privateKey((RSAPrivateKey) keyPair.getPrivate())
+        .keyUse(KeyUse.SIGNATURE)
+        .keyID(UUID.randomUUID().toString())
+        .issueTime(new Date())
+        .build();
+    assertThat(jwk)
+        .isNotNull();
   }
 
 }
