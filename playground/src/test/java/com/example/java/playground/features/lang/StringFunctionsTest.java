@@ -33,7 +33,7 @@ class StringFunctionsTest {
           line 2   
             line 3
         """;
-    log.info("lines 2: {}", text.lines().limit(2).collect(Collectors.toList()));
+    log.info("lines 2: {}", text.lines().limit(2).toList());
   }
 
   @Test
