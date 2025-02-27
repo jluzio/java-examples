@@ -63,6 +63,9 @@ class ScriptTest {
     log.info("eval: {}", eval);
   }
 
+  // NOTE: currently (Java 23) not working, due to access to jdk.internal.misc
+  // cannot access class jdk.internal.misc.Unsafe (in module java.base) because module java.base does not export jdk.internal.misc to module jdk.graal.compiler
+  // Wait for fix or try to "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED"
   @Test
   void javascript() throws ScriptException {
     var engine = manager.getEngineByName("graal.js");

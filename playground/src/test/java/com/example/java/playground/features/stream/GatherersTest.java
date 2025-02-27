@@ -82,7 +82,9 @@ class GatherersTest {
     assertThat(result)
         .containsExactly(1, 2);
     // 5 doesn't start
-    assertThat(interrupted.get())
+    // also: currently had an issue with the way it was being ran, the comparison failed with the same values
+    // workaround(?): added stream().toList()
+    assertThat(interrupted.get().stream().toList())
         .containsExactlyInAnyOrder(3, 4);
   }
 

@@ -31,13 +31,8 @@ class ScopedValueTest {
 
     var msg = ScopedValue
         .where(USER, new User("3", "user3"))
-        .call(() -> STR. "user: \{ USER.get() }" );
+        .call(() -> "user: %s".formatted(USER.get()) );
     log.info(msg);
-
-    var userId = ScopedValue
-        .where(USER, new User("2", "user2"))
-        .get(() -> USER.get().id());
-    log.info("userId: {}", userId);
 
     var user = ScopedValue
         .where(USER, new User("2", "user2"))

@@ -11,7 +11,7 @@ group = "com.example"
 version = "1.0.0"
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_22
+  sourceCompatibility = JavaVersion.VERSION_23
 }
 
 
@@ -20,7 +20,8 @@ val compileJvmArgs = listOf("--enable-preview")
 val runtimeJvmArgs = listOf(
   "--enable-preview",
   "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-  "--add-opens", "java.base/java.util=ALL-UNNAMED"
+  "--add-opens", "java.base/java.util=ALL-UNNAMED",
+  "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED"
 )
 tasks.withType<JavaCompile>().configureEach {
   options.compilerArgs.addAll(compileJvmArgs)
