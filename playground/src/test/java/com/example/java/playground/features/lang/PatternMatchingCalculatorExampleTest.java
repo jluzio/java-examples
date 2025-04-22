@@ -13,10 +13,13 @@ import org.junit.jupiter.api.Test;
 class PatternMatchingCalculatorExampleTest {
 
   sealed interface Expr {
-    record SumExpr(Expr x, Expr y) implements Expr {};
-    record ProdExpr(Expr x, Expr y) implements Expr {};
-    record NegExpr(Expr x) implements Expr {};
-    record ConstExpr(int v) implements Expr {};
+
+    // @formatter:off
+    record SumExpr(Expr x, Expr y) implements Expr {}
+    record ProdExpr(Expr x, Expr y) implements Expr {}
+    record NegExpr(Expr x) implements Expr {}
+    record ConstExpr(int v) implements Expr {}
+    // @formatter:on
 
     static int eval(Expr expr) {
       return switch (expr) {
@@ -29,11 +32,28 @@ class PatternMatchingCalculatorExampleTest {
   }
 
   @Test
-  void test() {
+  void test_basic_patterns() {
     var value = Expr.eval(new NegExpr(new ProdExpr(new ConstExpr(2), new ConstExpr(3))));
-    log.debug("-(x * y) = {}", value);
+    log.info("-(x * y) = {}", value);
     assertThat(value)
         .isEqualTo(-6);
+  }
+
+  // @formatter:off
+  record Point(double x, double y) {}
+  record Circle(Point center, double radius) {}
+  // @formatter:off
+
+  @Test
+  void test_nested_patterns() {
+    var shape = new Circle(new Point(1, 2), 3);
+    var description = switch (shape) {
+      case Circle(Point(var x, var y), var r) -> "shape: circle(x=%s, y=%s, r=%s)".formatted(x, y, r);
+      default -> "unknown shape";
+    };
+    log.info(description);
+    assertThat(description)
+        .containsIgnoringCase("circle");
   }
 
 }
