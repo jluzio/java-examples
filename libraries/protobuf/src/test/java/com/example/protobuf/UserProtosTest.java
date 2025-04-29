@@ -1,7 +1,8 @@
-package com.example.types;
+package com.example.protobuf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.proto.UserProtos;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;

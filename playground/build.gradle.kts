@@ -92,6 +92,7 @@ dependencies {
   implementation("org.instancio:instancio:1.0.4")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   testImplementation("io.projectreactor:reactor-test")
   testImplementation("org.awaitility:awaitility")
   testImplementation("uk.org.webcompere:system-stubs-core:2.0.2")

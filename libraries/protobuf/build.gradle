@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.1'
+	id 'org.springframework.boot' version '3.4.2'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id "com.google.protobuf" version "0.9.4"
 }
@@ -9,23 +9,37 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '21'
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
 }
 
 repositories {
 	mavenCentral()
 }
 
-def protobufVersion = '4.26.0'
+ext {
+	set('springGrpcVersion', "0.8.0")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.grpc:spring-grpc-dependencies:${springGrpcVersion}"
+	}
+}
 
 dependencies {
+	implementation 'io.grpc:grpc-services'
+	implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-json'
-	implementation "com.google.protobuf:protobuf-java:$protobufVersion"
-	compileOnly("org.projectlombok:lombok")
-	testCompileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
-	testAnnotationProcessor("org.projectlombok:lombok")
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.grpc:spring-grpc-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
@@ -33,9 +47,20 @@ tasks.named('test') {
 }
 
 protobuf {
-  protoc {
-    // The artifact spec for the Protobuf Compiler
-    artifact = "com.google.protobuf:protoc:$protobufVersion"
-  }
+	protoc {
+		artifact = 'com.google.protobuf:protoc'
+	}
+	plugins {
+		grpc {
+			artifact = 'io.grpc:protoc-gen-grpc-java'
+		}
+	}
+	generateProtoTasks {
+		all()*.plugins {
+			grpc {
+				option 'jakarta_omit'
+				option '@generated=omit'
+			}
+		}
+	}
 }
-
