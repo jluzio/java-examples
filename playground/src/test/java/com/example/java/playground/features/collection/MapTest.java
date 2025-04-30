@@ -99,4 +99,67 @@ class MapTest {
         .isEqualTo(expectedMap);
   }
 
+  @Test
+  void map_compute() {
+    var map = new HashMap<String, String>();
+    String k1 = "key1";
+
+    map.compute(k1, (k, v) ->  (v == null) ? "init_value" : "previous: " + v);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k1, "init_value");
+
+    map.compute(k1, (k, v) ->  (v == null) ? "init_value" : "previous: " + v);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k1, "previous: init_value");
+
+    String k2 = "key2";
+    map.computeIfAbsent(k2, "no value for key %s"::formatted);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k2, "no value for key key2");
+    map.put(k2, "existing value");
+    map.computeIfAbsent(k2, "no value for key %s"::formatted);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k2, "existing value");
+
+    String k3 = "key3";
+    map.computeIfPresent(k3, "key %s has value"::formatted);
+    assertThat(map)
+        .doesNotContainKey(k3);
+    map.put(k3, "existing value");
+    map.computeIfPresent(k3, "key %s has value"::formatted);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k3, "key key3 has value");
+  }
+
+  @Test
+  void map_merge() {
+    var map = new HashMap<String, Integer>();
+    String k1 = "key1";
+
+    map.merge(k1, 1, Integer::sum);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k1, 1);
+
+    map.merge(k1, 1, Integer::sum);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k1, 2);
+  }
+
+  @Test
+  void map_others() {
+    var map = new HashMap<String, Integer>();
+    String k1 = "key1";
+
+    map.putIfAbsent(k1, 1);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k1, 1);
+    map.putIfAbsent(k1, 2);
+    assertThat(map)
+        .hasFieldOrPropertyWithValue(k1, 1);
+
+    map.remove(k1);
+    assertThat(map.getOrDefault(k1, 3))
+        .isEqualTo(3);
+  }
+
 }
