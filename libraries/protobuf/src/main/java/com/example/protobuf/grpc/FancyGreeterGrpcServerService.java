@@ -3,12 +3,12 @@ package com.example.protobuf.grpc;
 import com.example.proto.hello.FancyGreeterGrpc;
 import com.example.proto.hello.HelloReply;
 import com.example.proto.hello.HelloRequest;
-import com.example.protobuf.grpc.interceptor.LogStatsInterceptor;
+import com.example.protobuf.grpc.interceptor.LogStatsServerInterceptor;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
-@GrpcService(interceptors = LogStatsInterceptor.class)
+@GrpcService(interceptors = LogStatsServerInterceptor.class)
 @Slf4j
 class FancyGreeterGrpcServerService extends FancyGreeterGrpc.FancyGreeterImplBase {
 

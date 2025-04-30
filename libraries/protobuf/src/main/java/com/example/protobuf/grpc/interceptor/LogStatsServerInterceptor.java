@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class LogStatsInterceptor implements ServerInterceptor {
+public class LogStatsServerInterceptor implements ServerInterceptor {
 
   private final Map<String, Integer> callCountByMethod = new ConcurrentHashMap<>();
 
@@ -21,7 +21,7 @@ public class LogStatsInterceptor implements ServerInterceptor {
       ServerCallHandler<ReqT, RespT> next) {
     var name = call.getMethodDescriptor().getFullMethodName();
     var count = callCountByMethod.merge(name, 1, Integer::sum);
-    log.info("call stats :: {} | {}", name, count);
+    log.info("LogStatsServerInterceptor :: call stats :: {} | {}", name, count);
     return next.startCall(call, headers);
   }
 }
