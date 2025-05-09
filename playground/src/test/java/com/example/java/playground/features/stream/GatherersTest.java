@@ -69,27 +69,31 @@ class GatherersTest {
   void mapConcurrent() {
     AtomicReference<List<Integer>> executed = new AtomicReference<>(new ArrayList<>());
     AtomicReference<List<Integer>> interrupted = new AtomicReference<>(new ArrayList<>());
-    var result = IntStream.rangeClosed(1, 5).boxed()
+    var maxValue = 5;
+    var limit = 2;
+    var successfulExecutions = List.of(1, 2);
+    var nonSuccessfulExecutionsCount = maxValue - limit;
+
+    var result = IntStream.rangeClosed(1, maxValue).boxed()
         .gather(Gatherers.mapConcurrent(2, n -> {
           try {
             executed.get().add(n);
             Thread.sleep(n * 10);
           } catch (InterruptedException  _) {
-            System.out.println("Task %d was cancelled".formatted(n));
+            log.info("Task {} was cancelled", n);
             Thread.currentThread().interrupt();
             interrupted.get().add(n);
           }
           return n;
         }))
-        .limit(2)
+        .limit(limit)
         .toList();
     assertThat(result)
-        .containsExactly(1, 2);
-    // 5 doesn't start
-    // also: currently had an issue with the way it was being ran, the comparison failed with the same values
-    // workaround(?): added stream().toList()
+        .containsExactlyElementsOf(successfulExecutions);
+    // some of them don't start
     assertThat(interrupted.get())
-        .isNotEmpty();
+        .isNotEmpty()
+        .hasSizeLessThan(nonSuccessfulExecutionsCount);
 
     log.info("executed: {} | interrupted: {}", executed, interrupted);
   }
