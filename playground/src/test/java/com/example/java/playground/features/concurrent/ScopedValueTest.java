@@ -14,17 +14,11 @@ class ScopedValueTest {
 
   }
 
-  public final static ScopedValue<User> USER = ScopedValue.newInstance();
-  public final static ScopedValue<Permissions> PERMISSIONS = ScopedValue.newInstance();
+  public static final ScopedValue<User> USER = ScopedValue.newInstance();
+  public static final ScopedValue<Permissions> PERMISSIONS = ScopedValue.newInstance();
 
   @Test
   void test() throws Exception {
-    ScopedValue.runWhere(
-        USER,
-        new User("1", "user1"),
-        () -> log.info("user: {}", USER.get())
-    );
-
     ScopedValue
         .where(USER, new User("2", "user2"))
         .run(() -> log.info("user: {}", USER.get()));

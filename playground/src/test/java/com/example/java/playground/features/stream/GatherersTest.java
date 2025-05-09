@@ -70,7 +70,7 @@ class GatherersTest {
         .gather(Gatherers.mapConcurrent(2, n -> {
           try {
             Thread.sleep(n * 10);
-          } catch (InterruptedException e) {
+          } catch (InterruptedException  _) {
             System.out.println("Task %d was cancelled".formatted(n));
             Thread.currentThread().interrupt();
             interrupted.get().add(n);
