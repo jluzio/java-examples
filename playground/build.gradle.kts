@@ -4,7 +4,7 @@ plugins {
   java
   id("org.springframework.boot") version "3.4.5"
   id("io.spring.dependency-management") version "1.1.7"
-  id("org.jsonschema2pojo") version "1.2.1"
+  id("org.jsonschema2pojo") version "1.2.2"
 }
 
 group = "com.example"
@@ -47,7 +47,6 @@ repositories {
 
 dependencies {
   val mapstruct_version = "1.6.3"
-//  val graal_vm_version = "23.0.5"
   val graal_vm_version = "24.2.1"
 
   implementation("org.springframework.boot:spring-boot-starter")
