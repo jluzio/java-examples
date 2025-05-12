@@ -52,6 +52,20 @@ class PatternMatchingTest {
   }
 
   @Test
+  void switch_matching_primitive() {
+    Function<Object, String> testType = o ->
+        switch (o) {
+          case float v -> "float";
+          case int v -> "int";
+          default -> "unknown";
+        };
+    assertThat(testType.apply(1))
+        .isEqualTo("int");
+    assertThat(testType.apply(1f))
+        .isEqualTo("float");
+  }
+
+  @Test
   void switch_matching_using_with() {
     Function<Object, String> testType = o ->
         switch (o) {

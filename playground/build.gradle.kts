@@ -11,10 +11,10 @@ group = "com.example"
 version = "1.0.0"
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_24
-//  toolchain {
-//    languageVersion = JavaLanguageVersion.of(24)
-//  }
+//  sourceCompatibility = JavaVersion.VERSION_24
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(24)
+  }
 }
 
 // enable Java preview features
