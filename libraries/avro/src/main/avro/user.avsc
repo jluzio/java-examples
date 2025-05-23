@@ -17,8 +17,13 @@
       },
       {
         "name": "phoneNumber",
-        "type": ["null", "string"],
+        "type": ["null", "int"],
         "default": null
+      },
+      {
+        "name": "account_active",
+        "type": "boolean",
+        "default": false
       }
     ]
 }

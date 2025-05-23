@@ -47,13 +47,15 @@ class ModelTest {
         .setUsername("janedoe")
         .setFirstName("Jane")
         .setLastName("Doe")
-        .setPhoneNumber("132")
+        .setPhoneNumber(132)
+        .setAccountActive(true)
         .build();
     var user3 = User.newBuilder()
         .setUsername("mrdoe")
         .setFirstName("Mr")
         .setLastName("Doe")
-        .setPhoneNumber("321")
+        .setPhoneNumber(321)
+        .setAccountActive(true)
         .build();
     var users = List.of(user1, user2, user3);
     log.debug("users: {}", users);
