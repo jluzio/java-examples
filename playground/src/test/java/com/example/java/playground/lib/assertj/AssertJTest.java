@@ -3,10 +3,12 @@ package com.example.java.playground.lib.assertj;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +57,30 @@ class AssertJTest {
     })
         .isInstanceOf(IllegalArgumentException.class)
         .satisfies(e -> log.info("Thrown", e));
+  }
+
+
+  @Test
+  void extracting() {
+    Map<String, Object> data = Map.of(
+        "id", 1,
+        "title", "test_title",
+        "details", Map.of(
+            "description", "some description"
+        )
+    );
+
+    assertThat(data)
+        .extracting("id")
+        .isEqualTo(1);
+    assertThat(data)
+        .extracting("details.description")
+        .isEqualTo("some description");
+
+    // hacky way to check if a field/property path exists or not
+    assertThatThrownBy(() -> assertThat(data).extracting("details.does_not_exist"))
+        .satisfies(it -> log.info(it.getMessage()))
+        .hasMessageContaining("Can't find any field or property");
   }
 
 }
