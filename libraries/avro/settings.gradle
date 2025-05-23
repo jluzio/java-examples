@@ -1,0 +1,11 @@
+// used in guide for avro plugin, but not needed?
+/*
+ pluginManagement {
+  repositories {
+    gradlePluginPortal()
+    mavenCentral()
+  }
+}
+*/
+
+rootProject.name = 'avro'

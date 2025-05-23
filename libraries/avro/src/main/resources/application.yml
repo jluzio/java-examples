@@ -1,0 +1,6 @@
+spring.application.name: avro
+
+logging:
+  level:
+    root: INFO
+    com.example.avro: DEBUG
