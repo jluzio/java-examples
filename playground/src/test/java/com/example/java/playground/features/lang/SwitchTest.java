@@ -18,6 +18,6 @@ class SwitchTest {
       }
       default -> 0;
     };
-    log.info("Result was: %s".formatted(returnValue));
+    log.info("Result was: {}", returnValue);
   }
 }
