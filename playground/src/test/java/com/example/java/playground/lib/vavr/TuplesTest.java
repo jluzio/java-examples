@@ -1,14 +1,12 @@
 package com.example.java.playground.lib.vavr;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.Tuple3;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
-import java.util.NoSuchElementException;
 import lombok.experimental.UtilityClass;
 import org.junit.jupiter.api.Test;
 
