@@ -1,4 +1,4 @@
-package com.example.security_playground;
+package com.example.security_playground.keys;
 
 import static java.util.Optional.ofNullable;
 

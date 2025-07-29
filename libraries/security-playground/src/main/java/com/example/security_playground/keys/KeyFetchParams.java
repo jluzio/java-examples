@@ -1,4 +1,4 @@
-package com.example.security_playground;
+package com.example.security_playground.keys;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;

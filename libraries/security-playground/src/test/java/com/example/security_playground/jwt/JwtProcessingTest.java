@@ -1,7 +1,8 @@
-package com.example.security_playground;
+package com.example.security_playground.jwt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.security_playground.keys.KeyTools;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
