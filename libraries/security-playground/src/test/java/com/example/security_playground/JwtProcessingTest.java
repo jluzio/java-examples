@@ -41,7 +41,7 @@ class JwtProcessingTest {
       """;
 
   @Configuration
-  @Import({JacksonAutoConfiguration.class})
+  @Import({KeyTools.class, JacksonAutoConfiguration.class})
   static class Config {
 
   }
@@ -50,6 +50,8 @@ class JwtProcessingTest {
   Resource privateKeysResource;
   @Autowired
   ObjectMapper objectMapper;
+  @Autowired
+  KeyTools keyTools;
 
   @Test
   void read_verify_jwt() throws Exception {
@@ -92,8 +94,10 @@ class JwtProcessingTest {
     assertThat(targetJwt.verify(verifier))
         .isTrue();
 
-    String pemString = KeyUtils.getPem(key);
-    log.debug("Public Key:{}{}", System.lineSeparator(), pemString);
+    log.debug("Private Key:{}{}",
+        System.lineSeparator(), keyTools.getPem(key.toRSAKey().toPrivateKey()));
+    log.debug("Public Key:{}{}",
+        System.lineSeparator(), keyTools.getPem(key.toPublicJWK().toRSAKey().toPublicKey()));
   }
 
 }

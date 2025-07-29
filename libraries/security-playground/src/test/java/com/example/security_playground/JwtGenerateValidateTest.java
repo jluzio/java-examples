@@ -33,6 +33,8 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class JwtGenerateValidateTest {
 
+  KeyTools keyTools = new KeyTools();
+
   @Test
   void test_generate_and_validate() throws JOSEException, ParseException, IOException {
     // RSA signatures require a public and private RSA key pair, the public key
@@ -77,8 +79,8 @@ class JwtGenerateValidateTest {
     assertEquals("https://c2id.com", signedJWT.getJWTClaimsSet().getIssuer());
     assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));
 
-    log.info("Public Key:{}{}", System.lineSeparator(), KeyUtils.getPem(rsaPublicJWK));
-    log.info("Private Key:{}{}", System.lineSeparator(), KeyUtils.getPem(rsaJWK));
+    log.info("Public Key:{}{}", System.lineSeparator(), keyTools.getPem(rsaPublicJWK.toPublicKey()));
+    log.info("Private Key:{}{}", System.lineSeparator(), keyTools.getPem(rsaJWK.toPrivateKey()));
   }
 
   @Test
