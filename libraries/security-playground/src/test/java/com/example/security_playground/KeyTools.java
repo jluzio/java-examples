@@ -6,14 +6,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.security.GeneralSecurityException;
 import java.security.Key;
-import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.cert.Certificate;
-import java.security.spec.KeySpec;
 import java.util.Collections;
-import java.util.function.Function;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
 import org.springframework.stereotype.Component;
@@ -58,18 +54,6 @@ public class KeyTools {
       alias = aliases.getFirst();
     }
     return keyStore.getCertificate(alias);
-  }
-
-  public PublicKey generatePublicKey(Key key, Function<PrivateKey, KeySpec> keySpecExtractor) throws GeneralSecurityException {
-    if (key instanceof PublicKey publicKey) {
-      return publicKey;
-    }
-    if (!(key instanceof PrivateKey privateKey)) {
-      throw new IllegalArgumentException("Unknown key type: %s".formatted(key));
-    }
-    var keyFactory = KeyFactory.getInstance(key.getAlgorithm());
-    var keySpec = keySpecExtractor.apply(privateKey);
-    return keyFactory.generatePublic(keySpec);
   }
 
   public String getPem(Key key) throws IOException {

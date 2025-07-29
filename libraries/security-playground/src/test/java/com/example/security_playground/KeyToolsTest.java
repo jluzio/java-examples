@@ -29,12 +29,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-@SpringBootTest(classes = {KeyTools.class, JacksonAutoConfiguration.class})
+@SpringBootTest(classes = {KeyTools.class, KeyGenerators.class, JacksonAutoConfiguration.class})
 @Log4j2
 class KeyToolsTest {
 
   @Autowired
   KeyTools keyTools;
+  @Autowired
+  KeyGenerators keyGenerators;
   @Autowired
   ObjectMapper objectMapper;
   @Autowired
@@ -80,7 +82,7 @@ class KeyToolsTest {
     Key key = keyTools.key(params, keyStore);
     log.debug("key.pem:{}{}", System.lineSeparator(), keyTools.getPem(key));
 
-    PublicKey publicKey = keyTools.generatePublicKey(key, KeySpecs::getRsaKeySpec);
+    PublicKey publicKey = keyGenerators.generatePublicKey(key, keyGenerators::getRsaKeySpec);
     log.debug("publicKey.pem:{}{}", System.lineSeparator(), keyTools.getPem(publicKey));
 
     JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.RS256);
