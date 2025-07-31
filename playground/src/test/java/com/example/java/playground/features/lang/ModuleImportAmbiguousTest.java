@@ -11,14 +11,14 @@ class ModuleImportAmbiguousTest {
 
   @Test
   void test() {
-    assertThat(Stream.class)
-        .isInstanceOf(java.util.stream.Stream.class);
-    assertThat(Point.class)
-        .isInstanceOf(java.awt.Point.class);
+    assertThat(Stream.class.getName())
+        .isEqualTo(java.util.stream.Stream.class.getName());
+    assertThat(Point.class.getName())
+        .isEqualTo(java.awt.Point.class.getName());
 
     // note the imports section: additional import of java.util.List to fix ambiguous import
-    assertThat(List.class)
-        .isInstanceOf(java.util.List.class);
+    assertThat(List.class.getName())
+        .isEqualTo(java.util.List.class.getName());
   }
 
 }

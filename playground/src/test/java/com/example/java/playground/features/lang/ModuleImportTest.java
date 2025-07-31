@@ -10,8 +10,10 @@ class ModuleImportTest {
   @Test
   void test() {
     // note the imports section
-    assertThat(Stream.class)
-        .isInstanceOf(java.util.stream.Stream.class);
+    assertThat(Stream.class.getName())
+        .isEqualTo(java.util.stream.Stream.class.getName());
+    assertThat(Stream.of(1, 2, 3).toList())
+        .isEqualTo(List.of(1, 2, 3));
   }
 
 }

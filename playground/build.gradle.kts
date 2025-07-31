@@ -1,8 +1,6 @@
-import org.gradle.internal.deployment.RunApplication
-
 plugins {
   java
-  id("org.springframework.boot") version "3.4.5"
+  id("org.springframework.boot") version "3.5.4"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.jsonschema2pojo") version "1.2.2"
 }
@@ -11,7 +9,6 @@ group = "com.example"
 version = "1.0.0"
 
 java {
-//  sourceCompatibility = JavaVersion.VERSION_24
   toolchain {
     languageVersion = JavaLanguageVersion.of(24)
   }
@@ -33,12 +30,6 @@ tasks.withType<Test>().configureEach {
 }
 tasks.withType<JavaExec>().configureEach {
   jvmArgs(runtimeJvmArgs)
-}
-
-configurations {
-  compileOnly {
-    extendsFrom(configurations.annotationProcessor.get())
-  }
 }
 
 repositories {
@@ -108,7 +99,6 @@ jsonSchema2Pojo {
   dateTimeType = "java.time.OffsetDateTime"
   timeType = "java.time.LocalTime"
 }
-
 
 tasks.withType<Test> {
   useJUnitPlatform()
