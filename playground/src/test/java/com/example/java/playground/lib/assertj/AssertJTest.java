@@ -7,9 +7,12 @@ import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
@@ -81,6 +84,30 @@ class AssertJTest {
     assertThatThrownBy(() -> assertThat(data).extracting("details.does_not_exist"))
         .satisfies(it -> log.info(it.getMessage()))
         .hasMessageContaining("Can't find any field or property");
+  }
+
+  record ClassWithNonComparable(String stringValue, Pattern patternValue) {}
+
+  @Test
+  void recursiveComparison() {
+    var source = new ClassWithNonComparable("value1", Pattern.compile(".+"));
+    var sameTarget = new ClassWithNonComparable("value1", Pattern.compile(".+"));
+    var nonSameTarget = new ClassWithNonComparable("value1", Pattern.compile("abc"));
+
+    assertThat(source)
+        .isNotEqualTo(sameTarget)
+        .usingRecursiveComparison(RecursiveComparisonConfiguration.builder()
+            .withComparatorForType(Comparator.comparing(Pattern::pattern), Pattern.class)
+            .build())
+        .isEqualTo(sameTarget);
+
+    assertThat(source)
+        .isNotEqualTo(nonSameTarget)
+        .usingRecursiveComparison(RecursiveComparisonConfiguration.builder()
+        .withComparatorForType(Comparator.comparing(Pattern::pattern), Pattern.class)
+        .build())
+        .isNotEqualTo(nonSameTarget);
+
   }
 
 }
