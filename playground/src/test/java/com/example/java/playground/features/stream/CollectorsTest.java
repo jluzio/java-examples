@@ -8,7 +8,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
@@ -156,6 +161,95 @@ class CollectorsTest {
     assertThat(employeeByIdMap)
         .isInstanceOf(TreeMap.class);
   }
+
+  @Test
+  void custom_basic() {
+    var data = List.of(1, 2, 3);
+    var joinedString = data.stream().collect(
+        Collector.of(
+            StringBuilder::new,
+            StringBuilder::append,
+            StringBuilder::append,
+            StringBuilder::toString
+        )
+    );
+    assertThat(joinedString)
+        .isEqualTo("123");
+  }
+
+  @Test
+  void custom_statistics() {
+    var data = List.of(1, 2, 3);
+    var statistics = data.stream()
+        .parallel()
+        .collect(
+            Collector.of(
+                StatisticsAggregator::new,
+                StatisticsAggregator::add,
+                StatisticsAggregator::add,
+                StatisticsAggregator::toStatistics
+            )
+        );
+    assertThat(statistics)
+        .isEqualTo(Statistics.builder()
+            .count(3)
+            .sum(6)
+            .min(1)
+            .max(3)
+            .average(2f)
+            .build());
+  }
+
+  @Data
+  @Builder
+  @RequiredArgsConstructor
+  @AllArgsConstructor
+  static class StatisticsAggregator {
+
+    private int count;
+    private int sum;
+    private int min = Integer.MAX_VALUE;
+    private int max = Integer.MIN_VALUE;
+
+    public void add(int value) {
+      count += 1;
+      sum += value;
+      min = Math.min(min, value);
+      max = Math.max(max, value);
+    }
+
+    public StatisticsAggregator add(StatisticsAggregator other) {
+      count += other.count;
+      sum += other.sum;
+      min = Math.min(min, other.min);
+      max = Math.max(max, other.max);
+      return this;
+    }
+
+    public Statistics toStatistics() {
+      return Statistics.builder()
+          .count(count)
+          .sum(sum)
+          .min(min)
+          .max(max)
+          .average(1f * sum / count)
+          .build();
+    }
+
+  }
+
+  @Data
+  @Builder
+  static class Statistics {
+
+    private int count;
+    private float average;
+    private int sum;
+    private int min;
+    private int max;
+
+  }
+
 
   record Employee(int id, String name, int age, String department, int salary) {
 
