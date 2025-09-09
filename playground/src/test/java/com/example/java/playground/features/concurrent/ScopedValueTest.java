@@ -42,4 +42,16 @@ class ScopedValueTest {
         .run(() -> log.info("user: {} | permissions: {}", USER.get(), PERMISSIONS.get()));
   }
 
+  @Test
+  void test_chain() {
+    ScopedValue
+        .where(USER, new User("1", "user1"))
+        .run(() -> {
+          log.info("user: {}", USER.get());
+          ScopedValue
+              .where(USER, new User("2", "user2"))
+              .run(() -> log.info("user: {}", USER.get()));
+        });
+  }
+
 }
