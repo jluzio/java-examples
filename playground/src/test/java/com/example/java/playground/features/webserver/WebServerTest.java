@@ -7,7 +7,6 @@ import com.sun.net.httpserver.SimpleFileServer;
 import com.sun.net.httpserver.SimpleFileServer.OutputLevel;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.web.client.RestTemplate;
