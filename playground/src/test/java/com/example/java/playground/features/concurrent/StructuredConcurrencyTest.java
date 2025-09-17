@@ -8,8 +8,9 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.StructuredTaskScope;
+import java.util.concurrent.StructuredTaskScope.FailedException;
+import java.util.concurrent.StructuredTaskScope.Joiner;
 import java.util.concurrent.StructuredTaskScope.Subtask;
 import java.util.concurrent.StructuredTaskScope.Subtask.State;
 import java.util.stream.Stream;
@@ -22,14 +23,14 @@ class StructuredConcurrencyTest {
 
   @Test
   void test_ShutdownOnFailure_success() throws InterruptedException {
-    try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+    try (var scope = StructuredTaskScope.open()) {
 
       Subtask<String> accountDetailsSubtask = scope.fork(valueTask("accountDetails"));
       Subtask<String> linkedAccountsSubtask = scope.fork(delayedValueTask("linkedAccounts"));
       Subtask<String> userDetailsSubtask = scope.fork(delayedValueTask("userDetails"));
 
-      scope.join()  // Join all subtasks
-          .throwIfFailed(e -> new IllegalArgumentException("Bad User"));
+      scope.join();  // Join all subtasks
+//          .throwIfFailed(e -> new IllegalArgumentException("Bad User"));
 
       // The subtasks have completed by now so process the result
       log.info("{} | {} | {}",
@@ -47,17 +48,15 @@ class StructuredConcurrencyTest {
   }
 
   @Test
-  void test_ShutdownOnFailure_failure() throws InterruptedException {
-    try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+  void test_ShutdownOnFailure_failure() {
+    try (var scope = StructuredTaskScope.open()) {
 
       Subtask<String> accountDetailsSubtask = scope.fork(valueTask("accountDetails"));
       Subtask<String> linkedAccountsSubtask = scope.fork(delayedValueTask("linkedAccounts"));
       Subtask<String> userDetailsSubtask = scope.fork(exceptionTask());
 
-      scope.join();  // Join all subtasks
-      assertThatThrownBy(() -> scope.throwIfFailed(e -> new IllegalArgumentException("Bad User")))
-          .isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("Bad User");
+      assertThatThrownBy(scope::join)
+          .isInstanceOf(FailedException.class);
 
       logSubtask("accountDetailsSubtask", accountDetailsSubtask);
       logSubtask("linkedAccountsSubtask", linkedAccountsSubtask);
@@ -69,15 +68,14 @@ class StructuredConcurrencyTest {
   }
 
   @Test
-  void test_ShutdownOnSuccess_success() throws InterruptedException, ExecutionException {
-    try (var scope = new StructuredTaskScope.ShutdownOnSuccess<>()) {
+  void test_ShutdownOnSuccess_success() throws InterruptedException {
+    try (var scope = StructuredTaskScope.open(Joiner.anySuccessfulResultOrThrow())) {
 
       Subtask<String> subtask1 = scope.fork(valueTask("subtask1"));
       Subtask<String> subtask2 = scope.fork(delayedValueTask("subtask2"));
       Subtask<String> subtask3 = scope.fork(delayedValueTask("subtask3"));
 
-      var result = scope.join()  // Join all subtasks
-          .result();
+      var result = scope.join();  // Join all subtasks
       assertThat(result).isEqualTo("subtask1");
 
       logSubtask("task1", subtask1);
@@ -94,8 +92,7 @@ class StructuredConcurrencyTest {
     var data = Stream.of(
         entry("state", subtask.state()),
         entry("get", subtask.state() == State.SUCCESS ? subtask.get() : ""),
-        entry("exception", subtask.state() == State.FAILED ? subtask.exception() : ""),
-        entry("task", subtask.task())
+        entry("exception", subtask.state() == State.FAILED ? subtask.exception() : "")
     ).reduce(
         new LinkedHashMap<String, Object>(),
         (acc, value) -> {
