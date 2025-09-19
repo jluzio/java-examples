@@ -1,0 +1,15 @@
+plugins {
+  id 'java'
+}
+
+def isWindows = System.getProperty("os.name").toLowerCase().contains("win")
+def mvnw = isWindows ? "mvnw.cmd" : "./mvnw"
+
+tasks.register("mavenBuild", Exec) {
+  workingDir "$projectDir"
+  commandLine mvnw, "clean", "install"
+}
+
+tasks.named("build") {
+  dependsOn("mavenBuild")
+}
