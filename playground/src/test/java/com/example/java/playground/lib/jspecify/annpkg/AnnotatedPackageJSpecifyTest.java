@@ -1,5 +1,6 @@
 package com.example.java.playground.lib.jspecify.annpkg;
 
+import static com.example.java.playground.lib.jspecify.JSpecifyTestHelper.unspecifiedNull;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.jspecify.annotations.NonNull;
@@ -31,7 +32,7 @@ class AnnotatedPackageJSpecifyTest {
 
   @Test
   void test() {
-    assertThatThrownBy(() -> NullMarkedMethodAnnotatedExample.emptyToNull(null))
+    assertThatThrownBy(() -> NullMarkedMethodAnnotatedExample.emptyToNull(unspecifiedNull()))
         .isInstanceOf(NullPointerException.class);
   }
 

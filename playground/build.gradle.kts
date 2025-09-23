@@ -1,8 +1,14 @@
+// NullAway-errorprone: imports
+import net.ltgt.gradle.errorprone.CheckSeverity
+import net.ltgt.gradle.errorprone.errorprone
+
 plugins {
   java
   id("org.springframework.boot") version "3.5.4"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.jsonschema2pojo") version "1.2.2"
+  // NullAway-errorprone: plugin
+  id("net.ltgt.errorprone") version "4.3.0"
 }
 
 group = "com.example"
@@ -56,8 +62,12 @@ dependencies {
   annotationProcessor("org.mapstruct:mapstruct-processor:${mapstruct_version}")
   testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapstruct_version}")
   implementation("org.modelmapper:modelmapper:3.2.3")
-  implementation("org.jspecify:jspecify:1.0.0")
   implementation("com.ginsberg:gatherers4j:0.11.0")
+
+  implementation("org.jspecify:jspecify:1.0.0")
+  // NullAway-errorprone: dependencies
+  errorprone("com.google.errorprone:error_prone_core:2.42.0")
+  errorprone("com.uber.nullaway:nullaway:0.12.10")
 
   implementation("io.projectreactor:reactor-core")
   implementation("com.google.guava:guava:33.4.8-jre")
@@ -104,4 +114,21 @@ jsonSchema2Pojo {
 
 tasks.withType<Test> {
   useJUnitPlatform()
+}
+
+// NullAway-errorprone: configure compile tasks
+tasks.withType<JavaCompile> {
+  options.errorprone {
+    disableAllChecks = true // Disable default error prone checks
+    check("NullAway", CheckSeverity.ERROR)
+    option("NullAway:AnnotatedPackages", "com.uber")
+  }
+  // Include to disable NullAway on test code
+/*
+  if (name.lowercase().contains("test")) {
+    options.errorprone {
+      disable("NullAway")
+    }
+  }
+*/
 }
