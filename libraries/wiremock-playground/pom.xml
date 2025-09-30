@@ -19,7 +19,7 @@
 
   <properties>
     <java.version>21</java.version>
-    <wiremock.version>3.3.1</wiremock.version>
+    <wiremock.version>3.13.1</wiremock.version>
   </properties>
 
   <dependencies>
