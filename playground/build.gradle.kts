@@ -94,6 +94,7 @@ dependencies {
     exclude("org.yaml", "snakeyaml")
   }
   implementation("org.instancio:instancio-junit:5.4.1")
+  implementation("io.swagger.parser.v3:swagger-parser:2.1.35")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
