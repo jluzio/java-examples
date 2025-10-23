@@ -1,11 +1,8 @@
 package com.example.java.playground.lib.swagger;
 
-import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.fail;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.ObjectMapperFactory;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,8 +19,8 @@ class OpenApiUpgradeTest {
 
   @Test
   void upgrade() {
-    var parser = new OpenAPIV3Parser();
-    var objectMapper = ObjectMapperFactory.createYaml();
+    var parser = new io.swagger.v3.parser.OpenAPIV3Parser();
+    var objectMapper = io.swagger.v3.core.util.ObjectMapperFactory.createYaml();
 
     try {
       OpenAPI openAPI = parser.read(inputResource.getFile().getAbsolutePath());
