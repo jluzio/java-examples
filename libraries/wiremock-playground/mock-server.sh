@@ -42,10 +42,11 @@ call_jbang() {
 }
 call_jar() {
   log_call "jar"
-  jar_file="target/dependency/wiremock-standalone.jar"
+  jar_dir="build/dependency"
+  jar_file="${jar_dir}/wiremock-standalone.jar"
   rm $jar_file
   if [ ! -f $jar_file ]; then
-    mvn dependency:copy -Dartifact="org.wiremock:wiremock-standalone:$version" -DoutputDirectory=target/dependency -Dmdep.stripVersion=true
+    ./mvnw dependency:copy -Dartifact="org.wiremock:wiremock-standalone:$version" -DoutputDirectory=$jar_dir -Dmdep.stripVersion=true
     #mvn dependency:copy@wiremock-standalone
   fi
   java -jar $jar_file $cmd_opts

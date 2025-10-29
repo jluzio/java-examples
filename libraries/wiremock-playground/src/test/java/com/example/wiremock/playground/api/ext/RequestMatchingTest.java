@@ -1,4 +1,4 @@
-package com.example.wiremock.playground.api;
+package com.example.wiremock.playground.api.ext;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.absent;
 import static com.github.tomakehurst.wiremock.client.WireMock.matchingJsonPath;
@@ -9,18 +9,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.maciejwalkowiak.wiremock.spring.ConfigureWireMock;
-import com.maciejwalkowiak.wiremock.spring.EnableWireMock;
-import com.maciejwalkowiak.wiremock.spring.InjectWireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.wiremock.spring.ConfigureWireMock;
+import org.wiremock.spring.EnableWireMock;
+import org.wiremock.spring.InjectWireMock;
 
 @SpringBootTest
 @EnableWireMock({
-    @ConfigureWireMock(name = "default", stubLocation = ".")
+    @ConfigureWireMock(name = "default")
 })
 @Slf4j
 class RequestMatchingTest {
@@ -91,7 +91,6 @@ class RequestMatchingTest {
     assertThat(responseWithoutBody)
         .isEqualTo("Hello world!");
 
-    String apiUrlAlt = "/request-matching/matching-json-path-alt";
     String responseWithoutBodyAlt = webClient.post().uri(apiUrl)
         .bodyValue(new GreetingRequest(null))
         .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))

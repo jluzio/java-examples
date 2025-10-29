@@ -1,42 +1,59 @@
-package com.example.wiremock.playground.api;
+package com.example.wiremock.playground.api.ext;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
-import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.wiremock.spring.ConfigureWireMock;
+import org.wiremock.spring.EnableWireMock;
+import org.wiremock.spring.InjectWireMock;
 
 @SpringBootTest
-@WireMockTest(proxyMode = true)
+@EnableWireMock({
+    @ConfigureWireMock(name = "default")
+})
 @Slf4j
-class BasicTest {
+class BasicNamedInstanceTest {
 
   @Configuration
   static class Config {
 
   }
 
+  @Autowired
+  Environment environment;
+  @InjectWireMock("default")
+  WireMockServer wiremock;
+
   record MessageResponseBody(String message) {
 
   }
 
   @Test
-  void test(WireMockRuntimeInfo wmRuntimeInfo) {
-    var webClient = WebClient.builder()
-        .baseUrl(wmRuntimeInfo.getHttpBaseUrl())
+  void test() {
+    String wiremockServerUrl = requireNonNull(environment.getProperty("wiremock.server.baseUrl"));
+    assertThat(wiremock.baseUrl())
+        .isEqualTo(wiremockServerUrl);
+    WebClient webClient = WebClient.builder()
+        .baseUrl(wiremock.baseUrl())
         .build();
 
     String message = "World!";
-    stubFor(get("/hello")
+    wiremock.stubFor(get("/hello")
         .willReturn(ok(message)));
 
+    WireMock.configureFor(wiremock.port());
     stubFor(get("/hello2")
         .willReturn(ok(message)));
 

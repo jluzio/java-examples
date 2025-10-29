@@ -1,20 +1,20 @@
-package com.example.wiremock.playground.api;
+package com.example.wiremock.playground.api.ext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.maciejwalkowiak.wiremock.spring.ConfigureWireMock;
-import com.maciejwalkowiak.wiremock.spring.EnableWireMock;
-import com.maciejwalkowiak.wiremock.spring.InjectWireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.wiremock.spring.ConfigureWireMock;
+import org.wiremock.spring.EnableWireMock;
+import org.wiremock.spring.InjectWireMock;
 
 @SpringBootTest
 @EnableWireMock({
-    @ConfigureWireMock(name = "default", stubLocation = "test-specific-mappings/test1")
+    @ConfigureWireMock(name = "default", filesUnderClasspath = "test-specific-mappings/test1")
 })
 @Slf4j
 class WireMockStubConfig1Test {

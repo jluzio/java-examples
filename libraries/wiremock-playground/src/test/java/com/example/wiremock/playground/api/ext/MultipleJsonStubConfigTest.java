@@ -1,24 +1,24 @@
-package com.example.wiremock.playground.api;
+package com.example.wiremock.playground.api.ext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.maciejwalkowiak.wiremock.spring.ConfigureWireMock;
-import com.maciejwalkowiak.wiremock.spring.EnableWireMock;
-import com.maciejwalkowiak.wiremock.spring.InjectWireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.wiremock.spring.ConfigureWireMock;
+import org.wiremock.spring.EnableWireMock;
+import org.wiremock.spring.InjectWireMock;
 
 @SpringBootTest
 @EnableWireMock({
     @ConfigureWireMock(name = "default"),
-    @ConfigureWireMock(name = "customStubLocation", stubLocation = ".")
+    @ConfigureWireMock(name = "customStubLocation", filesUnderClasspath = "custom-stubs")
 })
 @Slf4j
-class JsonStubBasicTest {
+class MultipleJsonStubConfigTest {
 
   @Configuration
   static class Config {
@@ -40,10 +40,7 @@ class JsonStubBasicTest {
         .baseUrl(wiremock.baseUrl())
         .build();
 
-    log.debug(">>> Stub Mappings >>>");
-    wiremock.getStubMappings().forEach(stubMapping ->
-        log.debug("stubMapping: {}", stubMapping));
-    log.debug("<<< Stub Mappings <<<");
+    logStubMappings(wiremock);
 
     assertThat(webClient.get().uri("/default/hello")
         .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
@@ -59,23 +56,26 @@ class JsonStubBasicTest {
         .baseUrl(customStubLocationWiremock.baseUrl())
         .build();
 
-    log.debug(">>> Stub Mappings >>>");
-    customStubLocationWiremock.getStubMappings().forEach(stubMapping ->
-        log.debug("stubMapping: {}", stubMapping));
-    log.debug("<<< Stub Mappings <<<");
+    logStubMappings(customStubLocationWiremock);
 
-    assertThat(webClient.get().uri("/message/simple")
+    assertThat(webClient.get().uri("/custom/message/simple")
         .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
         .block()
     )
         .satisfies(it -> log.debug("{}", it))
         .isEqualTo("Hello world!");
 
-    MessageResponseBody messageBodyFileResponse = webClient.get().uri("/body-file")
+    MessageResponseBody messageBodyFileResponse = webClient.get().uri("/custom/body-file")
         .exchangeToMono(clientResponse -> clientResponse.bodyToMono(MessageResponseBody.class))
         .block();
     log.info("{}", messageBodyFileResponse);
     assertThat(messageBodyFileResponse).isEqualTo(new MessageResponseBody("Hello!"));
   }
 
+  private void logStubMappings(WireMockServer wiremock) {
+    log.debug(">>> Stub Mappings >>>");
+    wiremock.getStubMappings().forEach(stubMapping ->
+        log.debug("stubMapping: {}", stubMapping));
+    log.debug("<<< Stub Mappings <<<");
+  }
 }
