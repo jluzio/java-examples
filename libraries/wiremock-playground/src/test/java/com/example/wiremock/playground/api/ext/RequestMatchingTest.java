@@ -39,7 +39,7 @@ class RequestMatchingTest {
 
   @Test
   void test_matchingJsonPath() {
-    WireMock.configureFor(wiremock.port());
+//    WireMock.configureFor(wiremock.port());
     WebClient webClient = getWebClient();
 
     String apiUrl = "/hello";
