@@ -1,0 +1,13 @@
+{
+  "request" : {
+    "urlPathPattern" : "/hello-template",
+    "method" : "GET"
+  },
+  "response" : {
+    "body" : "Hello {{val request.headers.X-CUSTOM-VALUE default='world'}}!",
+    "transformers": ["response-template"],
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}
