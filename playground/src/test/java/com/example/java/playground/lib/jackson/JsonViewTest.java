@@ -6,18 +6,18 @@ import com.example.java.playground.lib.jackson.JsonViewTest.Views.Detailed;
 import com.example.java.playground.lib.jackson.JsonViewTest.Views.Internal;
 import com.example.java.playground.lib.jackson.JsonViewTest.Views.Public;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 @SpringBootTest(classes = JacksonAutoConfiguration.class)
 class JsonViewTest {
@@ -78,7 +78,7 @@ class JsonViewTest {
 
 
   @Test
-  void views() throws JsonProcessingException {
+  void views() throws JacksonException {
     var user = User.builder()
         .id("1")
         .username("john.doe")
@@ -126,7 +126,7 @@ class JsonViewTest {
   }
 
   @Test
-  void defaultView() throws JsonProcessingException {
+  void defaultView() throws JacksonException {
     ObjectMapper objectMapperWithDefaultView = JsonMapper.builder()
         .enable(MapperFeature.DEFAULT_VIEW_INCLUSION)
         .build();

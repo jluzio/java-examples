@@ -2,10 +2,10 @@ package com.example.java.playground.lib.io.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 class RecordTest {
@@ -16,7 +16,7 @@ class RecordTest {
 
   @Test
     // Support for records from version 2.12.x
-  void record() throws JsonProcessingException {
+  void record() throws JacksonException {
     ObjectMapper mapper = new ObjectMapper();
 
     Data input = new Data("id1", "value1");

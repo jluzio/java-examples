@@ -3,51 +3,50 @@ package com.example.java.playground.lib.commons.lang;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.function.Failable;
 import org.apache.commons.lang3.stream.Streams;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JacksonException;
 
 @Slf4j
 class StreamsTest {
 
-  private record Data(String name) {
-
-  }
-
-  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Test
-  void failable() throws JsonProcessingException {
-    var exampleData = new Data("name-1");
-    String exampleDataJson = objectMapper.writeValueAsString(exampleData);
+  void failable() throws JacksonException {
+    Callable<String> goodDataSupplier = () -> "success";
+    Callable<String> faultyDataSupplier = () -> {
+      throw new IOException("Unable to read");
+    };
 
-    var defaultJavaWay = List.of(exampleDataJson).stream()
-        .map(v -> {
+    var defaultJavaWay = Stream.of(goodDataSupplier)
+        .map(supplier -> {
           try {
-            return objectMapper.readValue(v, Data.class);
-          } catch (JsonProcessingException e) {
+            return supplier.call();
+          } catch (Exception e) {
             return Failable.rethrow(e);
           }
         })
         .findFirst();
     assertThat(defaultJavaWay)
         .isPresent()
-        .get().isEqualTo(exampleData);
+        .get().isEqualTo("success");
 
-    assertThat(Streams.stream(List.of(exampleDataJson))
-        .map(v -> objectMapper.readValue(v, Data.class))
+    assertThat(Streams.failableStream(List.of(goodDataSupplier))
+        .map(Callable::call)
         .stream().findFirst())
         .isPresent()
-        .get().isEqualTo(exampleData);
+        .get().isEqualTo("success");
 
     assertThatThrownBy(() ->
-        Streams.stream(List.of("bad-data"))
-            .map(v -> objectMapper.readValue(v, Data.class))
+        Streams.failableStream(List.of(faultyDataSupplier))
+            .map(Callable::call)
             .stream()
             .toList()
     )
@@ -58,7 +57,7 @@ class StreamsTest {
         .isInstanceOf(RuntimeException.class)
         // with this specific checked exception, it becomes UncheckedIOException
         .isInstanceOf(UncheckedIOException.class)
-        .hasCauseInstanceOf(JsonProcessingException.class);
+        .hasCauseInstanceOf(IOException.class);
   }
 
 }

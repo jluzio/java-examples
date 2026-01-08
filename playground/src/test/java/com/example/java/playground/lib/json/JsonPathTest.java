@@ -2,15 +2,15 @@ package com.example.java.playground.lib.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @SpringBootTest(classes = JacksonAutoConfiguration.class)
 @Slf4j
@@ -19,7 +19,7 @@ class JsonPathTest {
   ObjectMapper objectMapper;
 
   @Test
-  void basic_usage() throws JsonProcessingException {
+  void basic_usage() throws JacksonException {
     var json = """
         {"data": {"value": "someval"}}
         """;

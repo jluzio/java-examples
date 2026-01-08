@@ -2,22 +2,23 @@ package com.example.java.playground.lib.jackson;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @SpringBootTest(classes = JacksonAutoConfiguration.class)
 @Slf4j
@@ -27,8 +28,9 @@ class JsonTypesTest {
   ObjectMapper objectMapper;
 
   @Data
-  @RequiredArgsConstructor
-  @AllArgsConstructor
+  @NoArgsConstructor
+  // to avoid Jackson 3 using the all arguments constructor instead of no arguments constructor
+  @AllArgsConstructor(onConstructor_ = @JsonIgnore)
   @Builder
   static class MapsHolder {
 
@@ -47,7 +49,7 @@ class JsonTypesTest {
   }
 
   @Test
-  void test_maps() throws JsonProcessingException {
+  void test_maps() throws JacksonException {
     var input = MapsHolder.builder()
         .map(Map.of("k1", "v1"))
         .simpleMultiValueMap(Map.of("k1", List.of("v1", "v2")))

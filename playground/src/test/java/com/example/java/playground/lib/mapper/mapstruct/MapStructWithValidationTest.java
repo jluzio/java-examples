@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.validation.autoconfigure.ValidationAutoConfiguration;
 
 @SpringBootTest(classes = {
     MapStructWithValidationTest$ValidatedUserMapperImpl.class,

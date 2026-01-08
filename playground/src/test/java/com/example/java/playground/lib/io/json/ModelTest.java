@@ -3,21 +3,20 @@ package com.example.java.playground.lib.io.json;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.exc.MismatchedInputException;
+import tools.jackson.databind.json.JsonMapper;
 
 @Slf4j
 class ModelTest {
 
   @Test
-  void simple_mapping() throws JsonProcessingException {
+  void simple_mapping() throws JacksonException {
     var dataItem = DataItem.builder()
         .id("id-1")
         .description("desc")
@@ -26,16 +25,14 @@ class ModelTest {
         .references(List.of("ref-1", "ref-2"))
         .build();
 
-    var objectMapper = new ObjectMapper()
-        .registerModule(new JavaTimeModule())
-        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    var objectMapper = JsonMapper.builder().build();
     var dataAsString = objectMapper.writeValueAsString(dataItem);
 
     log.info("data{}{}", System.lineSeparator(), dataAsString);
   }
 
   @Test
-  void empty() throws JsonProcessingException {
+  void empty() throws JacksonException {
     var objectMapper = new ObjectMapper();
     assertThatThrownBy(() -> objectMapper.readValue((String) null, DataItem.class))
         .isInstanceOf(IllegalArgumentException.class);

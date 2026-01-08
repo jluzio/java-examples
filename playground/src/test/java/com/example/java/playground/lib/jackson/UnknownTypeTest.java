@@ -2,8 +2,6 @@ package com.example.java.playground.lib.jackson;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -12,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @SpringBootTest(classes = {JacksonAutoConfiguration.class})
 @Slf4j
@@ -23,7 +23,7 @@ class UnknownTypeTest {
   ObjectMapper objectMapper;
 
   @Test
-  void write() throws JsonProcessingException {
+  void write() throws JacksonException {
     var parent1 = new ParentObject("parent1", new Foo("foo1"));
     log.debug("{}", objectMapper.writeValueAsString(parent1));
 
@@ -37,7 +37,7 @@ class UnknownTypeTest {
   }
 
   @Test
-  void read() throws JsonProcessingException {
+  void read() throws JacksonException {
     var json1 = """
         {"name":"parent1","child":{"foo":"foo1"}}
             """;

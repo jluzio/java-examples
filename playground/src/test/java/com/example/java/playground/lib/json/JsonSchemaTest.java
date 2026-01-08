@@ -3,23 +3,20 @@ package com.example.java.playground.lib.json;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.types.Todo;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 @Slf4j
 class JsonSchemaTest {
 
-  private ObjectMapper mapper = new ObjectMapper()
-      .registerModule(new JavaTimeModule())
-      .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+  private ObjectMapper mapper = JsonMapper.builder().build();
 
   @Test
-  void testGeneratedClasses() throws JsonProcessingException {
+  void testGeneratedClasses() throws JacksonException {
     var todo = new Todo()
         .withId(1)
         .withDate(LocalDate.of(2345, 1, 2));

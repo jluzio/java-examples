@@ -4,7 +4,7 @@ import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
   java
-  id("org.springframework.boot") version "3.5.4"
+  id("org.springframework.boot") version "4.0.1"
   id("io.spring.dependency-management") version "1.1.7"
   id("org.jsonschema2pojo") version "1.2.2"
   // NullAway-errorprone: plugin
@@ -47,8 +47,10 @@ dependencies {
   val graal_vm_version = "24.2.1"
 
   implementation("org.springframework.boot:spring-boot-starter")
-  implementation("org.springframework.boot:spring-boot-starter-json")
+  implementation("org.springframework.boot:spring-boot-starter-jackson")
   implementation("org.springframework.boot:spring-boot-starter-validation")
+  implementation("org.springframework.boot:spring-boot-starter-restclient")
+//  implementation("org.springframework.boot:spring-boot-starter-reactor")
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
   testCompileOnly("org.springframework.boot:spring-boot-devtools")
@@ -69,6 +71,7 @@ dependencies {
   errorprone("com.google.errorprone:error_prone_core:2.42.0")
   errorprone("com.uber.nullaway:nullaway:0.12.10")
 
+  // TODO replace with spring-boot-starter-reactor and spring-boot-starter-reactor-test ?
   implementation("io.projectreactor:reactor-core")
   implementation("com.google.guava:guava:33.4.8-jre")
   implementation("org.apache.commons:commons-lang3:3.17.0")
@@ -84,7 +87,6 @@ dependencies {
   implementation("org.glassfish.jaxb:jaxb-runtime:4.0.5")
   implementation("jakarta.activation:jakarta.activation-api:2.1.3")
   implementation("io.github.threeten-jaxb:threeten-jaxb-core:2.2.0")
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:")
   implementation("org.apache.groovy:groovy-jsr223:")
   implementation("org.graalvm.polyglot:polyglot:$graal_vm_version")
 //  implementation("org.graalvm.polyglot:js:$graal_vm_version")
@@ -97,6 +99,11 @@ dependencies {
   implementation("io.swagger.parser.v3:swagger-parser:2.1.35")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-jackson-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-restclient-test")
+  // TODO replace with spring-boot-starter-reactor and spring-boot-starter-reactor-test ?
+//  testImplementation("org.springframework.boot:spring-boot-starter-reactor-test")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
   testImplementation("io.projectreactor:reactor-test")
   testImplementation("org.awaitility:awaitility")

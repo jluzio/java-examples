@@ -2,9 +2,9 @@ package com.example.java.playground.lib.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.java.playground.lib.json.JsonPatchTest.Customer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.diff.JsonDiff;
@@ -14,10 +14,11 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootTest(classes = JacksonAutoConfiguration.class)
+@SpringBootTest
 @Slf4j
 class JsonDiffTest {
 
@@ -27,6 +28,15 @@ class JsonDiffTest {
       List<String> favorites,
       Map<String, Boolean> communicationPreferences) {
 
+  }
+
+  @Configuration
+  static class Config {
+
+    @Bean
+    ObjectMapper jackson2ObjectMapper() {
+      return JsonMapper.builder().build();
+    }
   }
 
   @Autowired

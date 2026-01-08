@@ -1,10 +1,12 @@
 package com.example.java.playground.lib.jackson;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 @Slf4j
 class ValueDebugTest {
@@ -18,13 +20,11 @@ class ValueDebugTest {
   }
 
   @Test
-  void debug() throws JsonProcessingException {
-    ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .disable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL);
+  void debug() throws JacksonException {
+    ObjectMapper objectMapper = JsonMapper.builder()
+        .disable(tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
+        .build();
 
     var data = new Data(List.of(
         new DataItem("key-1", "value-1", "optional-1"),
