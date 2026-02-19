@@ -92,8 +92,8 @@ class JsonPatchTest {
     var initialValue = mapper.readValue(initialValueJson, Customer.class);
     var initialValueJsonNode = mapper.convertValue(initialValue, JsonNode.class);
 
-    var updateValueJsonNode = patch.apply(initialValueJsonNode);
-    var updatedValue = mapper.treeToValue(updateValueJsonNode, Customer.class);
+    var updatedValueJsonNode = patch.apply(initialValueJsonNode);
+    var updatedValue = mapper.treeToValue(updatedValueJsonNode, Customer.class);
     log.info("updated value: {}", mapper.writeValueAsString(updatedValue));
 
     assertThat(updatedValue)
