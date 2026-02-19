@@ -43,24 +43,24 @@ class JsonPatchTest {
 
   @Test
   void simple_test() throws IOException, JsonPatchException {
-    String initialValueJson = """
+    var initialValueJson = """
         {"telephone":"+1-555-12","favorites":["Milk","Eggs"],"communicationPreferences":{"post":true,"email":true}}
         """;
-    String patchJson = """
+    var patchJson = """
         [
             {"op":"replace","path":"/telephone","value":"+1-555-56"},
             {"op":"add","path":"/favorites/0","value": "Bread"},
             {"op":"replace","path":"/communicationPreferences","value": {"post": false, "push": true}}
         ]
         """;
-    JsonNode initialValueJsonNode = mapper.readValue(initialValueJson, JsonNode.class);
+    var initialValueJsonNode = mapper.readValue(initialValueJson, JsonNode.class);
     log.info("initial value: {}", initialValueJson);
 
-    JsonPatch patch = mapper.readValue(patchJson, JsonPatch.class);
+    var patch = mapper.readValue(patchJson, JsonPatch.class);
     log.info("patch: {}", patch);
 
-    JsonNode updateValueJsonNode = patch.apply(initialValueJsonNode);
-    Customer updatedValue = mapper.treeToValue(updateValueJsonNode, Customer.class);
+    var updateValueJsonNode = patch.apply(initialValueJsonNode);
+    var updatedValue = mapper.treeToValue(updateValueJsonNode, Customer.class);
     log.info("updated value: {}", mapper.writeValueAsString(updatedValue));
 
     assertThat(updatedValue)
@@ -75,10 +75,10 @@ class JsonPatchTest {
 
   @Test
   void simple_test_with_convert() throws IOException, JsonPatchException {
-    String initialValueJson = """
+    var initialValueJson = """
         {"telephone":"+1-555-12","favorites":["Milk","Eggs"],"communicationPreferences":{"post":true,"email":true}}
         """;
-    String patchJson = """
+    var patchJson = """
         [
             {"op":"replace","path":"/telephone","value":"+1-555-56"},
             {"op":"add","path":"/favorites/0","value": "Bread"}
@@ -86,14 +86,14 @@ class JsonPatchTest {
         """;
     log.info("initial value: {}", initialValueJson);
 
-    JsonPatch patch = mapper.readValue(patchJson, JsonPatch.class);
+    var patch = mapper.readValue(patchJson, JsonPatch.class);
     log.info("patch: {}", patch);
 
-    Customer initialValue = mapper.readValue(initialValueJson, Customer.class);
-    JsonNode initialValueJsonNode = mapper.convertValue(initialValue, JsonNode.class);
+    var initialValue = mapper.readValue(initialValueJson, Customer.class);
+    var initialValueJsonNode = mapper.convertValue(initialValue, JsonNode.class);
 
-    JsonNode updateValueJsonNode = patch.apply(initialValueJsonNode);
-    Customer updatedValue = mapper.treeToValue(updateValueJsonNode, Customer.class);
+    var updateValueJsonNode = patch.apply(initialValueJsonNode);
+    var updatedValue = mapper.treeToValue(updateValueJsonNode, Customer.class);
     log.info("updated value: {}", mapper.writeValueAsString(updatedValue));
 
     assertThat(updatedValue)
