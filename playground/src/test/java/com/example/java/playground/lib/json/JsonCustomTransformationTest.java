@@ -114,25 +114,25 @@ class JsonCustomTransformationTest {
         case CopyOperation op -> {
           var from = root.at(op.from());
           var toPathInfo = getPathInfo(op.path());
-          var parentTo = getParentContainerNode(root, toPathInfo);
+          var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          setPropertyContainerNode(parentTo, toPathInfo.nodeProperty(), from);
+          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), from);
         }
         case MoveOperation op -> {
           var from = root.at(op.from());
           var fromPathInfo = getPathInfo(op.from());
-          var parentFrom = getParentContainerNode(root, fromPathInfo);
+          var fromParent = getContainerNode(root, fromPathInfo.parentPath());
           var toPathInfo = getPathInfo(op.path());
-          var parentTo = getParentContainerNode(root, toPathInfo);
+          var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          setPropertyContainerNode(parentTo, toPathInfo.nodeProperty(), from);
-          removePropertyContainerNode(parentFrom, fromPathInfo.nodeProperty());
+          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), from);
+          removePropertyContainerNode(fromParent, fromPathInfo.nodeProperty());
         }
         case RemoveOperation op -> {
           var toPathInfo = getPathInfo(op.path());
-          var parentTo = getParentContainerNode(root, toPathInfo);
+          var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          removePropertyContainerNode(parentTo, toPathInfo.nodeProperty());
+          removePropertyContainerNode(toParent, toPathInfo.nodeProperty());
         }
         default -> throw new IllegalStateException("Unexpected value: " + patch);
       }
@@ -144,12 +144,12 @@ class JsonCustomTransformationTest {
       return new JsonNodePathInfo(path, parentPath, nodeProperty);
     }
 
-    private ContainerNode<?> getParentContainerNode(JsonNode root, JsonNodePathInfo pathInfo) {
-      var parentNode = root.at(pathInfo.parentPath());
-      if (parentNode instanceof ContainerNode<?> node) {
+    private ContainerNode<?> getContainerNode(JsonNode root, String path) {
+      if (root.at(path) instanceof ContainerNode<?> node) {
         return node;
+      } else {
+        throw new IllegalStateException("Unable to get ContainerNode for path: " + path);
       }
-      throw new IllegalStateException("Unable to get parent ContainerNode for path: " + pathInfo.path());
     }
 
     private void setPropertyContainerNode(ContainerNode<?> containerNode, String nodeProperty, JsonNode jsonNode) {
