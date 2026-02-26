@@ -3,12 +3,16 @@ package com.example.java.playground.lib.json;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.java.playground.lib.json.schema.JsonPatchOperation;
+import com.example.java.playground.lib.json.schema.JsonPatchOperation.AddOperation;
 import com.example.java.playground.lib.json.schema.JsonPatchOperation.CopyOperation;
 import com.example.java.playground.lib.json.schema.JsonPatchOperation.MoveOperation;
 import com.example.java.playground.lib.json.schema.JsonPatchOperation.RemoveOperation;
+import com.example.java.playground.lib.json.schema.JsonPatchOperation.ReplaceOperation;
+import com.example.java.playground.lib.json.schema.JsonPatchOperation.TestOperation;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -63,7 +67,10 @@ class JsonCustomTransformationTest {
             {"op":"copy","from":"/object_list/0","path":"/object_first"},
             {"op":"copy","from":"/object_list","path":"/new_object_list"},
             {"op":"remove","path":"/unused"},
-            {"op":"remove","path":"/new_object_list/0"}
+            {"op":"remove","path":"/new_object_list/0"},
+            {"op":"add","path":"/added_object","value":{"key":"add_key","value":"add_val"}},
+            {"op":"replace","path":"/added_object/value","value":"replace_val"},
+            {"op":"test","path":"/added_object/value","value":"replace_val"}
         ]
         """;
 
@@ -97,6 +104,10 @@ class JsonCustomTransformationTest {
         .isEqualTo(1);
     assertThat(outputJsonNode.at("/new_object_list/0/id").asString())
         .isEqualTo("id2");
+    assertThat(outputJsonNode.at("/added_object/key").asString())
+        .isEqualTo("add_key");
+    assertThat(outputJsonNode.at("/added_object/value").asString())
+        .isEqualTo("replace_val");
   }
 
   public static class SimpleJsonPatch {
@@ -134,7 +145,26 @@ class JsonCustomTransformationTest {
 
           removePropertyContainerNode(toParent, toPathInfo.nodeProperty());
         }
-        default -> throw new IllegalStateException("Unexpected value: " + patch);
+        case AddOperation op -> {
+          var toPathInfo = getPathInfo(op.path());
+          var toParent = getContainerNode(root, toPathInfo.parentPath());
+
+          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), op.value());
+        }
+        case ReplaceOperation op -> {
+          var toPathInfo = getPathInfo(op.path());
+          var toParent = getContainerNode(root, toPathInfo.parentPath());
+
+          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), op.value());
+        }
+        case TestOperation op -> {
+          var to = root.at(op.path());
+          // basic check
+          if (!Objects.equals(op.value(), to)) {
+            throw new IllegalStateException("Test failed :: op=%s | to=%s".formatted(op, to));
+          }
+        }
+        default -> throw new UnsupportedOperationException("Unsupported: " + patch);
       }
     }
 

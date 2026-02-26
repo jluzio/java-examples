@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import tools.jackson.databind.JsonNode;
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "op")
 @JsonSubTypes({
@@ -27,13 +28,13 @@ public sealed interface JsonPatchOperation {
 
   }
 
-  record AddOperation(String op, String path, Object value) implements JsonPatchOperation {
+  record AddOperation(String op, String path, JsonNode value) implements JsonPatchOperation {
 
   }
-  record ReplaceOperation(String op, String path, Object value) implements JsonPatchOperation {
+  record ReplaceOperation(String op, String path, JsonNode value) implements JsonPatchOperation {
 
   }
-  record TestOperation(String op, String path, Object value) implements JsonPatchOperation {
+  record TestOperation(String op, String path, JsonNode value) implements JsonPatchOperation {
 
   }
 
