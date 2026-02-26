@@ -116,8 +116,8 @@ class JsonCustomTransformationTest {
 
     }
 
-    public void apply(JsonNode inputJsonNode, List<JsonPatchOperation> patch) {
-      patch.forEach(it -> applyOperation(inputJsonNode, it));
+    public void apply(JsonNode root, List<JsonPatchOperation> patch) {
+      patch.forEach(it -> applyOperation(root, it));
     }
 
     private void applyOperation(JsonNode root, JsonPatchOperation patch) {
