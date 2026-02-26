@@ -115,6 +115,7 @@ class JsonCustomTransformationTest {
     record JsonNodePathInfo(String path, String parentPath, String nodeProperty) {
 
     }
+    private final ContainerNodeOps containerNodeOps = new ContainerNodeOps();
 
     public void apply(JsonNode root, List<JsonPatchOperation> patch) {
       patch.forEach(it -> applyOperation(root, it));
@@ -127,7 +128,7 @@ class JsonCustomTransformationTest {
           var toPathInfo = getPathInfo(op.path());
           var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), from);
+          containerNodeOps.set(toParent, toPathInfo.nodeProperty(), from);
         }
         case MoveOperation op -> {
           var from = root.at(op.from());
@@ -136,26 +137,26 @@ class JsonCustomTransformationTest {
           var toPathInfo = getPathInfo(op.path());
           var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), from);
-          removePropertyContainerNode(fromParent, fromPathInfo.nodeProperty());
+          containerNodeOps.set(toParent, toPathInfo.nodeProperty(), from);
+          containerNodeOps.remove(fromParent, fromPathInfo.nodeProperty());
         }
         case RemoveOperation op -> {
           var toPathInfo = getPathInfo(op.path());
           var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          removePropertyContainerNode(toParent, toPathInfo.nodeProperty());
+          containerNodeOps.remove(toParent, toPathInfo.nodeProperty());
         }
         case AddOperation op -> {
           var toPathInfo = getPathInfo(op.path());
           var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), op.value());
+          containerNodeOps.set(toParent, toPathInfo.nodeProperty(), op.value());
         }
         case ReplaceOperation op -> {
           var toPathInfo = getPathInfo(op.path());
           var toParent = getContainerNode(root, toPathInfo.parentPath());
 
-          setPropertyContainerNode(toParent, toPathInfo.nodeProperty(), op.value());
+          containerNodeOps.set(toParent, toPathInfo.nodeProperty(), op.value());
         }
         case TestOperation op -> {
           var to = root.at(op.path());
@@ -182,7 +183,19 @@ class JsonCustomTransformationTest {
       }
     }
 
-    private void setPropertyContainerNode(ContainerNode<?> containerNode, String nodeProperty, JsonNode jsonNode) {
+  }
+
+  public static class ContainerNodeOps {
+
+    public JsonNode get(ContainerNode<?> containerNode, String nodeProperty) {
+      return switch (containerNode) {
+        case ObjectNode node -> node.get(nodeProperty);
+        case ArrayNode node -> node.get(getArrayIndex(nodeProperty));
+        default -> throw new IllegalStateException("Unexpected value: " + containerNode);
+      };
+    }
+
+    public void set(ContainerNode<?> containerNode, String nodeProperty, JsonNode jsonNode) {
       switch (containerNode) {
         case ObjectNode node -> node.set(nodeProperty, jsonNode);
         case ArrayNode node -> node.set(getArrayIndex(nodeProperty), jsonNode);
@@ -190,7 +203,7 @@ class JsonCustomTransformationTest {
       }
     }
 
-    private void removePropertyContainerNode(ContainerNode<?> containerNode, String nodeProperty) {
+    public void remove(ContainerNode<?> containerNode, String nodeProperty) {
       switch (containerNode) {
         case ObjectNode node -> node.remove(nodeProperty);
         case ArrayNode node -> node.remove(getArrayIndex(nodeProperty));
