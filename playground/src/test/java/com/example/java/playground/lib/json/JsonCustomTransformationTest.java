@@ -24,6 +24,7 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.ContainerNode;
+import tools.jackson.databind.node.MissingNode;
 import tools.jackson.databind.node.ObjectNode;
 
 @SpringBootTest
@@ -175,19 +176,19 @@ class JsonCustomTransformationTest {
       return new JsonNodePathInfo(path, parentPath, nodeProperty);
     }
 
-    private ContainerNode<?> getContainerNode(JsonNode root, String path) {
-      if (root.at(path) instanceof ContainerNode<?> node) {
-        return node;
+    private JsonNode getContainerNode(JsonNode root, String path) {
+      var jsonNode = root.at(path);
+      if (jsonNode instanceof ContainerNode<?> || jsonNode instanceof MissingNode) {
+        return jsonNode;
       } else {
         throw new IllegalStateException("Unable to get ContainerNode for path: " + path);
       }
     }
-
   }
 
   public static class ContainerNodeOps {
 
-    public JsonNode get(ContainerNode<?> containerNode, String nodeProperty) {
+    public JsonNode get(JsonNode containerNode, String nodeProperty) {
       return switch (containerNode) {
         case ObjectNode node -> node.get(nodeProperty);
         case ArrayNode node -> node.get(getArrayIndex(nodeProperty));
@@ -195,7 +196,7 @@ class JsonCustomTransformationTest {
       };
     }
 
-    public void set(ContainerNode<?> containerNode, String nodeProperty, JsonNode jsonNode) {
+    public void set(JsonNode containerNode, String nodeProperty, JsonNode jsonNode) {
       switch (containerNode) {
         case ObjectNode node -> node.set(nodeProperty, jsonNode);
         case ArrayNode node -> node.set(getArrayIndex(nodeProperty), jsonNode);
@@ -203,7 +204,7 @@ class JsonCustomTransformationTest {
       }
     }
 
-    public void remove(ContainerNode<?> containerNode, String nodeProperty) {
+    public void remove(JsonNode containerNode, String nodeProperty) {
       switch (containerNode) {
         case ObjectNode node -> node.remove(nodeProperty);
         case ArrayNode node -> node.remove(getArrayIndex(nodeProperty));
