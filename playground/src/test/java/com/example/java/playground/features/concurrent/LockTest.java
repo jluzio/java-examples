@@ -51,8 +51,7 @@ class LockTest {
           bower.lock.unlock();
         }
       } else {
-        log.info("{}: {} started to bow to me, but saw that I was already bowing to him.",
-            this.name, bower.getName());
+        log.info("{}: {} started to bow to me, but saw that I was already bowing to him.", this.name, bower.getName());
       }
     }
 
@@ -85,10 +84,7 @@ class LockTest {
   void test() throws InterruptedException {
     var alphonse = new Friend("Alphonse");
     var gaston = new Friend("Gaston");
-    var threads = List.of(
-        new Thread(new BowLoop(alphonse, gaston)),
-        new Thread(new BowLoop(gaston, alphonse))
-    );
+    var threads = List.of(new Thread(new BowLoop(alphonse, gaston)), new Thread(new BowLoop(gaston, alphonse)));
 
     threads.forEach(Thread::start);
     Thread.sleep(200L);

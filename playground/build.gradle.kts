@@ -80,7 +80,7 @@ dependencies {
   implementation("org.apache.tika:tika-core:3.1.0")
   implementation("io.reactivex.rxjava3:rxjava:3.1.10")
   implementation("com.github.akarnokd:rxjava3-extensions:3.1.1")
-  implementation("io.vavr:vavr:0.10.6")
+  implementation("io.vavr:vavr:1.0.1")
   implementation("one.util:streamex:0.8.3")
   implementation("com.github.java-json-tools:json-patch:1.13")
   implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.2")
