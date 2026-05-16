@@ -123,11 +123,19 @@ class StreamTest {
         .filter(v -> v >= 2)
         .sum();
     log.info("intSum: {}", intSum);
+  }
 
-    var intSum2 = Stream.of(1, 2, 3)
+  @Test
+  void test_summaryStatistics() {
+    var summaryStatistics = Stream.of(1, 2, 3)
         .filter(v -> v >= 2)
         .collect(Collectors.summarizingInt(v -> v));
-    log.info("intSum2: {}", intSum2);
+    log.info("summaryStatistics: {}", summaryStatistics);
+    assertThat(summaryStatistics.getCount()).isEqualTo(2);
+    assertThat(summaryStatistics.getMax()).isEqualTo(3);
+    assertThat(summaryStatistics.getMin()).isEqualTo(2);
+    assertThat(summaryStatistics.getSum()).isEqualTo(5);
+    assertThat(summaryStatistics.getAverage()).isEqualTo(2.5d);
   }
 
   @Test
@@ -136,6 +144,9 @@ class StreamTest {
     List<String> stringValues = objectValues.stream()
         .map(String.class::cast)
         .toList();
+    assertThat(stringValues)
+        .isNotEmpty()
+        .allMatch(String.class::isInstance);
   }
 
   @Data
